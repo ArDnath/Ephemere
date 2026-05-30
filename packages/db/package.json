@@ -1,0 +1,25 @@
+{
+  "name": "@echo/db",
+  "version": "1.0.0",
+  "main": "./src/index.ts",
+  "exports": {
+    "./src": "./src/index.ts",
+    "./schema": "./src/schema.ts"
+  },
+  "scripts": {
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:push": "drizzle-kit push",
+    "db:studio": "drizzle-kit studio"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^0.9.3",
+    "@paralleldrive/cuid2": "^2.2.2",
+    "dotenv": "^16.4.5",
+    "drizzle-orm": "^0.45.2"
+  },
+  "devDependencies": {
+    "drizzle-kit": "^0.31.10",
+    "typescript": "^5.5.4"
+  }
+}
