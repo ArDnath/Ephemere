@@ -1,7 +1,7 @@
 import { Context } from 'hono'
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
 import { PutObjectCommand, DeleteObjectCommand } from '@aws-sdk/client-s3'
-import { s3Client } from '@/utils/S3Client'
+import { r2Client } from '@/utils/StorageClient'
 import { uploadFileSchema, deleteFileSchema } from '@ephemere/lib'
 
 export const uploadFile = async (c: Context) => {
@@ -21,17 +21,14 @@ export const uploadFile = async (c: Context) => {
     const key = `uploads/${roomId ? `${roomId}/` : ''}${Date.now()}-${filename}`
 
     const command = new PutObjectCommand({
-      Bucket: process.env.AWS_S3_BUCKET_NAME ?? '',
+      Bucket: process.env.CLOUDFLARE_R2_BUCKET_NAME ?? '',
       Key: key,
       ContentType: contentType,
-      Tagging: !isTemporary
-        ? 'temporary=false'
-        : roomId
-          ? 'temporary=false'
-          : 'temporary=true',
+      // Note: Cloudflare R2 does not support object tagging in the same way as S3, 
+      // but it accepts standard PUT params. We omit Tagging if R2 behaves strictly.
     })
 
-    const presignedUrl = await getSignedUrl(s3Client, command, { expiresIn: 300 })
+    const presignedUrl = await getSignedUrl(r2Client, command, { expiresIn: 300 })
 
     return c.json({ url: presignedUrl, key })
   } catch (error) {
@@ -55,11 +52,11 @@ export const deleteFile = async (c: Context) => {
     const { key } = result.data
 
     const command = new DeleteObjectCommand({
-      Bucket: process.env.AWS_S3_BUCKET_NAME ?? '',
+      Bucket: process.env.CLOUDFLARE_R2_BUCKET_NAME ?? '',
       Key: key,
     })
 
-    await s3Client.send(command)
+    await r2Client.send(command)
 
     return c.json({ message: 'File deleted successfully' })
   } catch (error) {
