@@ -1,0 +1,74 @@
+import { Context } from 'hono'
+import { z } from 'zod'
+import jwt from 'jsonwebtoken'
+import { db } from '@ephemere/db'
+import { users } from '@ephemere/db/schema'
+import { eq } from 'drizzle-orm'
+import { googleAuthSchema } from '@ephemere/lib'
+import axios from 'axios'
+import { getGoogleOAuthTokens } from '@/utils/getGoogleOAuthToken'
+
+export const googleAuth = async (c: Context) => {
+  try {
+    const body = await c.req.json()
+    const result = googleAuthSchema.safeParse(body)
+    if (!result.success) {
+      return c.json({ errors: result.error.flatten().fieldErrors }, 400)
+    }
+
+    const { access_token } = result.data
+    const tokens = await getGoogleOAuthTokens(access_token)
+
+    const userInfoResponse = await axios.get(
+      `https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${tokens.access_token}`
+    )
+
+    const userDataSchema = z.object({
+      email: z.string().email(),
+      name: z.string(),
+      picture: z.string().url().optional(),
+    })
+
+    const parsedUserData = userDataSchema.safeParse(userInfoResponse.data)
+    if (!parsedUserData.success) {
+      return c.json({ message: 'Invalid user data from Google' }, 400)
+    }
+
+    const { email, name, picture } = parsedUserData.data
+
+    const [existingUser] = await db
+      .select()
+      .from(users)
+      .where(eq(users.email, email))
+      .limit(1)
+
+    if (existingUser) {
+      const token = jwt.sign(
+        { userId: existingUser.id, email: existingUser.email, isPro: false },
+        process.env.JWT_SECRET as string
+      )
+      return c.json({ token, user: existingUser, isNewUser: false })
+    }
+
+    const [newUser] = await db
+      .insert(users)
+      .values({
+        email,
+        name,
+        image:
+          picture ??
+          `https://avatar.iran.liara.run/public/${Math.floor(Math.random() * 100) + 1}`,
+        provider: 'GOOGLE',
+      })
+      .returning()
+
+    const token = jwt.sign(
+      { userId: newUser!.id, email: newUser!.email, isPro: false },
+      process.env.JWT_SECRET as string
+    )
+    return c.json({ token, user: newUser, isNewUser: true }, 201)
+  } catch (error) {
+    console.error('Google auth error:', error)
+    return c.json({ message: 'Authentication failed' }, 500)
+  }
+}
