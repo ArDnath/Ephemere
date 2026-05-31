@@ -1,0 +1,36 @@
+{
+  "name": "@ephemere/api",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "check-types": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.717.0",
+    "@aws-sdk/s3-request-presigner": "^3.717.0",
+    "@ephemere/db": "workspace:*",
+    "@ephemere/lib": "workspace:*",
+    "@hono/node-server": "^1.13.7",
+    "axios": "^1.7.9",
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^16.4.6",
+    "drizzle-orm": "^0.45.2",
+    "hono": "^4.12.23",
+    "jsonwebtoken": "^9.0.2",
+    "nodemailer": "^6.9.16",
+    "razorpay": "^2.9.5",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@ephemere/typescript-config": "workspace:*",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/jsonwebtoken": "^9.0.7",
+    "@types/node": "^20.11.17",
+    "@types/nodemailer": "^6.4.17",
+    "tsx": "^4.7.1",
+    "typescript": "^5.8.3"
+  }
+}
