@@ -1,4 +1,4 @@
-import sharedConfig from '@echo/tailwind-config/tsConfig'
+import sharedConfig from '@ephemere/tailwind-config/tsConfig'
 import type { Config } from 'tailwindcss'
 
 const config: Pick<Config, 'presets'> = {

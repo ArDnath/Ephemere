@@ -1,6 +1,6 @@
 'use client'
 
-import { cn } from '@echo/utils/src'
+import { cn } from '../../utils'
 import * as LabelPrimitive from '@radix-ui/react-label'
 import { Slot } from '@radix-ui/react-slot'
 import * as React from 'react'

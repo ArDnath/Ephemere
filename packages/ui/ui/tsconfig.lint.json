@@ -1,6 +1,0 @@
-{
-  "extends": "@echo/typescript-config/react-library.json",
-  "compilerOptions": {
-    "outDir": "dist"
-  }
-}

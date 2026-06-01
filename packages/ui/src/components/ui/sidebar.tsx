@@ -1,6 +1,5 @@
 'use client'
 
-import { ViewVerticalIcon } from '@radix-ui/react-icons'
 import { Slot } from '@radix-ui/react-slot'
 import { VariantProps, cva } from 'class-variance-authority'
 import { Columns2 } from 'lucide-react'
@@ -280,7 +279,7 @@ const SidebarTrigger = React.forwardRef<
       }}
       {...props}
     >
-      <Columns2 />
+      <Columns2 aria-hidden="true" />
       <span className="sr-only">Toggle Sidebar</span>
     </Button>
   )
