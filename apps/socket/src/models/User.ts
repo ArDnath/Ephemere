@@ -85,6 +85,7 @@ export class User {
           type: string
           payload: unknown
         }
+        console.log(`[WSS] Received message type: "${data.type}" from user: "${this.name || 'Anonymous'}" (${this.id || 'unidentified'})`)
         await this.handleMessage(data.type, data.payload)
       } catch (err) {
         console.error('[User] Failed to handle message:', err)
@@ -92,6 +93,7 @@ export class User {
     })
 
     this.ws.on('close', () => {
+      console.log(`[WSS] Connection closed for user: "${this.name || 'Anonymous'}" (${this.id || 'unidentified'})`)
       this.destroy().catch((err) =>
         console.error('[User] destroy() failed:', err)
       )
@@ -135,12 +137,25 @@ export class User {
       return
     }
 
-    // ── 1. Load room from DB ──────────────────────────────────────────────
-    const [room] = await db
-      .select()
-      .from(rooms)
-      .where(eq(rooms.id, roomId))
-      .limit(1)
+    // ── 1. Load room from DB (or use mock public room) ───────────────────
+    let room
+    if (roomId === 'public') {
+      room = {
+        id: 'public',
+        name: 'Public Chat Room',
+        isTemporary: true,
+        maxTimeLimit: 999999,
+        closedAt: new Date(Date.now() + 999999 * 60 * 1000),
+        maxUsers: 10000,
+      }
+    } else {
+      const [dbRoom] = await db
+        .select()
+        .from(rooms)
+        .where(eq(rooms.id, roomId))
+        .limit(1)
+      room = dbRoom
+    }
 
     if (!room) {
       this.sendError('Room not found')

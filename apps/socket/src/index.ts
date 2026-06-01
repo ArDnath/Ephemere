@@ -3,11 +3,11 @@ import { WebSocketServer, WebSocket } from 'ws'
 import type { IncomingMessage } from 'http'
 import { User } from './models/User.js'
 
-const PORT = Number(process.env.PORT) ?? 8080
+const PORT = Number(process.env.PORT) || 8080
 
 const wss = new WebSocketServer({ port: PORT, host: '0.0.0.0' })
 
-console.log(`🔌 WebSocket server running on ws://0.0.0.0:${PORT}`)
+console.log(`🔌 WebSocket server running on ws://localhost:${PORT}`)
 
 wss.on('connection', (ws: WebSocket, req: IncomingMessage) => {
   const ip = req.socket.remoteAddress ?? 'unknown'
@@ -16,9 +16,7 @@ wss.on('connection', (ws: WebSocket, req: IncomingMessage) => {
   new User(ws)
 })
 
-wss.on('error', (err: Error) => {
-  console.error('[WSS] Server error:', err)
-})
+wss.on('error', (err) => console.error('[WS] Socket error:', err))
 
 // Graceful shutdown
 const shutdown = () => {
