@@ -51,6 +51,12 @@ export const config = [
     },
   },
   {
-    ignores: ["dist/**", "node_modules/**", ".turbo/**"],
+    ignores: [
+      "dist/**",
+      "node_modules/**",
+      ".turbo/**",
+      "**/.eslintrc.*",
+      "**/postcss.config.*",
+    ],
   },
 ];

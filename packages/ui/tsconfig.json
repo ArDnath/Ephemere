@@ -1,6 +1,11 @@
 {
   "extends": "@ephemere/typescript-config/react-library.json",
   "compilerOptions": {
-    "outDir": "dist"
-  }
+    "outDir": "dist",
+    "baseUrl": ".",
+    "paths": {
+      "@ephemere/tailwind-config/tsConfig": ["../tailwind-config/tailwind.config.ts"]
+    }
+  },
+  "exclude": ["node_modules", "dist", "turbo"]
 }

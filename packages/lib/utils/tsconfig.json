@@ -1,4 +1,4 @@
 {
-  "extends": "@echo/typescript-config/react-library.json",
+  "extends": "@ephemere/typescript-config/react-library.json",
   "exclude": ["dist", "build", "node_modules"]
 }

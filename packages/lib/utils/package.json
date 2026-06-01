@@ -1,5 +1,5 @@
 {
-  "name": "@echo/utils",
+  "name": "@ephemere/utils",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
@@ -16,12 +16,12 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@echo/typescript-config": "workspace:*",
+    "@ephemere/typescript-config": "workspace:*",
     "clsx": "^2.1.1",
     "tailwind-merge": "^2.5.4"
   },
   "devDependencies": {
-    "@echo/eslint-config": "workspace:*",
+    "@ephemere/eslint-config": "workspace:*",
     "eslint": "^8.57.0"
   }
 }
