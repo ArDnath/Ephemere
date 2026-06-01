@@ -63,7 +63,7 @@ export const sendVerificationOtp = async (c: Context) => {
     })
 
     sendMail({
-      subject: `Echo Chat: OTP to verify your account`,
+      subject: 'Ephemere Chat: OTP to verify your account',
       email,
       message: `Your verification code is: ${code}`,
       tag: 'verify-email',
@@ -144,11 +144,12 @@ export const createAccount = async (c: Context) => {
       .limit(1)
 
     if (!existingUser) {
+      const randomNum = Math.floor(Math.random() * 100) + 1
       await db.insert(users).values({
         email,
         password: await hashPassword(password),
         name: `${firstName} ${lastName}`,
-        image: `https://avatar.iran.liara.run/public/${Math.floor(Math.random() * 100) + 1}`,
+        image: `https://avatar.iran.liara.run/public/${randomNum}`,
       })
     }
 
@@ -156,7 +157,7 @@ export const createAccount = async (c: Context) => {
     if (!loginResult.success) {
       return c.json({ message: 'Failed to login after account creation' }, 500)
     }
-    return c.json({ token: loginResult.token, user: loginResult.user })
+    return c.json({ token: loginResult.token, user: loginResult.user, success: true }, 201)
   } catch {
     return c.json({ message: 'Failed to create account' }, 500)
   }
@@ -180,7 +181,7 @@ export const login = async (c: Context) => {
       )
     }
 
-    return c.json(loginResult)
+    return c.json({ token: loginResult.token, user: loginResult.user, success: true })
   } catch {
     return c.json({ message: 'Failed to login' }, 500)
   }
@@ -217,9 +218,9 @@ export const forgotPassword = async (c: Context) => {
     })
 
     sendMail({
-      subject: `Echo Chat: Reset your password`,
+      subject: 'Ephemere Chat: Reset your password',
       email,
-      message: `${code}`,
+      message: code,
       tag: 'password_reset',
     })
 
@@ -281,24 +282,23 @@ export const getSession = async (c: Context) => {
       return c.json({ message: 'Not authenticated' }, 401)
     }
 
-    const [dbUser] = await db
-      .select({
-        id: users.id,
-        email: users.email,
-        name: users.name,
-        image: users.image,
-        subscriptionId: users.subscriptionId,
-      })
-      .from(users)
-      .where(eq(users.id, user.userId))
-      .limit(1)
+    const dbUser = await db.query.users.findFirst({
+      where: eq(users.id, user.userId),
+      with: {
+        subscription: true,
+      },
+    })
 
     if (!dbUser) {
       return c.json({ message: 'User not found' }, 404)
     }
 
-    return c.json({ user: dbUser })
-  } catch {
+    // Exclude password for security
+    const { password, ...safeUser } = dbUser
+
+    return c.json({ user: safeUser })
+  } catch (error) {
+    console.error('Failed to get session:', error)
     return c.json({ message: 'Failed to get session' }, 500)
   }
 }

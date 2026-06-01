@@ -7,7 +7,7 @@ const router = new Hono()
 
 const fileUploadLimiter = rateLimiter({
   windowMs: 60 * 1000,
-  max: 2,
+  max: 20,
   message: 'File upload limit reached, please try again after 1 minute.',
 })
 

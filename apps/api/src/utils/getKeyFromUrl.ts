@@ -19,7 +19,11 @@ function getKeyFromUrl(url: string): string {
     )
   }
 
-  return url.replace(baseUrl, '')
+  let key = url.replace(baseUrl, '')
+  if (key.startsWith('/')) {
+    key = key.slice(1)
+  }
+  return key
 }
 
 export default getKeyFromUrl

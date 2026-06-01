@@ -155,7 +155,7 @@ export const verifyPayment = async (c: Context) => {
       .where(eq(users.id, userId))
 
     await sendMail({
-      subject: 'Payment Successful - Echo Chat Pro Activated',
+      subject: 'Payment Successful - Ephemere Chat Pro Activated',
       email: purchase.userEmail,
       message: '',
       tag: 'subscription_active',
