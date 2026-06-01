@@ -1,0 +1,621 @@
+/* ========================================================
+   EPHEMERE UI COMPONENT SYSTEM
+   Retro-Futuristic Chat Interface - Production CSS Library
+   ======================================================== */
+
+/* =============== 1. DESIGN TOKENS =============== */
+:root {
+  /* -- Colors -- */
+  --color-primary-bg: #f5f0eb;
+  --color-secondary-bg: #1a1a1a;
+  --color-tertiary-bg: #e8e3de;
+  --color-surface: #ffffff;
+  
+  --color-text-primary: #0d0d0d;
+  --color-text-secondary: #aca39f;
+  --color-text-tertiary: #c9a961;
+  --color-text-inverse: #f5f0eb;
+  
+  --color-accent-green: #00e676;
+  --color-accent-amber: #ffd700;
+  --color-accent-red: #d62839;
+  --color-accent-cyan: #00bcd4;
+  --color-accent-purple: #9d4edd;
+  
+  --color-status-online: #00e676;
+  --color-status-idle: #ffc107;
+  --color-status-offline: #d62839;
+  --color-status-busy: #ff6b6b;
+  
+  /* -- Typography -- */
+  --font-serif: 'Georgia', 'IBM Plex Serif', serif;
+  --font-sans: 'Segoe UI', 'Inter', system-ui, sans-serif;
+  --font-mono: 'Courier New', 'JetBrains Mono', monospace;
+  --font-script: 'Comic Sans MS', cursive;
+  
+  --font-size-xs: 11px;
+  --font-size-sm: 12px;
+  --font-size-md: 14px;
+  --font-size-lg: 16px;
+  --font-size-xl: 18px;
+  --font-size-2xl: 24px;
+  
+  --font-weight-light: 300;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+  --font-weight-black: 900;
+  
+  /* -- Line Heights -- */
+  --line-height-tight: 1.1;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.75;
+  
+  /* -- Letter Spacing -- */
+  --letter-spacing-tight: -0.2px;
+  --letter-spacing-normal: 0px;
+  --letter-spacing-wide: 0.5px;
+  --letter-spacing-wider: 0.8px;
+  
+  /* -- Spacing Scale -- */
+  --space-1: 2px;
+  --space-2: 4px;
+  --space-3: 8px;
+  --space-4: 12px;
+  --space-5: 16px;
+  --space-6: 20px;
+  --space-7: 24px;
+  --space-8: 32px;
+  --space-9: 40px;
+  --space-10: 48px;
+  
+  /* -- Border Radius -- */
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  
+  /* -- Shadows (Halftone/Crisp) -- */
+  --shadow-sm: 2px 2px 0px rgba(0, 0, 0, 0.12);
+  --shadow-md: 2px 2px 0px rgba(0, 0, 0, 0.12), 4px 4px 0px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 2px 2px 0px rgba(0, 0, 0, 0.12), 4px 4px 0px rgba(0, 0, 0, 0.08), 6px 6px 0px rgba(0, 0, 0, 0.04);
+  
+  /* -- Transitions -- */
+  --transition-fast: 150ms ease-out;
+  --transition-base: 200ms ease-out;
+  --transition-slow: 300ms ease-out;
+  --transition-smooth: 400ms cubic-bezier(0.4, 0, 0.2, 1);
+  
+  /* -- Z-Index Scale -- */
+  --z-hide: -1;
+  --z-base: 0;
+  --z-dropdown: 100;
+  --z-sticky: 50;
+  --z-modal: 1000;
+  --z-overlay: 1100;
+  --z-texture: 9999;
+}
+
+/* Dark mode override */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-primary-bg: #1a1a1a;
+    --color-tertiary-bg: #2d2415;
+    --color-surface: #0d0d0d;
+    --color-text-primary: #f5f0eb;
+    --color-text-secondary: #aca39f;
+  }
+}
+
+/* =============== 2. TEXTURE OVERLAYS =============== */
+
+/* Subtle paper grain (global) */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" result="noise"/></filter><rect width="256" height="256" fill="%231a1a1a" opacity="0.02" filter="url(%23noise)"/></svg>');
+  background-size: 256px 256px;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+  z-index: var(--z-texture);
+}
+
+/* Component-level micro-noise */
+.component-noise {
+  background-image:
+    url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128"><filter id="fine"><feTurbulence baseFrequency="2" numOctaves="1" result="noise"/></filter><rect width="128" height="128" fill="%23000" opacity="0.008" filter="url(%23fine)"/></svg>');
+  background-size: 128px 128px;
+}
+
+/* Stippled/dot-matrix texture (badges) */
+.texture-stipple {
+  background-image: radial-gradient(circle, currentColor 1px, transparent 1px);
+  background-size: 3px 3px;
+}
+
+/* Crisp halftone shadow pattern */
+.shadow-crisp {
+  box-shadow: var(--shadow-lg);
+}
+
+.shadow-medium {
+  box-shadow: var(--shadow-md);
+}
+
+.shadow-small {
+  box-shadow: var(--shadow-sm);
+}
+
+/* =============== 3. INTENTIONAL IMPERFECTION =============== */
+
+/* Irregular corner radii utility */
+.corner-imperfect-xs {
+  border-radius: 2px 3px 2px 4px;
+}
+
+.corner-imperfect-sm {
+  border-radius: 3px 5px 4px 6px;
+}
+
+.corner-imperfect-md {
+  border-radius: 4px 6px 5px 7px;
+}
+
+.corner-imperfect-lg {
+  border-radius: 6px 8px 7px 9px;
+}
+
+/* Micro-rotation */
+.rotate-subtle-cw {
+  transform: rotate(0.3deg);
+}
+
+.rotate-subtle-ccw {
+  transform: rotate(-0.5deg);
+}
+
+.rotate-subtle {
+  transform: rotate(var(--rotation, 0deg));
+}
+
+/* =============== 4. TYPOGRAPHY =============== */
+
+/* Header/Title (Serif, Editorial) */
+.type-header-1 {
+  font-family: var(--font-serif);
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-tight);
+  letter-spacing: var(--letter-spacing-wide);
+  color: var(--color-text-primary);
+}
+
+.type-header-2 {
+  font-family: var(--font-serif);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-tight);
+  letter-spacing: var(--letter-spacing-wide);
+}
+
+.type-header-3 {
+  font-family: var(--font-serif);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-tight);
+  letter-spacing: var(--letter-spacing-wide);
+}
+
+/* Body text (Sans, Modern) */
+.type-body-large {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-normal);
+  color: var(--color-text-primary);
+}
+
+.type-body-default {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-normal);
+}
+
+.type-body-small {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-normal);
+}
+
+/* Metadata (Monospace, Technical) */
+.type-mono-large {
+  font-family: var(--font-mono);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-regular);
+  letter-spacing: var(--letter-spacing-wide);
+  color: var(--color-text-tertiary);
+}
+
+.type-mono-small {
+  font-family: var(--font-mono);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-regular);
+  letter-spacing: var(--letter-spacing-wide);
+  color: var(--color-text-tertiary);
+  opacity: 0.75;
+}
+
+/* Script/Micro-interaction (Playful) */
+.type-script {
+  font-family: var(--font-script);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-accent-amber);
+}
+
+/* =============== 5. COMPONENT STYLES =============== */
+
+/* MESSAGE BUBBLE */
+.message-bubble {
+  @extend .component-noise;
+  @extend .corner-imperfect-md;
+  @extend .shadow-medium;
+  
+  padding: var(--space-4) var(--space-5);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.7) 100%);
+  border: 1px dashed rgba(0, 230, 118, 0.3);
+  word-wrap: break-word;
+  transition: all var(--transition-base);
+}
+
+.message-bubble.own {
+  background: linear-gradient(135deg, rgba(0, 230, 118, 0.15) 0%, rgba(0, 230, 118, 0.05) 100%);
+  border-color: rgba(0, 230, 118, 0.5);
+}
+
+.message-bubble.system {
+  background: linear-gradient(135deg, rgba(157, 78, 221, 0.1) 0%, rgba(157, 78, 221, 0.05) 100%);
+  border-color: rgba(157, 78, 221, 0.3);
+}
+
+/* MESSAGE CONTENT */
+.message-content {
+  @extend .type-body-default;
+  margin-bottom: var(--space-2);
+}
+
+.message-metadata {
+  @extend .type-mono-small;
+}
+
+/* BADGE - CONNECTION STATUS */
+.badge-connection {
+  @extend .texture-stipple;
+  @extend .corner-imperfect-xs;
+  
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  font-family: var(--font-mono);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing-wider);
+  background: var(--color-accent-green);
+  color: #000;
+  border: 1px solid transparent;
+  transition: all var(--transition-base);
+}
+
+.badge-connection.unstable {
+  background: var(--color-accent-amber);
+  animation: badge-pulse var(--transition-slow) infinite;
+}
+
+.badge-connection.offline {
+  background: var(--color-accent-red);
+  opacity: 0.6;
+}
+
+.badge-connection.reconnecting {
+  animation: badge-reconnect 600ms infinite;
+}
+
+@keyframes badge-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+@keyframes badge-reconnect {
+  0%, 100% {
+    border-color: var(--color-accent-green);
+    box-shadow: 0 0 0 0 rgba(0, 230, 118, 0.4);
+  }
+  50% {
+    border-color: var(--color-accent-amber);
+    box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.2);
+  }
+}
+
+/* CHANNEL ITEM */
+.channel-item {
+  @extend .corner-imperfect-xs;
+  
+  padding: var(--space-3) var(--space-5);
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+  border-left: 3px solid transparent;
+  transition: all var(--transition-fast);
+  position: relative;
+}
+
+.channel-item::before {
+  content: '#';
+  margin-right: var(--space-2);
+  opacity: 0.4;
+}
+
+.channel-item:hover {
+  background: rgba(0, 0, 0, 0.05);
+  border-left-color: var(--color-accent-cyan);
+  color: var(--color-text-primary);
+}
+
+.channel-item.active {
+  background: rgba(0, 230, 118, 0.1);
+  border-left-color: var(--color-accent-green);
+  color: var(--color-text-primary);
+  font-weight: var(--font-weight-bold);
+}
+
+/* BUTTON */
+.btn {
+  @extend .corner-imperfect-sm;
+  
+  padding: var(--space-4) var(--space-5);
+  font-family: var(--font-serif);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--letter-spacing-wider);
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--color-accent-green) 0%, #00c853 100%);
+  color: #000;
+}
+
+.btn-primary:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 230, 118, 0.25);
+}
+
+.btn-primary:active {
+  transform: scale(0.98);
+}
+
+.btn-secondary {
+  background: var(--color-accent-amber);
+  color: #000;
+}
+
+.btn-tertiary {
+  background: transparent;
+  color: var(--color-accent-green);
+  border: 1px dashed var(--color-accent-green);
+}
+
+/* INPUT FIELD */
+.input-field {
+  @extend .corner-imperfect-xs;
+  
+  padding: var(--space-4) var(--space-5);
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px dashed rgba(255, 215, 0, 0.4);
+  font-family: var(--font-sans);
+  font-size: var(--font-size-md);
+  color: var(--color-text-primary);
+  transition: all var(--transition-base);
+}
+
+.input-field:focus {
+  outline: none;
+  border-color: var(--color-accent-amber);
+  box-shadow: 0 0 0 2px rgba(255, 215, 0, 0.1);
+}
+
+.textarea-field {
+  @extend .input-field;
+  
+  resize: vertical;
+  min-height: 60px;
+  font-family: var(--font-sans);
+  line-height: var(--line-height-normal);
+}
+
+/* PANEL/CARD */
+.panel {
+  @extend .component-noise;
+  @extend .shadow-medium;
+  
+  padding: var(--space-5);
+  background: var(--color-surface);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: var(--radius-sm);
+}
+
+.panel-elevated {
+  @extend .panel;
+  @extend .shadow-lg;
+}
+
+/* =============== 6. ANIMATION UTILITIES =============== */
+
+/* Message arrival */
+.animate-slide-in {
+  animation: slideInUp 400ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Socket sending distortion */
+.animate-socket-send {
+  animation: socketSend 500ms ease-out forwards;
+}
+
+@keyframes socketSend {
+  0% {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+  50% {
+    opacity: 0.75;
+    transform: scaleX(0.97);
+  }
+  100% {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+}
+
+/* Network wobble */
+.animate-wobble {
+  animation: wobble 200ms infinite;
+}
+
+@keyframes wobble {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-2px); }
+  75% { transform: translateX(2px); }
+}
+
+/* Flicker (latency high) */
+.animate-flicker {
+  animation: flicker 300ms infinite;
+}
+
+@keyframes flicker {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+/* =============== 7. RESPONSIVE UTILITIES =============== */
+
+@media (max-width: 1024px) {
+  :root {
+    --font-size-2xl: 20px;
+    --font-size-xl: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --space-5: 12px;
+    --space-7: 16px;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: more) {
+  .message-bubble {
+    border-width: 2px;
+  }
+  .btn {
+    border: 2px solid currentColor;
+  }
+}
+
+/* =============== 8. UTILITY CLASSES =============== */
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.text-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.text-capitalize {
+  text-transform: capitalize;
+}
+
+.opacity-75 {
+  opacity: 0.75;
+}
+
+.opacity-50 {
+  opacity: 0.5;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.pointer-events-none {
+  pointer-events: none;
+}
+
+.select-none {
+  user-select: none;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 230, 118, 0.3);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 230, 118, 0.6);
+}

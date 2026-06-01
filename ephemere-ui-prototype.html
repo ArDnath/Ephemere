@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ephemere – Retro-Futuristic Distributed Chat UI</title>
+  <style>
+    /* ======== GLOBAL RESET & CSS VARIABLES ======== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      /* Color Palette */
+      --color-noir: #1a1a1a;
+      --color-paper: #f5f0eb;
+      --color-amber-terminal: #2d2415;
+      --color-cyber-green: #00e676;
+      --color-crimson: #d62839;
+      --color-amber-accent: #ffd700;
+      --color-cyan: #00bcd4;
+      --color-violet: #9d4edd;
+      --color-gray-paper: #aca39f;
+      --color-gray-light: #e8e3de;
+      --color-charcoal: #0d0d0d;
+
+      /* Fonts */
+      --font-serif: 'Georgia', 'IBM Plex Serif', serif;
+      --font-sans: 'Segoe UI', 'Inter', system-ui, sans-serif;
+      --font-mono: 'Courier New', 'JetBrains Mono', monospace;
+      --font-script: 'Comic Sans MS', cursive;
+
+      /* Spacing */
+      --sidebar-width: 200px;
+      --explorer-width: 240px;
+      --network-panel-height: 220px;
+    }
+
+    /* ======== PAPER GRAIN TEXTURE (SVG-based) ======== */
+    body {
+      background: var(--color-paper);
+      color: var(--color-charcoal);
+      font-family: var(--font-sans);
+      font-size: 14px;
+      line-height: 1.5;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Texture overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image:
+        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" result="noise"/></filter><rect width="200" height="200" fill="%231a1a1a" opacity="0.015" filter="url(%23noise)"/></svg>');
+      pointer-events: none;
+      z-index: 9999;
+      mix-blend-mode: overlay;
+    }
+
+    /* ======== LAYOUT STRUCTURE ======== */
+    .app-container {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      width: 100%;
+    }
+
+    .app-main {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    /* SIDEBAR */
+    .sidebar {
+      width: var(--sidebar-width);
+      background: var(--color-noir);
+      border-right: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      flex-direction: column;
+      padding: 20px 0;
+      overflow-y: auto;
+    }
+
+    .sidebar-brand {
+      padding: 0 16px 20px;
+      border-bottom: 1px dashed rgba(255, 215, 0, 0.2);
+      margin-bottom: 20px;
+      font-family: var(--font-serif);
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--color-amber-accent);
+      letter-spacing: 0.5px;
+    }
+
+    .sidebar-nav {
+      list-style: none;
+    }
+
+    .sidebar-nav-item {
+      padding: 12px 16px;
+      color: var(--color-gray-paper);
+      cursor: pointer;
+      transition: all 200ms ease-out;
+      border-left: 4px solid transparent;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .sidebar-nav-item:hover {
+      background: rgba(255, 215, 0, 0.08);
+      border-left-color: var(--color-amber-accent);
+      color: var(--color-amber-accent);
+    }
+
+    .sidebar-nav-item.active {
+      background: rgba(255, 215, 0, 0.12);
+      border-left-color: var(--color-amber-accent);
+      color: var(--color-amber-accent);
+    }
+
+    /* CHANNEL EXPLORER */
+    .channel-explorer {
+      width: var(--explorer-width);
+      background: var(--color-gray-light);
+      border-right: 1px solid rgba(0, 0, 0, 0.08);
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+    }
+
+    .explorer-header {
+      padding: 16px;
+      font-family: var(--font-serif);
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--color-charcoal);
+      letter-spacing: 0.5px;
+      border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+    }
+
+    .server-group {
+      padding: 12px 0;
+    }
+
+    .server-name {
+      padding: 8px 16px;
+      font-family: var(--font-serif);
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--color-charcoal);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      opacity: 0.6;
+      cursor: pointer;
+      transition: opacity 200ms;
+    }
+
+    .server-name:hover {
+      opacity: 1;
+    }
+
+    .channel-item {
+      padding: 8px 20px;
+      color: var(--color-gray-paper);
+      cursor: pointer;
+      font-size: 12px;
+      transition: all 200ms ease-out;
+      border-left: 3px solid transparent;
+      position: relative;
+    }
+
+    .channel-item::before {
+      content: '#';
+      margin-right: 6px;
+      color: rgba(0, 0, 0, 0.3);
+    }
+
+    .channel-item:hover {
+      background: rgba(0, 0, 0, 0.05);
+      border-left-color: var(--color-cyan);
+      color: var(--color-charcoal);
+    }
+
+    .channel-item.active {
+      background: rgba(0, 230, 118, 0.1);
+      border-left-color: var(--color-cyber-green);
+      color: var(--color-charcoal);
+      font-weight: 600;
+    }
+
+    /* CHAT WINDOW */
+    .chat-container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background: var(--color-paper);
+    }
+
+    .chat-header {
+      padding: 16px 24px;
+      border-bottom: 2px dashed rgba(0, 0, 0, 0.08);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .chat-header-title {
+      font-family: var(--font-serif);
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--color-charcoal);
+      letter-spacing: 0.5px;
+    }
+
+    .connection-badge {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      padding: 6px 12px;
+      background: var(--color-cyber-green);
+      color: #000;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+      background-image: radial-gradient(circle, currentColor 1px, transparent 1px);
+      background-size: 3px 3px;
+    }
+
+    .connection-badge.unstable {
+      background: var(--color-amber-accent);
+      color: #000;
+      animation: pulse-border 600ms infinite;
+    }
+
+    .connection-badge.offline {
+      background: var(--color-crimson);
+      color: #fff;
+      opacity: 0.6;
+    }
+
+    @keyframes pulse-border {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.6; }
+    }
+
+    /* MESSAGE THREAD */
+    .message-thread {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .message {
+      max-width: 70%;
+      animation: slideIn 400ms cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .message.own {
+      align-self: flex-end;
+      transform: rotate(-0.5deg);
+    }
+
+    .message.other {
+      align-self: flex-start;
+      transform: rotate(0.3deg);
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .message-bubble {
+      padding: 12px 16px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.7) 100%);
+      border: 1px dashed rgba(0, 230, 118, 0.3);
+      border-radius: 4px 6px 5px 7px;
+      box-shadow:
+        3px 3px 0px rgba(0, 0, 0, 0.08),
+        6px 6px 0px rgba(0, 0, 0, 0.04);
+      position: relative;
+      word-wrap: break-word;
+    }
+
+    .message.own .message-bubble {
+      background: linear-gradient(135deg, rgba(0, 230, 118, 0.15) 0%, rgba(0, 230, 118, 0.05) 100%);
+      border-color: rgba(0, 230, 118, 0.5);
+    }
+
+    .message-content {
+      font-family: var(--font-sans);
+      font-size: 14px;
+      line-height: 1.5;
+      color: var(--color-charcoal);
+      margin-bottom: 6px;
+    }
+
+    .message-metadata {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--color-amber-accent);
+      opacity: 0.7;
+      letter-spacing: 0.3px;
+    }
+
+    .message.sending {
+      animation: distort-send 500ms ease-out;
+    }
+
+    @keyframes distort-send {
+      0% {
+        opacity: 1;
+        transform: scaleX(1);
+      }
+      50% {
+        opacity: 0.8;
+        transform: scaleX(0.97);
+      }
+      100% {
+        opacity: 1;
+        transform: scaleX(1);
+      }
+    }
+
+    /* MESSAGE INPUT */
+    .message-input-area {
+      padding: 16px 24px;
+      border-top: 2px dashed rgba(0, 0, 0, 0.08);
+      background: rgba(255, 255, 255, 0.3);
+      backdrop-filter: blur(10px);
+      display: flex;
+      gap: 12px;
+    }
+
+    .message-input-box {
+      flex: 1;
+      padding: 12px 16px;
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px dashed rgba(255, 215, 0, 0.4);
+      border-radius: 3px 5px 4px 6px;
+      font-family: var(--font-sans);
+      font-size: 13px;
+      color: var(--color-charcoal);
+      transition: all 200ms ease-out;
+      resize: none;
+      max-height: 100px;
+    }
+
+    .message-input-box:focus {
+      outline: none;
+      border-color: var(--color-amber-accent);
+      box-shadow: 0 0 0 2px rgba(255, 215, 0, 0.1);
+    }
+
+    .send-button {
+      padding: 12px 20px;
+      background: linear-gradient(135deg, #00e676 0%, #00c853 100%);
+      border: none;
+      border-radius: 2px 4px 3px 5px;
+      font-family: var(--font-serif);
+      font-size: 12px;
+      font-weight: 700;
+      color: #000;
+      cursor: pointer;
+      transition: all 200ms ease-out;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+    }
+
+    .send-button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 8px rgba(0, 230, 118, 0.2);
+    }
+
+    .send-button:active {
+      transform: scale(0.98);
+    }
+
+    /* NETWORK STATUS PANEL */
+    .network-panel {
+      height: var(--network-panel-height);
+      background: var(--color-amber-terminal);
+      border-top: 2px dashed rgba(255, 215, 0, 0.2);
+      display: flex;
+      overflow: hidden;
+    }
+
+    .network-3d-container {
+      flex: 1.5;
+      background: linear-gradient(135deg, #1a1410 0%, #2d2415 100%);
+      position: relative;
+      border-right: 1px dashed rgba(255, 215, 0, 0.15);
+    }
+
+    .network-3d-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      color: var(--color-amber-accent);
+      font-size: 12px;
+      text-align: center;
+      padding: 20px;
+      opacity: 0.6;
+    }
+
+    .network-metrics {
+      flex: 1;
+      padding: 16px 20px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .metric-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--color-amber-accent);
+      padding: 6px 0;
+      border-bottom: 1px dotted rgba(255, 215, 0, 0.1);
+      letter-spacing: 0.2px;
+    }
+
+    .metric-label {
+      opacity: 0.8;
+    }
+
+    .metric-value {
+      font-weight: 700;
+      color: var(--color-cyber-green);
+      text-transform: uppercase;
+    }
+
+    .metric-value.latency-high {
+      color: var(--color-amber-accent);
+      animation: flicker 300ms infinite;
+    }
+
+    @keyframes flicker {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+
+    /* ======== SCROLLBAR STYLING ======== */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: rgba(0, 230, 118, 0.3);
+      border-radius: 4px;
+      transition: background 200ms;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(0, 230, 118, 0.6);
+    }
+
+    /* ======== RESPONSIVE ======== */
+    @media (max-width: 1200px) {
+      .message {
+        max-width: 85%;
+      }
+    }
+
+    @media (max-width: 800px) {
+      .channel-explorer {
+        display: none;
+      }
+      .sidebar {
+        width: 60px;
+      }
+      .sidebar-brand, .sidebar-nav-item span {
+        display: none;
+      }
+    }
+
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <!-- MAIN LAYOUT -->
+    <div class="app-main">
+      <!-- SIDEBAR NAVIGATION -->
+      <div class="sidebar">
+        <div class="sidebar-brand">◆ EPHEMERE</div>
+        <ul class="sidebar-nav">
+          <li class="sidebar-nav-item active">◆ HOME</li>
+          <li class="sidebar-nav-item">◇ BROWSE</li>
+          <li class="sidebar-nav-item">✚ CREATE</li>
+          <li class="sidebar-nav-item">⌕ SEARCH</li>
+        </ul>
+      </div>
+
+      <!-- CHANNEL EXPLORER -->
+      <div class="channel-explorer">
+        <div class="explorer-header">Servers & Channels</div>
+        
+        <div class="server-group">
+          <div class="server-name">🔗 NODE-1</div>
+          <div class="channel-item active">#general</div>
+          <div class="channel-item">#random</div>
+          <div class="channel-item">#engineering</div>
+        </div>
+
+        <div class="server-group">
+          <div class="server-name">🔗 NODE-2</div>
+          <div class="channel-item">#tech-discussion</div>
+          <div class="channel-item">#announcements</div>
+        </div>
+
+        <div class="server-group">
+          <div class="server-name">🔗 NODE-3</div>
+          <div class="channel-item">#distributed-systems</div>
+          <div class="channel-item">#networking</div>
+        </div>
+      </div>
+
+      <!-- CHAT WINDOW -->
+      <div class="chat-container">
+        <div class="chat-header">
+          <div class="chat-header-title"># general</div>
+          <div class="connection-badge" id="statusBadge">
+            ● ONLINE
+          </div>
+        </div>
+
+        <div class="message-thread" id="messageThread">
+          <!-- Messages dynamically inserted here -->
+        </div>
+
+        <div class="message-input-area">
+          <textarea class="message-input-box" id="messageInput" placeholder="Type a message..." rows="1"></textarea>
+          <button class="send-button" id="sendBtn">SEND</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- NETWORK STATUS PANEL -->
+    <div class="network-panel">
+      <div class="network-3d-container">
+        <div class="network-3d-placeholder">
+          [3D Node Topology Visualization]<br/>
+          ◆ node-1: 45ms | ◆ node-2: 62ms | ◆ node-3: 38ms<br/>
+          <small>Click nodes to switch clusters</small>
+        </div>
+      </div>
+      <div class="network-metrics">
+        <div class="metric-row">
+          <span class="metric-label">LATENCY:</span>
+          <span class="metric-value">48ms</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-label">JITTER:</span>
+          <span class="metric-value">±2ms</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-label">PACKET LOSS:</span>
+          <span class="metric-value">0.1%</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-label">THROUGHPUT:</span>
+          <span class="metric-value">2.4 Mbps</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-label">ACTIVE NODES:</span>
+          <span class="metric-value">3 / 5</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-label">SYNC QUEUE:</span>
+          <span class="metric-value">0</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ======== MESSAGE SYSTEM ======== 
+    const messageThread = document.getElementById('messageThread');
+    const messageInput = document.getElementById('messageInput');
+    const sendBtn = document.getElementById('sendBtn');
+    const statusBadge = document.getElementById('statusBadge');
+
+    // Sample messages with demo data
+    const sampleMessages = [
+      { author: 'Alex Chen', content: 'Hey team, the distributed sync is looking solid', time: '13:45', latency: '45.2ms', own: false },
+      { author: 'You', content: 'Great! Just optimized the socket buffering.', time: '13:46', latency: '12.1ms', own: true },
+      { author: 'Morgan', content: 'Nice. Node-3 had some jitter earlier but recovered fast', time: '13:47', latency: '62.5ms', own: false },
+      { author: 'You', content: 'Probably transient network blip. Monitoring it.', time: '13:48', latency: '11.8ms', own: true },
+    ];
+
+    function renderMessages() {
+      messageThread.innerHTML = '';
+      sampleMessages.forEach((msg, idx) => {
+        const messageEl = document.createElement('div');
+        messageEl.className = `message ${msg.own ? 'own' : 'other'}`;
+        
+        const bubble = document.createElement('div');
+        bubble.className = 'message-bubble';
+        
+        const content = document.createElement('div');
+        content.className = 'message-content';
+        content.textContent = msg.content;
+        
+        const meta = document.createElement('div');
+        meta.className = 'message-metadata';
+        meta.textContent = `${msg.author} • ${msg.time} • ${msg.latency}`;
+        
+        bubble.appendChild(content);
+        bubble.appendChild(meta);
+        messageEl.appendChild(bubble);
+        
+        messageThread.appendChild(messageEl);
+      });
+      messageThread.scrollTop = messageThread.scrollHeight;
+    }
+
+    function addMessage(text, isOwn = true) {
+      const now = new Date();
+      const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      
+      const msg = {
+        author: isOwn ? 'You' : 'System',
+        content: text,
+        time: timeStr,
+        latency: (Math.random() * 60 + 10).toFixed(1) + 'ms',
+        own: isOwn
+      };
+      
+      sampleMessages.push(msg);
+      renderMessages();
+    }
+
+    // Send button
+    sendBtn.addEventListener('click', () => {
+      const text = messageInput.value.trim();
+      if (text) {
+        // Trigger sending animation
+        const lastMsg = messageThread.lastChild;
+        if (lastMsg) {
+          lastMsg.classList.add('sending');
+          setTimeout(() => {
+            lastMsg.classList.remove('sending');
+          }, 500);
+        }
+        
+        addMessage(text, true);
+        messageInput.value = '';
+        messageInput.style.height = 'auto';
+      }
+    });
+
+    // Enter to send, Shift+Enter for newline
+    messageInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendBtn.click();
+      }
+    });
+
+    // Auto-resize textarea
+    messageInput.addEventListener('input', () => {
+      messageInput.style.height = 'auto';
+      messageInput.style.height = Math.min(messageInput.scrollHeight, 100) + 'px';
+    });
+
+    // ======== CONNECTION STATUS SIMULATION ======== 
+    function updateConnectionStatus() {
+      const statuses = [
+        { badge: '● ONLINE', cls: '' },
+        { badge: '⚠ LATENCY', cls: 'unstable' },
+        { badge: '✕ OFFLINE', cls: 'offline' }
+      ];
+      
+      // Randomly change status for demo
+      if (Math.random() > 0.95) {
+        const status = statuses[Math.floor(Math.random() * statuses.length)];
+        statusBadge.textContent = status.badge;
+        statusBadge.className = 'connection-badge ' + status.cls;
+      }
+    }
+
+    // Simulate connection state changes periodically
+    setInterval(updateConnectionStatus, 3000);
+
+    // ======== CHANNEL NAVIGATION ======== 
+    document.querySelectorAll('.channel-item').forEach(item => {
+      item.addEventListener('click', function() {
+        document.querySelectorAll('.channel-item').forEach(i => i.classList.remove('active'));
+        this.classList.add('active');
+        
+        // Update chat header
+        const channelName = this.textContent.trim();
+        document.querySelector('.chat-header-title').textContent = channelName;
+        
+        // Clear and add demo messages for new channel
+        messageThread.innerHTML = '';
+        addMessage('Switched to ' + channelName, false);
+      });
+    });
+
+    // ======== SIDEBAR NAVIGATION ======== 
+    document.querySelectorAll('.sidebar-nav-item').forEach(item => {
+      item.addEventListener('click', function() {
+        document.querySelectorAll('.sidebar-nav-item').forEach(i => i.classList.remove('active'));
+        this.classList.add('active');
+      });
+    });
+
+    // Initial render
+    renderMessages();
+  </script>
+</body>
+</html>
