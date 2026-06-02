@@ -11,12 +11,14 @@ import {
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 
+import { apiUrl } from '@/lib/config/urls'
+
 import { actionClient } from './safe-actions'
 export const SendVerificationOtpAction = actionClient
   .schema(emailVerifySchema)
   .action(async ({ parsedInput: { email } }) => {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_API_BASE_URL}/api/v1/auth/verify-email`,
+      apiUrl('/api/v1/auth/verify-email'),
       {
         method: 'POST',
         headers: {
@@ -45,7 +47,7 @@ export const CreateUserAccountAction = actionClient
   .action(
     async ({ parsedInput: { email, code, firstName, lastName, password } }) => {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_SERVER_API_BASE_URL}/api/v1/auth/signup`,
+        apiUrl('/api/v1/auth/signup'),
         {
           method: 'POST',
           headers: {
@@ -80,7 +82,7 @@ export const LoginAction = actionClient
   .action(async ({ parsedInput: { email, password } }) => {
     try {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_SERVER_API_BASE_URL}/api/v1/auth/login`,
+        apiUrl('/api/v1/auth/login'),
         {
           method: 'POST',
           headers: {
@@ -120,7 +122,7 @@ export const ForgotPasswordAction = actionClient
   .schema(forgotPasswordSchema)
   .action(async ({ parsedInput: { email } }) => {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_API_BASE_URL}/api/v1/auth/forgot-password`,
+      apiUrl('/api/v1/auth/forgot-password'),
       {
         method: 'POST',
         headers: {
@@ -149,7 +151,7 @@ export const ResetPasswordAction = actionClient
   .schema(resetPasswordSchema)
   .action(async ({ parsedInput: { password, email, code } }) => {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_API_BASE_URL}/api/v1/auth/reset-password`,
+      apiUrl('/api/v1/auth/reset-password'),
       {
         method: 'POST',
         headers: {
@@ -180,7 +182,7 @@ export const getSession = actionClient.action(async () => {
   }
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_API_BASE_URL}/api/v1/auth/me`,
+      apiUrl('/api/v1/auth/me'),
       {
         headers: {
           Authorization: `Bearer ${token.value}`,
@@ -225,7 +227,7 @@ export const GoogleAuthAction = actionClient
   .action(async ({ parsedInput: { access_token } }) => {
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_SERVER_API_BASE_URL}/api/v1/auth/google`,
+        apiUrl('/api/v1/auth/google'),
         {
           method: 'POST',
           headers: {
@@ -265,7 +267,7 @@ export const GithubAuthAction = actionClient
   .action(async ({ parsedInput: { code } }) => {
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_SERVER_API_BASE_URL}/api/v1/auth/github`,
+        apiUrl('/api/v1/auth/github'),
         {
           method: 'POST',
           headers: {

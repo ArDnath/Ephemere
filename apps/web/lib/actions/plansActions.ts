@@ -2,6 +2,8 @@
 import { revalidateTag } from 'next/cache'
 import { cookies } from 'next/headers'
 
+import { apiUrl } from '@/lib/config/urls'
+
 import { actionClient } from './safe-actions'
 
 export const activateFreePlanAction = actionClient.action(async () => {
@@ -11,7 +13,7 @@ export const activateFreePlanAction = actionClient.action(async () => {
     throw new Error('User not logged in')
   }
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_SERVER_API_BASE_URL}/api/v1/plans/activate-free`,
+    apiUrl('/api/v1/plans/activate-free'),
     {
       method: 'POST',
       headers: {
@@ -35,7 +37,7 @@ export const activateProPlanAction = actionClient.action(async () => {
     throw new Error('User not logged in')
   }
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_SERVER_API_BASE_URL}/api/v1/plans/activate-pro`,
+    apiUrl('/api/v1/plans/activate-pro'),
     {
       method: 'POST',
       headers: {

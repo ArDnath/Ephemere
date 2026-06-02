@@ -2,6 +2,8 @@
 import { deleteFileSchema, uploadFileSchema } from '@ephemere/lib'
 import { cookies } from 'next/headers'
 
+import { apiUrl } from '@/lib/config/urls'
+
 import { actionClient } from './safe-actions'
 
 export const uploadImage = actionClient
@@ -14,7 +16,7 @@ export const uploadImage = actionClient
         throw new Error('User not logged in')
       }
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_SERVER_API_BASE_URL}/api/v1/files/getUploadUrl`,
+        apiUrl('/api/v1/files/getUploadUrl'),
         {
           method: 'POST',
           headers: {
@@ -53,7 +55,7 @@ export const deleteImage = actionClient
     }
 
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_API_BASE_URL}/api/v1/files/deleteFile`,
+      apiUrl('/api/v1/files/deleteFile'),
       {
         method: 'DELETE',
         headers: {

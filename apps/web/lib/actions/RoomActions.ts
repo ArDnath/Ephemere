@@ -5,6 +5,7 @@ import { revalidateTag } from 'next/cache'
 import { cookies } from 'next/headers'
 import { z } from 'zod'
 
+import { apiUrl } from '@/lib/config/urls'
 import { Message, Rooms } from '@/types'
 
 import { actionClient } from './safe-actions'
@@ -25,7 +26,7 @@ export async function getRooms({
       queryParams.append('search', search)
     }
 
-    const url = `${process.env.NEXT_PUBLIC_SERVER_API_BASE_URL}/api/v1/rooms/getRooms${
+    const url = `${apiUrl('/api/v1/rooms/getRooms')}${
       queryParams.toString() ? `?${queryParams.toString()}` : ''
     }`
 
@@ -63,7 +64,7 @@ export const createRooms = actionClient
       }
       try {
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_SERVER_API_BASE_URL}/api/v1/rooms/create`,
+          apiUrl('/api/v1/rooms/create'),
           {
             method: 'POST',
             headers: {
@@ -102,7 +103,7 @@ export const getRoomsHistory = async (): Promise<Rooms> => {
     }
 
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_API_BASE_URL}/api/v1/rooms/history`,
+      apiUrl('/api/v1/rooms/history'),
       {
         headers: {
           Authorization: `Bearer ${token.value}`,
@@ -141,7 +142,7 @@ export const getRoomHistory = actionClient
       }
 
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_SERVER_API_BASE_URL}/api/v1/rooms/history/${roomId}`,
+        apiUrl(`/api/v1/rooms/history/${roomId}`),
         {
           headers: {
             Authorization: `Bearer ${token.value}`,
@@ -174,7 +175,7 @@ export const deleteRoom = actionClient
       }
 
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_SERVER_API_BASE_URL}/api/v1/rooms/remove/${roomId}`,
+        apiUrl(`/api/v1/rooms/remove/${roomId}`),
         {
           method: 'DELETE',
           headers: {

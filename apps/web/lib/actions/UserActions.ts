@@ -3,6 +3,7 @@ import { updateProfileSchema } from '@ephemere/lib'
 import { revalidateTag } from 'next/cache'
 import { cookies } from 'next/headers'
 
+import { apiUrl } from '@/lib/config/urls'
 import { UserStats } from '@/types'
 
 import { actionClient } from './safe-actions'
@@ -16,7 +17,7 @@ export async function getUserStats() {
 
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_API_BASE_URL}/api/v1/user/stats`,
+      apiUrl('/api/v1/user/stats'),
       {
         headers: {
           Authorization: `Bearer ${token.value}`,
@@ -52,7 +53,7 @@ export const updateProfile = actionClient
 
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_SERVER_API_BASE_URL}/api/v1/user/profile`,
+        apiUrl('/api/v1/user/profile'),
         {
           method: 'PATCH',
           headers: {
@@ -85,7 +86,7 @@ export const deleteAccount = actionClient.action(async () => {
 
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_API_BASE_URL}/api/v1/user/account`,
+      apiUrl('/api/v1/user/account'),
       {
         method: 'DELETE',
         headers: {
