@@ -1,5 +1,4 @@
 import { Context } from 'hono'
-import jwt from 'jsonwebtoken'
 import {
   signupSchema,
   emailVerifySchema,
@@ -17,6 +16,7 @@ import { eq, and, gte } from 'drizzle-orm'
 import { generateOTP } from '@/utils/generateOTP'
 import { sendMail } from '@/utils/sendMail'
 import { comparePassword, hashPassword } from '@/utils/hashPassword'
+import { signToken } from '@/utils/jwt'
 import type { JWTPayload } from '@/types/index'
 
 export const callback = async (c: Context) => {
@@ -97,7 +97,7 @@ export const loginWithCredentials = async (
   if (!isValidPassword) return { success: false, message: 'Invalid password' }
 
   const payload: JWTPayload = { userId: user.id, email: user.email, isPro: false }
-  const token = jwt.sign(payload, process.env.JWT_SECRET as string)
+  const token = await signToken(payload)
 
   return { success: true, token, user: { id: user.id, email: user.email } }
 }

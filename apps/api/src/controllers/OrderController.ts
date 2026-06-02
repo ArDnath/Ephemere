@@ -2,9 +2,8 @@ import { Context } from 'hono'
 import { db } from '@ephemere/db'
 import { plans, purchases, subscriptions, users } from '@ephemere/db/schema'
 import { eq } from 'drizzle-orm'
-import razorpay from '@/utils/Razorpay'
+import getRazorpayClient from '@/utils/Razorpay'
 import { sendMail } from '@/utils/sendMail'
-import axios from 'axios'
 import { createOrderSchema, verifyPaymentSchema } from '@ephemere/lib'
 import type { JWTPayload } from '@/types/index'
 
@@ -34,8 +33,9 @@ export const createOrder = async (c: Context) => {
       return c.json({ message: 'Plan not found' }, 404)
     }
 
-    const response = await axios.get(`https://api.exchangerate-api.com/v4/latest/USD`)
-    const rates = response.data.rates as Record<string, number>
+    const response = await fetch(`https://api.exchangerate-api.com/v4/latest/USD`)
+    const data = await response.json() as { rates: Record<string, number> }
+    const rates = data.rates
 
     if (!rates[currency]) {
       return c.json({ message: 'Invalid currency' }, 400)
@@ -44,7 +44,7 @@ export const createOrder = async (c: Context) => {
     const baseAmount = isMonthly ? plan.price : plan.price * 12 * 0.8
     const amount = baseAmount * rates[currency]!
 
-    const order = await razorpay.orders.create({
+    const order = await getRazorpayClient().orders.create({
       amount: Math.round(amount * 100),
       currency,
       receipt: `order_${Date.now()}`,
@@ -116,8 +116,9 @@ export const verifyPayment = async (c: Context) => {
       })
       .where(eq(purchases.id, purchase.id))
 
-    const response = await axios.get(`https://api.exchangerate-api.com/v4/latest/USD`)
-    const rates = response.data.rates as Record<string, number>
+    const response = await fetch(`https://api.exchangerate-api.com/v4/latest/USD`)
+    const data = await response.json() as { rates: Record<string, number> }
+    const rates = data.rates
 
     const amountInUSD = purchase.amount / (rates[purchase.currency] ?? 1)
     const isMonthly = amountInUSD <= 100

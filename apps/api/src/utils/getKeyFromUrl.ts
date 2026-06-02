@@ -1,7 +1,3 @@
-import * as dotenv from 'dotenv'
-
-dotenv.config()
-
 function getKeyFromUrl(url: string): string {
   const baseUrl = process.env.CDN_URL
 

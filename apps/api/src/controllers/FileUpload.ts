@@ -1,7 +1,7 @@
 import { Context } from 'hono'
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
 import { PutObjectCommand, DeleteObjectCommand } from '@aws-sdk/client-s3'
-import { r2Client } from '@/utils/StorageClient'
+import { getR2Client } from '@/utils/StorageClient'
 import { uploadFileSchema, deleteFileSchema } from '@ephemere/lib'
 
 export const uploadFile = async (c: Context) => {
@@ -28,7 +28,7 @@ export const uploadFile = async (c: Context) => {
       // but it accepts standard PUT params. We omit Tagging if R2 behaves strictly.
     })
 
-    const presignedUrl = await getSignedUrl(r2Client, command, { expiresIn: 300 })
+    const presignedUrl = await getSignedUrl(getR2Client(), command, { expiresIn: 300 })
 
     return c.json({ url: presignedUrl, key })
   } catch (error) {
@@ -56,7 +56,7 @@ export const deleteFile = async (c: Context) => {
       Key: key,
     })
 
-    await r2Client.send(command)
+    await getR2Client().send(command)
 
     return c.json({ message: 'File deleted successfully' })
   } catch (error) {

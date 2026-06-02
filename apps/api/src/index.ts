@@ -1,31 +1,34 @@
-import 'dotenv/config'
-import { serve } from '@hono/node-server'
 import { Hono } from 'hono'
 import { cors } from 'hono/cors'
 import { logger } from 'hono/logger'
 import { rateLimiter } from '@/middleware/rateLimiter'
 import routes from '@/routes/index'
-import { db } from '@ephemere/db'
+import { createDb } from '@ephemere/db'
 import { plans } from '@ephemere/db/schema'
 import { eq } from 'drizzle-orm'
+import { installRuntimeEnv, type ApiBindings } from './env.js'
 
-const app = new Hono()
-
-const PORT = Number(process.env.PORT) || 4001
+const app = new Hono<{ Bindings: ApiBindings }>()
 
 // Middleware
+app.use('*', async (c, next) => {
+  installRuntimeEnv(c.env)
+  await next()
+})
 app.use('*', cors())
 app.use('*', logger())
 app.use('*', rateLimiter({ windowMs: 10 * 60 * 1000, max: 500 }))
 
 // Health check
-app.get('/', (c) => c.json({ status: 'ok' }))
+app.get('/', (c) => c.json({ status: 'ok', environment: 'cloudflare-workers' }))
 
 // Routes
 app.route('/api/v1', routes)
 
-const seedPlans = async () => {
+// Seed plans on startup (runs once per deployment)
+const seedPlans = async (databaseUrl: string) => {
   try {
+    const db = createDb(databaseUrl)
     const defaultPlans = [
       {
         id: 'free282003',
@@ -59,9 +62,15 @@ const seedPlans = async () => {
   }
 }
 
-serve({ fetch: app.fetch, port: PORT }, async () => {
-  console.log(`🔥 Hono API running on http://localhost:${PORT}`)
-  await seedPlans()
+// Initialize on first request
+let initialized = false
+app.use('*', async (c, next) => {
+  if (!initialized) {
+    await seedPlans(c.env.DATABASE_URL)
+    initialized = true
+  }
+  await next()
 })
 
+// Export for Cloudflare Workers
 export default app

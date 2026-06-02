@@ -1,9 +1,3 @@
-import axios from 'axios'
-import querystring from 'querystring'
-import * as dotenv from 'dotenv'
-
-dotenv.config()
-
 interface GoogleTokensResult {
   access_token: string
   expires_in: number
@@ -12,33 +6,28 @@ interface GoogleTokensResult {
   id_token: string
 }
 
-export async function getGoogleOAuthTokens(
-  code: string
-): Promise<GoogleTokensResult> {
+export async function getGoogleOAuthTokens(code: string): Promise<GoogleTokensResult> {
   const url = 'https://oauth2.googleapis.com/token'
 
-  const values = {
+  const values = new URLSearchParams({
     code,
     client_id: process.env.GOOGLE_CLIENT_ID!,
     client_secret: process.env.GOOGLE_CLIENT_SECRET!,
     redirect_uri: 'postmessage',
     grant_type: 'authorization_code',
+  })
+
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: values.toString(),
+  })
+
+  if (!res.ok) {
+    const error = await res.text()
+    throw new Error(`Google OAuth token exchange failed: ${error}`)
   }
 
-  try {
-    const res = await axios.post<GoogleTokensResult>(
-      url,
-      querystring.stringify(values),
-      {
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-      }
-    )
-    return res.data
-  } catch (error: unknown) {
-    const err = error as Error
-    console.error(err)
-    throw new Error(err.message)
-  }
+  return res.json() as Promise<GoogleTokensResult>
 }
+

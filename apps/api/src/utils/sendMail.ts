@@ -1,5 +1,7 @@
-import nodemailer from 'nodemailer'
+import { Resend } from 'resend'
 import { getTemplate } from './getMailTemplate.js'
+
+let resend: Resend | null = null
 
 export type Options = {
   tag:
@@ -22,26 +24,29 @@ export type Options = {
 
 export const sendMail = async (options: Options) => {
   try {
-    const transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST,
-      port: 465,
-      secure: true,
-      service: process.env.SMTP_SERVICE,
-      auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS,
-      },
-    })
-
-    const mailOptions = {
-      from: process.env.SMTP_USER,
-      to: options.email,
-      subject: options.subject,
-      html: getTemplate(options),
+    const apiKey = process.env.RESEND_API_KEY
+    if (!apiKey) {
+      throw new Error('RESEND_API_KEY is not defined')
     }
 
-    await transporter.sendMail(mailOptions)
+    resend ??= new Resend(apiKey)
+
+    const result = await resend.emails.send({
+      from: process.env.RESEND_FROM_EMAIL || 'noreply@ephemere.com',
+      to: options.email || '',
+      subject: options.subject,
+      html: getTemplate(options),
+    })
+
+    if (result.error) {
+      console.error('Resend error:', result.error)
+      throw new Error(`Failed to send email: ${result.error.message}`)
+    }
+
+    console.log('Email sent successfully:', result.data?.id)
+    return result.data
   } catch (error) {
-    console.error(error)
+    console.error('Error sending email:', error)
+    throw error
   }
 }

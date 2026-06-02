@@ -1,4 +1,3 @@
-import 'dotenv/config'
 import { S3Client, PutBucketCorsCommand } from '@aws-sdk/client-s3'
 
 const r2Client = new S3Client({

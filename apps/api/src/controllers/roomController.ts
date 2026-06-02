@@ -11,7 +11,7 @@ import {
 } from '@ephemere/db/schema'
 import { eq, lt, gte, and, ilike, or, desc, asc } from 'drizzle-orm'
 import { createRoomSchema } from '@ephemere/lib'
-import { r2Client } from '@/utils/StorageClient'
+import { getR2Client } from '@/utils/StorageClient'
 import getKeyFromUrl from '@/utils/getKeyFromUrl'
 import { DeleteObjectCommand } from '@aws-sdk/client-s3'
 import type { JWTPayload } from '@/types/index'
@@ -435,7 +435,7 @@ export const removeRoom = async (c: Context) => {
       for (const msg of roomMessages) {
         if (msg.image) {
           try {
-            await r2Client.send(
+            await getR2Client().send(
               new DeleteObjectCommand({
                 Bucket: process.env.CLOUDFLARE_R2_BUCKET_NAME ?? '',
                 Key: getKeyFromUrl(msg.image),

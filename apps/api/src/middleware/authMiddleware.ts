@@ -1,5 +1,5 @@
 import { Context, Next } from 'hono'
-import jwt from 'jsonwebtoken'
+import { verifyToken } from '@/utils/jwt'
 import type { JWTPayload } from '@/types/index'
 
 export const authenticateToken = async (c: Context, next: Next) => {
@@ -11,7 +11,7 @@ export const authenticateToken = async (c: Context, next: Next) => {
   }
 
   try {
-    const user = jwt.verify(token, process.env.JWT_SECRET as string) as JWTPayload
+    const user = await verifyToken(token)
     c.set('user', user)
     await next()
   } catch {
