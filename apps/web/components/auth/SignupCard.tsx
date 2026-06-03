@@ -48,9 +48,19 @@ const SignupCard = () => {
     },
   })
 
-  const onSubmit = form.handleSubmit((data) => {
+  const onSubmit = form.handleSubmit(async (data) => {
     setIsAuthenticating(true)
-    executeAsync({ email: data.email })
+    try {
+      await executeAsync({ email: data.email })
+    } catch (error) {
+      const message =
+        error instanceof Error
+          ? error.message
+          : 'Failed to send verification email'
+
+      toast.error(message)
+      setIsAuthenticating(false)
+    }
   })
 
   return (

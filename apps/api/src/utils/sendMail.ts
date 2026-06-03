@@ -29,10 +29,15 @@ export const sendMail = async (options: Options) => {
       throw new Error('RESEND_API_KEY is not defined')
     }
 
+    const from = process.env.RESEND_FROM_EMAIL
+    if (!from) {
+      throw new Error('RESEND_FROM_EMAIL is not defined')
+    }
+
     resend ??= new Resend(apiKey)
 
     const result = await resend.emails.send({
-      from: process.env.RESEND_FROM_EMAIL || 'noreply@ephemere.com',
+      from,
       to: options.email || '',
       subject: options.subject,
       html: getTemplate(options),

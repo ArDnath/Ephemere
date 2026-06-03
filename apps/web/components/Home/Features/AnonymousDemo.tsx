@@ -23,9 +23,9 @@ const AnonymousDemo = () => {
           {items.map((item, i) => (
             <div
               key={i}
-              className="rounded-lg p-1 shadow-sm ring-1 ring-gray-900/5 transition-all duration-300 hover:shadow-md"
+              className="rounded-lg p-1 shadow-sm ring-1 ring-[hsl(var(--border))] transition-all duration-300 hover:shadow-md"
             >
-              <div className="relative overflow-hidden rounded bg-gradient-to-br from-gray-100/30 to-gray-100/20">
+              <div className="relative overflow-hidden rounded bg-gradient-to-br from-[hsl(var(--secondary)/0.7)] to-[hsl(var(--card)/0.5)]">
                 {item.type === 'user' ? (
                   <div className="flex h-20 w-16 items-center justify-center">
                     {item.image ? (
@@ -40,29 +40,29 @@ const AnonymousDemo = () => {
                       </div>
                     ) : (
                       <div className="flex size-10 items-center justify-center">
-                        <UserIcon className="size-7 text-gray-400" />
+                        <UserIcon className="size-7 text-[hsl(var(--muted-foreground))]" />
                       </div>
                     )}
                   </div>
                 ) : (
-                  <div className="h-20 w-16 animate-pulse bg-gray-200" />
+                  <div className="h-20 w-16 animate-pulse bg-[hsl(var(--muted))]" />
                 )}
-                <div className="absolute inset-0 rounded ring-1 ring-inset ring-black/5" />
+                <div className="absolute inset-0 rounded ring-1 ring-inset ring-[hsl(var(--border))]" />
               </div>
             </div>
           ))}
         </div>
       </div>
 
-      <div className="flex-center pointer-events-none absolute inset-x-0 bottom-0 z-40 size-full bg-gradient-to-t from-white via-transparent to-white">
+      <div className="flex-center pointer-events-none absolute inset-x-0 bottom-0 z-40 size-full bg-gradient-to-t from-[hsl(var(--card))] via-transparent to-[hsl(var(--card))]">
         {' '}
-        <div className="h-32 w-24 scale-[0.85] rounded-lg bg-white p-2 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.3)] ring-1 ring-gray-900/5 transition-all duration-300 hover:shadow-2xl group-hover:scale-90 lg:w-[100px]">
-          <div className="relative h-full overflow-hidden rounded bg-gradient-to-br from-gray-100 to-gray-200 shadow-inner">
+        <div className="h-32 w-24 scale-[0.85] rounded-lg bg-[hsl(var(--card))] p-2 shadow-[var(--shadow-md)] ring-1 ring-[hsl(var(--border))] transition-all duration-300 hover:shadow-2xl group-hover:scale-90 lg:w-[100px]">
+          <div className="relative h-full overflow-hidden rounded bg-gradient-to-br from-[hsl(var(--secondary))] to-[hsl(var(--muted))] shadow-inner">
             <div className="flex size-full items-center justify-center">
-              <AnonymousIcon className="size-10 text-black/80 sm:size-12 lg:size-14" />
+              <AnonymousIcon className="size-10 text-[hsl(var(--foreground)/0.8)] sm:size-12 lg:size-14" />
             </div>
 
-            <div className="absolute inset-0 rounded bg-black/5 ring-1 ring-inset ring-black/5" />
+            <div className="absolute inset-0 rounded bg-[hsl(var(--foreground)/0.04)] ring-1 ring-inset ring-[hsl(var(--border))]" />
           </div>
         </div>
       </div>

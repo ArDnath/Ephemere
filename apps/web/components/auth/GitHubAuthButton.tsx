@@ -1,20 +1,16 @@
 'use client'
 
 import { Button } from '@ephemere/ui/components/ui/button.tsx'
-import { useRouter } from 'next/navigation'
 
 import { useAuthStore } from '@/lib/store/auth-store'
 
 export function GitHubAuthButton() {
-  const router = useRouter()
   const { isAuthenticating, setIsAuthenticating } = useAuthStore()
 
   const handleGitHubLogin = () => {
     setIsAuthenticating(true)
-    // Redirect to GitHub OAuth flow
-    router.push(
+    window.location.href =
       `https://github.com/login/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID}&scope=user:email`
-    )
   }
 
   return (

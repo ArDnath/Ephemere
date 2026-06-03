@@ -37,11 +37,9 @@ export function GoogleAuthButton() {
   const googleLogin = useGoogleLogin({
     onSuccess: async (credentialResponse) => {
       try {
-        // credentialResponse.code is the authorization code from Google OAuth
-        // which will be exchanged for tokens on the backend
         setIsAuthenticating(true)
         await executeGoogleAuth({
-          access_token: (credentialResponse as any).code,
+          access_token: credentialResponse.code,
         })
       } catch (error) {
         console.error('Google login failed:', error)

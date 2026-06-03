@@ -62,7 +62,7 @@ export const sendVerificationOtp = async (c: Context) => {
       expires: new Date(Date.now() + 2 * 60 * 1000),
     })
 
-    sendMail({
+    await sendMail({
       subject: 'Ephemere Chat: OTP to verify your account',
       email,
       message: `Your verification code is: ${code}`,
@@ -217,7 +217,7 @@ export const forgotPassword = async (c: Context) => {
       expires: new Date(Date.now() + 2 * 60 * 1000),
     })
 
-    sendMail({
+    await sendMail({
       subject: 'Ephemere Chat: Reset your password',
       email,
       message: code,

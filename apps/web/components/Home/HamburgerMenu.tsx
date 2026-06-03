@@ -30,7 +30,7 @@ const HamburgerMenu = ({
         role="presentation"
       >
         <Hamburger
-          className="size-5 stroke-black dark:stroke-white"
+          className="size-5 stroke-[hsl(var(--foreground))]"
           isOpen={isOpen}
         />
       </div>

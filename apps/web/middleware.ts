@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
+import { apiUrl } from './lib/config/urls'
+
 const protectedPaths = ['/dashboard', '/history']
 const authPaths = ['/login', '/register']
 
@@ -17,7 +19,7 @@ export async function middleware(request: NextRequest) {
 
   if (token) {
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_API_BASE_URL}/api/v1/auth/me`, {
+      const response = await fetch(apiUrl('/api/v1/auth/me'), {
         headers: {
           Authorization: `Bearer ${token}`,
         },

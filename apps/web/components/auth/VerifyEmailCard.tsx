@@ -7,7 +7,7 @@ import {
 } from '@ephemere/ui/components/ui/input-otp.tsx'
 import { useRouter } from 'next/navigation'
 import { useAction } from 'next-safe-action/hooks'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
 
 import { AuthHeader } from '@/components/auth/auth-header'
@@ -52,8 +52,13 @@ const VerifyEmailCard = () => {
     }
   )
 
+  useEffect(() => {
+    if (!email || !password) {
+      router.replace('/register')
+    }
+  }, [email, password, router])
+
   if (!email || !password) {
-    router.push('/register')
     return null
   }
 
@@ -80,6 +85,7 @@ const VerifyEmailCard = () => {
     try {
       await resendCode({ email })
       setCode('')
+      setIsInvalidCode(false)
     } catch (err) {
       console.error('Error resending code:', err)
     }

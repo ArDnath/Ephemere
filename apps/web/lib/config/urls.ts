@@ -1,6 +1,12 @@
 const LOCAL_API_BASE_URL = 'http://127.0.0.1:4001'
 const LOCAL_WS_BASE_URL = 'ws://127.0.0.1:8080'
 
+function firstConfiguredValue(
+  ...values: Array<string | undefined>
+): string | undefined {
+  return values.find((value) => value?.trim())
+}
+
 function normalizeBaseUrl(value: string): string {
   return value.trim().replace(/\/+$/, '')
 }
@@ -19,7 +25,19 @@ function isLocalHost(value: string): boolean {
 
 function withProtocol(value: string, protocol: 'http' | 'ws'): string {
   if (/^https?:\/\//.test(value) || /^wss?:\/\//.test(value)) {
-    return value
+    const url = new URL(value)
+
+    if (protocol === 'ws') {
+      url.protocol = url.protocol === 'https:' || url.protocol === 'wss:'
+        ? 'wss:'
+        : 'ws:'
+    } else {
+      url.protocol = url.protocol === 'wss:' || url.protocol === 'https:'
+        ? 'https:'
+        : 'http:'
+    }
+
+    return url.toString()
   }
 
   if (isLocalHost(value)) {
@@ -63,7 +81,10 @@ function deriveSiblingServiceUrl(
 }
 
 export function getApiBaseUrl(): string {
-  const configured = process.env.NEXT_PUBLIC_SERVER_API_BASE_URL
+  const configured = firstConfiguredValue(
+    process.env.NEXT_PUBLIC_SERVER_API_BASE_URL,
+    process.env.NEXT_PUBLIC_API_URL
+  )
   if (configured) return normalizeBaseUrl(withProtocol(configured, 'http'))
 
   const socketUrl = process.env.NEXT_PUBLIC_WS_URL
@@ -78,10 +99,17 @@ export function getApiBaseUrl(): string {
 }
 
 export function getSocketBaseUrl(): string {
-  const configured = process.env.NEXT_PUBLIC_WS_URL
+  const configured = firstConfiguredValue(
+    process.env.NEXT_PUBLIC_WS_URL,
+    process.env.NEXT_PUBLIC_SOCKET_URL,
+    process.env.NEXT_PUBLIC_WEBSOCKET_URL
+  )
   if (configured) return normalizeBaseUrl(withProtocol(configured, 'ws'))
 
-  const apiUrl = process.env.NEXT_PUBLIC_SERVER_API_BASE_URL
+  const apiUrl = firstConfiguredValue(
+    process.env.NEXT_PUBLIC_SERVER_API_BASE_URL,
+    process.env.NEXT_PUBLIC_API_URL
+  )
   const derived = apiUrl ? deriveSiblingServiceUrl(apiUrl, 'socket') : null
   if (derived) return derived
 

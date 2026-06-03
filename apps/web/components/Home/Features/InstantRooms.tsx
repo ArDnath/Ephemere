@@ -10,7 +10,7 @@ const InstantRooms = () => {
       className="col-span-1 row-span-2 flex flex-col justify-between pb-10 xl:col-span-2 xl:row-span-2"
     >
       <div className="flex-center relative w-full">
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 z-40 size-full bg-gradient-to-t from-white via-transparent to-white" />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 z-40 size-full bg-gradient-to-t from-[hsl(var(--card))] via-transparent to-[hsl(var(--card))]" />
         <RealTimeDemo />
       </div>
       <GridItemHeading

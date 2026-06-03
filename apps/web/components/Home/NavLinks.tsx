@@ -10,7 +10,7 @@ export const NavLinks = () => {
   const [activeLink, setActiveLink] = useState<string | null>(null)
 
   return (
-    <motion.div className="absolute inset-0 flex flex-1 flex-row items-center justify-center space-x-2 text-sm font-medium text-zinc-600 transition duration-200 hover:text-zinc-800 lg:flex lg:space-x-2">
+    <motion.div className="absolute inset-0 flex flex-1 flex-row items-center justify-center space-x-2 text-sm font-medium text-[hsl(var(--muted-foreground))] transition duration-200 hover:text-[hsl(var(--foreground))] lg:flex lg:space-x-2">
       <ul className="z-50 flex items-center">
         {navLinks.map(({ href, label }) => (
           <li
@@ -20,12 +20,14 @@ export const NavLinks = () => {
             className="relative p-1 px-3"
           >
             <Link href={href} className="">
-              <span className="text-sm font-medium text-black/70">{label}</span>
+              <span className="text-sm font-medium text-[hsl(var(--foreground)/0.72)]">
+                {label}
+              </span>
             </Link>
             {activeLink === href ? (
               <motion.div
                 layoutId="highlight"
-                className="absolute inset-0 -z-10 rounded-2xl bg-gray-500/5"
+                className="absolute inset-0 -z-10 rounded-2xl bg-[hsl(var(--primary)/0.08)]"
               />
             ) : null}
           </li>

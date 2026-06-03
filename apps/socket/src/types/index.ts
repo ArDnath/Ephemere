@@ -1,5 +1,3 @@
-import type { User } from '../models/User.js'
-
 // ─── Shared message envelope ────────────────────────────────────────────────
 
 export interface WebSocketMessage {
@@ -7,7 +5,7 @@ export interface WebSocketMessage {
   payload: unknown
 }
 
-// ─── In-memory room state ────────────────────────────────────────────────────
+// ─── In-memory temporary message state ──────────────────────────────────────
 
 export interface TemporaryMessage {
   id: string
@@ -19,24 +17,6 @@ export interface TemporaryMessage {
   sentAt: Date
   /** emoji → list of users who reacted */
   reactions: Record<string, { id: string; name: string; avatar: string }[]>
-}
-
-export interface Room {
-  users: User[]
-  maxTimeLimit: number
-  maxUsers: number
-  isTemporary: boolean
-  /** Only populated for temporary rooms (no DB persistence) */
-  lastMessages: TemporaryMessage[]
-}
-
-// ─── Data required to initialise a room slot ────────────────────────────────
-
-export interface RoomInfo {
-  id: string
-  maxTimeLimit: number
-  maxUsers: number
-  isTemporary: boolean
 }
 
 // ─── Shapes for each client → server message type ───────────────────────────

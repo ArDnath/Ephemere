@@ -1,0 +1,31 @@
+name = "ephemere-api"
+main = "dist/index.js"
+compatibility_date = "2024-12-16"
+compatibility_flags = ["nodejs_compat"]
+
+# Bindings for Cloudflare services
+[[r2_buckets]]
+binding = "R2_BUCKET"
+bucket_name = "ephemere"
+preview_bucket_name = "ephemere-preview"
+
+# Build configuration
+[build]
+command = "cd ../.. && pnpm --filter @ephemere/api build"
+cwd = "."
+
+# Environment-specific configuration
+[env.production]
+vars = { ENVIRONMENT = "production" }
+
+[[env.production.r2_buckets]]
+binding = "R2_BUCKET"
+bucket_name = "ephemere"
+
+[env.development]
+vars = { ENVIRONMENT = "development" }
+
+[[env.development.r2_buckets]]
+binding = "R2_BUCKET"
+bucket_name = "ephemere-preview"
+

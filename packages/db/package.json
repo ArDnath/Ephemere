@@ -12,6 +12,10 @@
     "./schema": {
       "types": "./src/schema.ts",
       "default": "./src/schema.ts"
+    },
+    "./factory": {
+      "types": "./src/factory.ts",
+      "default": "./src/factory.ts"
     }
   },
   "scripts": {

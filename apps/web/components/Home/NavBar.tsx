@@ -7,6 +7,7 @@ import { useState, useEffect } from 'react'
 import { navLinks } from '@/constants'
 
 import EphemereLogo from '../icons/animated/EphemereLogo'
+import { ThemeToggle } from '../theme/ThemeToggle'
 
 import { AuthLinks } from './AuthLinks'
 import HamburgerMenu from './HamburgerMenu'
@@ -15,15 +16,13 @@ import { NavLinks } from './NavLinks'
 const DesktopNav = ({ isScrolled }: { isScrolled: boolean }) => {
   return (
     <motion.div
-      className="z-[60] mx-auto hidden w-full max-w-7xl items-center justify-between rounded-full p-2.5 px-7 backdrop-blur-md lg:flex lg:min-w-[800px]"
+      className="z-[60] mx-auto hidden w-full max-w-7xl items-center justify-between rounded-full border border-[hsl(var(--border))] bg-[hsl(var(--card)/0.72)] p-2.5 px-7 shadow-sm backdrop-blur-2xl lg:flex lg:min-w-[800px]"
       initial={{ width: '100%' }}
       animate={{
         width: isScrolled ? '40%' : '100%',
         y: isScrolled ? 20 : 0,
         backdropFilter: isScrolled ? 'blur(10px)' : 'none',
-        boxShadow: isScrolled
-          ? 'rgba(34, 42, 53, 0.06) 0px 0px 24px, rgba(0, 0, 0, 0.05) 0px 1px 1px, rgba(34, 42, 53, 0.04) 0px 0px 0px 1px, rgba(34, 42, 53, 0.08) 0px 0px 4px, rgba(47, 48, 55, 0.05) 0px 16px 68px, rgba(255, 255, 255, 0.1) 0px 1px 0px inset'
-          : 'none',
+        boxShadow: isScrolled ? 'var(--shadow-md)' : 'var(--shadow-sm)',
       }}
       transition={{
         duration: 0.6,
@@ -35,7 +34,10 @@ const DesktopNav = ({ isScrolled }: { isScrolled: boolean }) => {
 
       <NavLinks />
 
-      <AuthLinks isScrolled={isScrolled} />
+      <div className="z-[60] flex items-center gap-2">
+        <ThemeToggle />
+        <AuthLinks isScrolled={isScrolled} />
+      </div>
     </motion.div>
   )
 }
@@ -56,18 +58,19 @@ const MobileNav = ({ isScrolled }: { isScrolled: boolean }) => {
       }}
     >
       <motion.div
-        className="relative flex w-full flex-col justify-between rounded-full p-4 lg:hidden"
+        className="relative flex w-full flex-col justify-between rounded-full border border-[hsl(var(--border))] bg-[hsl(var(--card)/0.78)] p-4 shadow-sm backdrop-blur-2xl lg:hidden"
         animate={{
           backdropFilter: isScrolled ? 'blur(10px)' : 'none',
-          boxShadow: isScrolled
-            ? 'rgba(34, 42, 53, 0.06) 0px 0px 24px, rgba(0, 0, 0, 0.05) 0px 1px 1px, rgba(34, 42, 53, 0.04) 0px 0px 0px 1px, rgba(34, 42, 53, 0.08) 0px 0px 4px, rgba(47, 48, 55, 0.05) 0px 16px 68px, rgba(255, 255, 255, 0.1) 0px 1px 0px inset'
-            : 'none',
+          boxShadow: isScrolled ? 'var(--shadow-md)' : 'var(--shadow-sm)',
         }}
       >
         <div className="flex items-center justify-between">
           <EphemereLogo />
 
-          <HamburgerMenu isOpen={isOpen} setIsOpen={setIsOpen} />
+          <div className="flex items-center gap-2">
+            <ThemeToggle />
+            <HamburgerMenu isOpen={isOpen} setIsOpen={setIsOpen} />
+          </div>
         </div>
       </motion.div>
       <motion.div
@@ -81,12 +84,12 @@ const MobileNav = ({ isScrolled }: { isScrolled: boolean }) => {
         }}
         className="flex lg:hidden"
       >
-        <div className="z-50 flex w-full flex-col items-start justify-start gap-4 rounded-lg bg-white px-4 py-8 shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] dark:bg-neutral-950">
+        <div className="z-50 flex w-full flex-col items-start justify-start gap-4 rounded-[28px] border border-[hsl(var(--border))] bg-[hsl(var(--card)/0.94)] px-4 py-8 shadow-[var(--shadow-md)] backdrop-blur-xl">
           {navLinks.map(({ href, label }) => (
             <Link
               key={href}
               href={href}
-              className="relative text-neutral-600 dark:text-neutral-300"
+              className="relative text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--foreground))]"
               onClick={() => setIsOpen(false)}
             >
               <span className="block">{label} </span>
@@ -95,13 +98,13 @@ const MobileNav = ({ isScrolled }: { isScrolled: boolean }) => {
           <div className="grid w-full flex-col gap-2">
             <Link
               href="/login"
-              className="button relative block w-full cursor-pointer rounded-md bg-white px-4 py-2 text-center text-sm font-bold text-black shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] transition duration-200 hover:-translate-y-0.5 lg:hidden"
+              className="button relative block w-full cursor-pointer rounded-md border border-[hsl(var(--border))] bg-[hsl(var(--card))] px-4 py-2 text-center text-sm font-bold text-[hsl(var(--foreground))] shadow-sm transition duration-200 hover:-translate-y-0.5 lg:hidden"
             >
               Login
             </Link>
             <Link
               href="/register"
-              className="button relative block w-full cursor-pointer rounded-md bg-black px-4 py-2 text-center text-sm font-bold text-white shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] transition duration-200 hover:-translate-y-0.5 lg:hidden"
+              className="button relative block w-full cursor-pointer rounded-md bg-[hsl(var(--primary))] px-4 py-2 text-center text-sm font-bold text-[hsl(var(--primary-foreground))] shadow-sm transition duration-200 hover:-translate-y-0.5 lg:hidden"
             >
               Sign up
             </Link>

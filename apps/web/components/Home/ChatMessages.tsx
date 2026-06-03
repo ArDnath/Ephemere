@@ -52,8 +52,8 @@ const Message = ({
               className={cn(
                 'w-fit max-w-[85%] rounded-2xl px-3 py-1.5 text-sm md:max-w-[80%] md:px-4 md:py-2 md:text-base',
                 isSent
-                  ? 'ml-auto rounded-br-none bg-gray-100'
-                  : 'rounded-bl-none border-[1.5px] border-neutral-200 bg-slate-50/50 text-gray-900'
+                  ? 'ml-auto rounded-br-none bg-[hsl(var(--primary)/0.14)] text-[hsl(var(--foreground))]'
+                  : 'rounded-bl-none border-[1.5px] border-[hsl(var(--border))] bg-[hsl(var(--secondary)/0.5)] text-[hsl(var(--foreground))]'
               )}
             >
               {content}
@@ -69,7 +69,7 @@ const Message = ({
                   stiffness: 100,
                   damping: 20,
                 }}
-                className="flex-center absolute left-1 top-[40%] mt-2 size-5 rounded-2xl border border-neutral-200 bg-white md:left-2 md:size-6"
+                className="flex-center absolute left-1 top-[40%] mt-2 size-5 rounded-2xl border border-[hsl(var(--border))] bg-[hsl(var(--card))] md:left-2 md:size-6"
               >
                 {reactions.map((reaction, index) => (
                   <span

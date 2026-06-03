@@ -1,18 +1,26 @@
-import { drizzle } from 'drizzle-orm/neon-http';
-import { neon } from '@neondatabase/serverless';
-import * as schema from './schema';
+import { createDb } from './factory';
 
-const connectionString = process.env.DATABASE_URL;
+let _db: ReturnType<typeof createDb> | null = null;
 
-if (!connectionString) {
-  throw new Error('DATABASE_URL environment variable is not set.');
+export function getDb() {
+  if (!_db) {
+    const connectionString = process.env.DATABASE_URL;
+    if (!connectionString) {
+      throw new Error('DATABASE_URL environment variable is not set.');
+    }
+    _db = createDb(connectionString);
+  }
+  return _db;
 }
 
-const sql = neon(connectionString);
+// Lazy proxy — existing code that imports `db` directly keeps working
+export const db = new Proxy({} as ReturnType<typeof createDb>, {
+  get(_target, prop) {
+    return (getDb() as any)[prop];
+  },
+});
 
-export const db = drizzle(sql, { schema });
-
-
+export { createDb } from './factory';
 export * from './schema';
 
 export default db;

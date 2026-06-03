@@ -34,51 +34,44 @@ const fontScript = Caveat({
 
 import { ReactQueryProvider } from '@/providers/ReactQueryProvider'
 
-const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL ??
-  (process.env.VERCEL_URL
-    ? `https://${process.env.VERCEL_URL}`
-    : 'https://ephemere-chat.com')
-
 export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
   title: {
-    default: 'Ephemere - Real-time Chat',
-    template: '%s | Ephemere',
+    default: 'ephemere - Real-time Chat',
+    template: '%s | ephemere',
   },
   description:
     'Create instant chat rooms for quick collaboration and easy sharing. No signup needed - just seamless communication on demand.',
-  keywords: ['chat', 'real-time', 'communication', 'ephemere', 'chat rooms'],
+  keywords: ['chat', 'real-time', 'communication', 'echo', 'chat rooms'],
   authors: [
     {
-      name: 'Rohit Singh Rawat',
+      name: 'Ariyaman Debnath',
     },
   ],
-  creator: 'Ephemere',
+  creator: 'ephemer',
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://ephemere-chat.com',
-    title: 'Ephemere - Real-time Chat',
+    url: 'https://ephemer.ariyaman.in',
+    title: 'ephemere - Real-time Chat',
     description:
       'Create instant chat rooms for quick collaboration and easy sharing. No signup needed - just seamless communication on demand.',
-    siteName: 'Ephemere',
+    siteName: 'ephemere',
     images: [
       {
         url: '/images/ephemere.png',
         width: 800,
         height: 600,
-        alt: 'Ephemere Logo',
+        alt: 'ephemere Logo',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Ephemere - Real-time Chat',
+    title: 'Echo - Real-time Chat',
     description:
       'Create instant chat rooms for quick collaboration and easy sharing. No signup needed - just seamless communication on demand.',
     creator: '@Spacing_Whale',
-    images: ['/images/ephemere.png'],
+    images: ['/images/echo.png'],
   },
 }
 
@@ -87,9 +80,22 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const themeScript = `
+    (() => {
+      try {
+        const stored = localStorage.getItem('theme');
+        const preferred = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        const theme = stored === 'light' || stored === 'dark' ? stored : preferred;
+        document.documentElement.classList.toggle('dark', theme === 'dark');
+        document.documentElement.style.colorScheme = theme;
+      } catch (_) {}
+    })();
+  `
+
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         <link
           rel="icon"
           type="image/png"
@@ -105,7 +111,7 @@ export default function RootLayout({
         />
         <meta name="apple-mobile-web-app-title" content="MyWebSite" />
         <link rel="manifest" href="/site.webmanifest" />
-        <link rel="image/png" href="/images/ephemere.png" />
+        <link rel="image/png" href="/images/echo.png" />
       </head>
       <body
         className={`${fontSans.variable} ${fontSerif.variable} ${fontMono.variable} ${fontScript.variable} ${fontSans.className} antialiased`}

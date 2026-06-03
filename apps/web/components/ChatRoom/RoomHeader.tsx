@@ -22,12 +22,12 @@ export const RoomHeader = ({
 
   // Desktop view
   const DesktopHeader = () => (
-    <div className="mb-4 hidden w-full items-center justify-between gap-5 md:flex">
-      <div className="flex items-center justify-between gap-5">
+    <div className="mb-4 hidden w-full items-center justify-between gap-5 rounded-[28px] border border-white/10 bg-black/50 px-4 py-4 shadow-[0_28px_60px_rgba(0,0,0,0.25)] md:flex">
+      <div className="flex items-center gap-4">
         <EphemereLogo />
         {isLoading ? (
-          <div className="flex items-center justify-center border border-[#3e2c1a] bg-[#f7edcf] p-1">
-            <LoadingSpinner className="size-4 -translate-x-px text-[#3e2c1a]" />
+          <div className="flex items-center justify-center rounded-full border border-white/10 bg-white/5 p-2">
+            <LoadingSpinner className="size-4 text-white/80" />
           </div>
         ) : (
           <UserButton
@@ -45,21 +45,21 @@ export const RoomHeader = ({
         )}
       </div>
       <div className="text-center">
-        <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[#766247]">
+        <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-slate-400">
           active channel
         </p>
-        <h1 className="font-serif text-4xl font-black leading-none text-[#291f14]">
+        <h1 className="font-serif text-4xl font-black leading-none text-white">
           {roomName}
         </h1>
       </div>
       <Button
-        className="group rounded-[10px] border border-[#3e2c1a] bg-[#f8edcf] text-[#281d12] shadow-[4px_4px_0_rgba(45,32,19,.14)] hover:bg-[#ffc247]"
+        className="group rounded-full border border-white/10 bg-white/10 px-5 py-3 text-sm font-semibold text-white transition duration-200 hover:bg-white/15"
         onClick={handleExit}
       >
         Leave{' '}
         <LogoutIcon
           size={16}
-          className="transition-ease -me-1 opacity-60 group-hover:scale-105 group-hover:opacity-100"
+          className="transition-ease ml-1 opacity-70 group-hover:scale-105 group-hover:opacity-100"
           aria-hidden="true"
         />
       </Button>
@@ -67,26 +67,26 @@ export const RoomHeader = ({
   )
 
   const MobileHeader = () => (
-    <div className="mb-2 flex w-full items-center justify-between px-2 md:hidden">
-      <div className="flex items-center gap-4">
-        <Button className="size-8 rounded-full">
-          <AudioLines className="size-10 invert-0" />
+    <div className="mb-2 flex w-full items-center justify-between rounded-[24px] border border-white/10 bg-black/50 px-3 py-3 md:hidden">
+      <div className="flex items-center gap-3">
+        <Button className="size-8 rounded-full bg-white/10 text-white hover:bg-white/15">
+          <AudioLines className="size-10 text-white" />
         </Button>
       </div>
-      <h1 className="max-w-[150px] truncate px-2 font-serif text-2xl font-black text-[#291f14]">
+      <h1 className="max-w-[150px] truncate px-2 font-serif text-2xl font-black text-white">
         {roomName}
       </h1>
-      <div className="flex-center gap-5">
-        <div className="flex-center h-8 w-24 rounded-2xl border-2 border-black">
+      <div className="flex items-center gap-3">
+        <div className="flex h-8 w-24 items-center justify-center rounded-2xl border border-white/10 bg-white/5">
           <Countdown endDate={timeLeft} />
         </div>
         <Button
-          className="flex-center group size-8 rounded-full p-2"
+          className="flex-center group size-8 rounded-full bg-white/10 p-2 text-white hover:bg-white/15"
           onClick={handleExit}
         >
           <LogoutIcon
             size={14}
-            className="transition-ease -translate-x-px opacity-60 group-hover:scale-105 group-hover:opacity-100 max-md:size-4"
+            className="transition-ease opacity-70 group-hover:scale-105 group-hover:opacity-100"
             aria-hidden="true"
           />
         </Button>

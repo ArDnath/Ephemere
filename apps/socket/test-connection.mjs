@@ -1,9 +1,9 @@
-import WebSocket from 'ws';
+const url = process.env.WS_URL || 'ws://localhost:8787/?roomId=public';
 
-console.log('Connecting to ws://localhost:8080...');
-const ws = new WebSocket('ws://localhost:8080');
+console.log(`Connecting to ${url}...`);
+const ws = new WebSocket(url);
 
-ws.on('open', () => {
+ws.addEventListener('open', () => {
   console.log('✅ Connected successfully to WebSocket server!');
   
   const joinPayload = {
@@ -20,14 +20,14 @@ ws.on('open', () => {
   ws.send(JSON.stringify(joinPayload));
 });
 
-ws.on('message', (data) => {
-  console.log('📩 Received message from server:', data.toString());
+ws.addEventListener('message', (event) => {
+  console.log('📩 Received message from server:', String(event.data));
   ws.close();
   process.exit(0);
 });
 
-ws.on('error', (err) => {
-  console.error('❌ Connection error:', err);
+ws.addEventListener('error', (event) => {
+  console.error('❌ Connection error:', event.message || event.type);
   process.exit(1);
 });
 

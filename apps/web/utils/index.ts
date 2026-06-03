@@ -1,11 +1,7 @@
-function getPublicUrl(key: string): string {
-  const baseUrl = process.env.NEXT_PUBLIC_CDN_URL
+import { getCdnBaseUrl } from '@/lib/config/urls'
 
-  if (!baseUrl) {
-    throw new Error(
-      'NEXT_PUBLIC_CDN_URL is not defined in the environment variables.'
-    )
-  }
+function getPublicUrl(key: string): string {
+  const baseUrl = getCdnBaseUrl()
 
   if (!key) {
     throw new Error('The key parameter is required to generate the URL.')

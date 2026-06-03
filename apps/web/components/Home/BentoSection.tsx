@@ -17,10 +17,10 @@ const BentoSection = () => {
           transition={{ duration: 0.5 }}
           viewport={{ once: true }}
         >
-          <h2 className="text-4xl font-medium tracking-tight text-gray-900 sm:text-5xl">
+          <h2 className="text-4xl font-medium tracking-tight text-[hsl(var(--foreground))] sm:text-5xl">
             Everything you need for seamless chat
           </h2>
-          <p className="mt-6 text-lg leading-8 text-black/60">
+          <p className="mt-6 text-lg leading-8 text-[hsl(var(--muted-foreground))]">
             Powerful features that make Ephemere the perfect choice for temporary
             conversations
           </p>

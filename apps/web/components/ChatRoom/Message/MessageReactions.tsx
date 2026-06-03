@@ -47,7 +47,7 @@ export const MessageReactions = ({
             showAvatar={true}
             userName={user.id === participantId ? 'You' : user.name}
           />
-          <p className="text-xs font-medium text-black/70 md:text-sm">
+          <p className="text-xs font-medium text-amber-100/75 md:text-sm">
             {user.id === participantId ? 'You' : user.name}
           </p>
         </div>
@@ -59,7 +59,7 @@ export const MessageReactions = ({
     <Popover>
       <PopoverTrigger asChild>
         <button
-          className={`absolute bottom-0 ${side === 'left' ? 'right-0' : 'left-0'} z-50 mx-1 w-fit translate-y-2/3 rounded-full border border-neutral-200 bg-white p-1 md:mx-2 md:p-1.5`}
+          className={`absolute bottom-0 ${side === 'left' ? 'right-0' : 'left-0'} z-50 mx-1 w-fit translate-y-2/3 rounded-full border border-amber-300/15 bg-black/55 p-1 shadow-[6px_6px_0_rgba(0,0,0,0.18)] md:mx-2 md:p-1.5`}
         >
           <div className="flex items-center justify-center gap-0.5">
             {reactions.slice(0, 3).map((reaction) => (
@@ -68,14 +68,14 @@ export const MessageReactions = ({
               </span>
             ))}
             {totalReactions > 1 && (
-              <div className="px-0.5 text-[10px] font-medium text-gray-600 md:px-1 md:text-xs">
+              <div className="px-0.5 font-mono text-[10px] text-amber-50/65 md:px-1 md:text-xs">
                 {totalReactions}
               </div>
             )}
           </div>
         </button>
       </PopoverTrigger>
-      <PopoverContent className="w-[280px] max-sm:-translate-y-5 max-sm:scale-75 md:w-[320px]">
+      <PopoverContent className="paper-shell halftone-shadow w-[280px] max-sm:-translate-y-5 max-sm:scale-75 md:w-[320px]">
         <div>
           <Tabs defaultValue="all">
             <ScrollArea>
@@ -85,10 +85,7 @@ export const MessageReactions = ({
                   className="hover:bg-accent hover:text-foreground data-[state=active]:after:bg-primary data-[state=active]:hover:bg-accent relative px-1 after:absolute after:inset-x-0 after:bottom-0 after:-mb-1 after:h-0.5 data-[state=active]:bg-transparent data-[state=active]:shadow-none md:px-1.5"
                 >
                   All{' '}
-                  <Badge
-                    className="bg-primary/15 hover:bg-primary/15 ms-1 min-w-4 px-1 md:ms-1.5 md:min-w-5 md:px-1.5"
-                    variant="secondary"
-                  >
+                  <Badge className="ms-1 min-w-4 bg-amber-400/15 px-1 text-amber-50 md:ms-1.5 md:min-w-5 md:px-1.5" variant="secondary">
                     {totalReactions}
                   </Badge>
                 </TabsTrigger>
@@ -99,10 +96,7 @@ export const MessageReactions = ({
                     className="hover:bg-accent hover:text-foreground data-[state=active]:after:bg-primary data-[state=active]:hover:bg-accent relative px-1 after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 data-[state=active]:bg-transparent data-[state=active]:shadow-none md:px-1.5"
                   >
                     {reaction.emoji}
-                    <Badge
-                      className="bg-primary/15 hover:bg-primary/15 ms-1 min-w-4 px-1 md:ms-1.5 md:min-w-5 md:px-1.5"
-                      variant="secondary"
-                    >
+                    <Badge className="ms-1 min-w-4 bg-amber-400/15 px-1 text-amber-50 md:ms-1.5 md:min-w-5 md:px-1.5" variant="secondary">
                       {reaction.total}
                     </Badge>
                   </TabsTrigger>

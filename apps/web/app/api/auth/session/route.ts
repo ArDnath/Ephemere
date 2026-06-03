@@ -1,6 +1,8 @@
 import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
 
+import { apiUrl } from '@/lib/config/urls'
+
 export async function GET() {
   const cookieStore = await cookies()
   const token = cookieStore.get('token')
@@ -11,7 +13,7 @@ export async function GET() {
 
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_API_BASE_URL}/api/v1/auth/me`,
+      apiUrl('/api/v1/auth/me'),
       {
         headers: {
           Authorization: `Bearer ${token.value}`,

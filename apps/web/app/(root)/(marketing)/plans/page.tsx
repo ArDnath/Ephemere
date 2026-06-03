@@ -33,10 +33,10 @@ const page = () => {
       />
       <div className="z-50 flex w-full flex-col items-center gap-10 py-8">
         <div className="my-5">
-          <h1 className="mb-2 text-4xl font-semibold text-black/80">
+          <h1 className="mb-2 text-4xl font-semibold text-[hsl(var(--foreground))]">
             Choose your plan
           </h1>
-          <p className="text-center text-gray-600">
+          <p className="text-center text-[hsl(var(--muted-foreground))]">
             Find a plan that fits your needs
           </p>
         </div>

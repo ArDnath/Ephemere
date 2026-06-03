@@ -15,9 +15,9 @@ interface ChatBoxProps {
 
 const ChatBox = ({ messages, sendMessage, sendReaction }: ChatBoxProps) => {
   return (
-    <div className="paper-shell halftone-shadow relative size-full flex-1 overflow-x-hidden border border-[#3e2c1a] p-2 md:p-4">
-      <div className="pointer-events-none absolute inset-0 opacity-45 [background-image:linear-gradient(rgba(70,47,25,.08)_1px,transparent_1px),linear-gradient(90deg,rgba(70,47,25,.05)_1px,transparent_1px)] [background-size:36px_36px]" />
-      <div className="relative h-[calc(100%-10px)] flex-1 overflow-hidden pb-12 md:h-[calc(100%-16px)] md:pb-16">
+    <div className="paper-shell noise-overlay halftone-shadow relative flex size-full min-h-0 flex-1 flex-col overflow-hidden border border-amber-900/25 p-2 md:p-4">
+      <div className="pointer-events-none absolute inset-0 opacity-45 [background-image:linear-gradient(rgba(255,208,117,.06)_1px,transparent_1px),linear-gradient(90deg,rgba(255,208,117,.04)_1px,transparent_1px)] [background-size:36px_36px]" />
+      <div className="relative min-h-0 flex-1 overflow-hidden pb-20 md:pb-24">
         <Chats
           sendReaction={sendReaction}
           messages={messages.map((message) => ({

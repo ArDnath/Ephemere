@@ -9,20 +9,20 @@ const GitHubFlowDiagram = () => {
   return (
     <div className="flex-center relative -my-4 scale-[0.6] flex-col sm:-my-6 sm:scale-75">
       <div className="flex items-center justify-center gap-4 sm:gap-8">
-        <div className="-translate-x-2 rounded-xl border-2 border-neutral-200 bg-white p-2 shadow-lg transition-transform hover:-translate-y-1">
+        <div className="-translate-x-2 rounded-xl border-2 border-[hsl(var(--border))] bg-[hsl(var(--card))] p-2 shadow-lg transition-transform hover:-translate-y-1">
           <GitPullRequest />
         </div>
-        <div className="rounded-xl border-2 border-neutral-200 bg-white p-2 shadow-lg transition-transform hover:-translate-y-1">
+        <div className="rounded-xl border-2 border-[hsl(var(--border))] bg-[hsl(var(--card))] p-2 shadow-lg transition-transform hover:-translate-y-1">
           <Star />
         </div>
-        <div className="translate-x-2 rounded-xl border-2 border-neutral-200 bg-white p-2 shadow-lg transition-transform hover:-translate-y-1">
+        <div className="translate-x-2 rounded-xl border-2 border-[hsl(var(--border))] bg-[hsl(var(--card))] p-2 shadow-lg transition-transform hover:-translate-y-1">
           <CircleDot />
         </div>
       </div>
       <svg viewBox="0 0 128 55" className="">
         <path
           d="M64 0v25M8 0v8c0 8.837 7.163 16 16 16h24c8.837 0 16 7.163 16 16v15M120 0v8c0 8.837-7.163 16-16 16H80c-5.922 0-11.093 3.218-13.86 8"
-          className="stroke-neutral-200"
+          className="stroke-[hsl(var(--border))]"
           fill="none"
           strokeWidth="1.5"
           strokeDasharray="5,5"
@@ -35,8 +35,8 @@ const GitHubFlowDiagram = () => {
           />
         </path>
       </svg>
-      <div className="rounded-xl border-2 border-neutral-200 bg-white p-2 shadow-lg transition-transform hover:-translate-y-1">
-        <Github className="text-gray-800" />
+      <div className="rounded-xl border-2 border-[hsl(var(--border))] bg-[hsl(var(--card))] p-2 shadow-lg transition-transform hover:-translate-y-1">
+        <Github className="text-[hsl(var(--foreground))]" />
       </div>
     </div>
   )
@@ -51,13 +51,13 @@ const OpenSourceInfo = () => {
         </BlurFadeIn>
 
         <BlurFadeIn delay={0.2} blur={true}>
-          <h2 className="text-center text-2xl font-semibold tracking-tight text-gray-900 sm:text-3xl">
+          <h2 className="text-center text-2xl font-semibold tracking-tight text-[hsl(var(--foreground))] sm:text-3xl">
             Open Source Forever
           </h2>
         </BlurFadeIn>
 
         <BlurFadeIn delay={0.3} blur={true}>
-          <p className="px-2 text-center text-sm text-gray-600 sm:px-0 sm:text-base">
+          <p className="px-2 text-center text-sm text-[hsl(var(--muted-foreground))] sm:px-0 sm:text-base">
             Ephemere codebase available on GitHub - we welcome your contributions,
             insights, and collaboration!
           </p>

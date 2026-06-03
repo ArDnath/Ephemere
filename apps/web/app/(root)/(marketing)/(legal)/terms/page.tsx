@@ -14,7 +14,7 @@ const TermsOfService = () => {
         Terms of Service
       </h1>
 
-      <span className="relative my-3 inline-block rounded-full border border-gray-300 bg-blue-100 px-3 py-1 text-xs font-medium text-blue-900 shadow transition-transform hover:translate-y-[-2px] hover:shadow-md sm:my-5 sm:px-4 sm:text-sm">
+      <span className="relative my-3 inline-block rounded-full border border-[hsl(var(--border))] bg-[hsl(var(--primary)/0.10)] px-3 py-1 text-xs font-medium text-[hsl(var(--primary))] shadow transition-transform hover:translate-y-[-2px] hover:shadow-md sm:my-5 sm:px-4 sm:text-sm">
         Last updated: December 26, 2024
       </span>
 
@@ -23,7 +23,7 @@ const TermsOfService = () => {
           <h2 className="mb-3 text-xl font-medium sm:mb-4 sm:text-2xl">
             1. Acceptance of Terms
           </h2>
-          <p className="text-sm text-gray-600 sm:text-base">
+          <p className="text-sm text-[hsl(var(--muted-foreground))] sm:text-base">
             By accessing or using Ephemere (&ldquo;Service&rdquo;), you agree to be
             bound by these Terms of Service. If you do not agree to these terms,
             please do not use our Service.
@@ -34,7 +34,7 @@ const TermsOfService = () => {
           <h2 className="mb-3 text-xl font-medium sm:mb-4 sm:text-2xl">
             2. Description of Service
           </h2>
-          <p className="text-sm text-gray-600 sm:text-base">
+          <p className="text-sm text-[hsl(var(--muted-foreground))] sm:text-base">
             Ephemere provides a real-time chat service and associated features. We
             reserve the right to modify, suspend, or discontinue any part of the
             Service at any time.
@@ -45,10 +45,10 @@ const TermsOfService = () => {
           <h2 className="mb-3 text-xl font-medium sm:mb-4 sm:text-2xl">
             3. User Responsibilities
           </h2>
-          <p className="mb-2 text-sm text-gray-600 sm:text-base">
+          <p className="mb-2 text-sm text-[hsl(var(--muted-foreground))] sm:text-base">
             You agree to:
           </p>
-          <ul className="ml-4 list-disc space-y-1 text-sm text-gray-600 sm:text-base">
+          <ul className="ml-4 list-disc space-y-1 text-sm text-[hsl(var(--muted-foreground))] sm:text-base">
             <li>Provide accurate and complete information</li>
             <li>Maintain the security of your account</li>
             <li>Not use the Service for any illegal purposes</li>
@@ -61,7 +61,7 @@ const TermsOfService = () => {
           <h2 className="mb-3 text-xl font-medium sm:mb-4 sm:text-2xl">
             4. Intellectual Property
           </h2>
-          <p className="text-sm text-gray-600 sm:text-base">
+          <p className="text-sm text-[hsl(var(--muted-foreground))] sm:text-base">
             All content and materials available through the Service are
             protected by intellectual property rights. You may not copy, modify,
             distribute, or create derivative works without our express
@@ -73,7 +73,7 @@ const TermsOfService = () => {
           <h2 className="mb-3 text-xl font-medium sm:mb-4 sm:text-2xl">
             5. Privacy
           </h2>
-          <p className="text-sm text-gray-600 sm:text-base">
+          <p className="text-sm text-[hsl(var(--muted-foreground))] sm:text-base">
             Your use of the Service is also governed by our Privacy Policy.
             Please review our Privacy Policy to understand our practices.
           </p>
@@ -83,7 +83,7 @@ const TermsOfService = () => {
           <h2 className="mb-3 text-xl font-medium sm:mb-4 sm:text-2xl">
             6. Limitation of Liability
           </h2>
-          <p className="text-sm text-gray-600 sm:text-base">
+          <p className="text-sm text-[hsl(var(--muted-foreground))] sm:text-base">
             The Service is provided &ldquo;as is&rdquo; without warranties of
             any kind. We shall not be liable for any indirect, incidental,
             special, or consequential damages.
@@ -94,13 +94,13 @@ const TermsOfService = () => {
           <h2 className="mb-3 text-xl font-medium sm:mb-4 sm:text-2xl">
             7. Contact Us
           </h2>
-          <p className="mb-3 text-sm text-gray-600 sm:mb-4 sm:text-base">
+          <p className="mb-3 text-sm text-[hsl(var(--muted-foreground))] sm:mb-4 sm:text-base">
             If you have any questions about these Terms of Service, please
             contact us at:
           </p>
           <a
             href="mailto:ephemerechat.com@gmail.com"
-            className="ml-0 inline-flex items-center rounded-md bg-black px-3 py-1.5 text-xs font-medium text-white hover:bg-black/80 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 sm:ml-5 sm:px-4 sm:py-2 sm:text-sm"
+            className="ml-0 inline-flex items-center rounded-md bg-[hsl(var(--primary))] px-3 py-1.5 text-xs font-medium text-[hsl(var(--primary-foreground))] hover:bg-[hsl(var(--primary)/0.9)] focus:outline-none focus:ring-2 focus:ring-[hsl(var(--primary))] focus:ring-offset-2 sm:ml-5 sm:px-4 sm:py-2 sm:text-sm"
           >
             Contact Us
           </a>

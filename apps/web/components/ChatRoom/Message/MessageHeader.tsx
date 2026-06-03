@@ -12,12 +12,12 @@ export const MessageHeader = ({
   timestamp,
 }: MessageHeaderProps) => {
   return (
-    <div className="flex items-center justify-center">
-      <span className="text-xs font-semibold text-[#2c2115]">
+    <div className="mb-2 flex items-center gap-2 text-amber-50/90">
+      <span className="font-sans text-sm font-semibold tracking-tight">
         {isOwnMessage ? 'You' : userName}
       </span>
-      <Dot className="w-4 scale-110 text-[#8a7554]" />
-      <span className="font-mono text-[10px] text-[#6f5b3d]">
+      <Dot className="w-4 scale-110 text-amber-300/50" />
+      <span className="font-mono text-[10px] text-amber-100/50">
         {new Date(timestamp).toLocaleTimeString([], {
           hour: '2-digit',
           minute: '2-digit',

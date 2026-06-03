@@ -17,38 +17,44 @@ import { actionClient } from './safe-actions'
 export const SendVerificationOtpAction = actionClient
   .schema(emailVerifySchema)
   .action(async ({ parsedInput: { email } }) => {
-    const res = await fetch(
-      apiUrl('/api/v1/auth/verify-email'),
-      {
+    try {
+      const res = await fetch(apiUrl('/api/v1/auth/verify-email'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ email: email.toLowerCase() }),
         credentials: 'include',
+      })
+      const data = await res.json().catch(() => null)
+
+      if (!res.ok) {
+        throw new Error(
+          data?.message ||
+            data?.errors?.email?.[0] ||
+            'Failed to send verification code'
+        )
       }
-    )
-    if (!res.ok) {
-      const errorData = await res.json()
 
-      throw new Error(errorData.message || 'Failed to send verification code')
+      if (data?.success) {
+        return { message: 'ok' }
+      }
+
+      throw new Error('Failed to send verification code')
+    } catch (error) {
+      if (error instanceof Error) {
+        throw new Error(error.message)
+      }
+      throw new Error('Failed to send verification code')
     }
-
-    const data = await res.json()
-    if (data.success) {
-      return { message: 'ok' }
-    }
-
-    throw new Error('Failed to send verification code')
   })
 
 export const CreateUserAccountAction = actionClient
   .schema(signupSchema)
   .action(
     async ({ parsedInput: { email, code, firstName, lastName, password } }) => {
-      const res = await fetch(
-        apiUrl('/api/v1/auth/signup'),
-        {
+      try {
+        const res = await fetch(apiUrl('/api/v1/auth/signup'), {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -61,19 +67,36 @@ export const CreateUserAccountAction = actionClient
             password,
           }),
           credentials: 'include',
-        }
-      )
-      const data = await res.json()
-      if (data.token) {
-        const cookieStore = await cookies()
-        cookieStore.set('token', data.token, {
-          httpOnly: true,
-          secure: process.env.NODE_ENV === 'production',
         })
-        return { message: 'ok', token: data.token }
-      }
+        const data = await res.json().catch(() => null)
 
-      throw new Error('Failed to create account')
+        if (!res.ok) {
+          throw new Error(
+            data?.message ||
+              data?.errors?.email?.[0] ||
+              data?.errors?.code?.[0] ||
+              'Failed to create account'
+          )
+        }
+
+        if (data?.token) {
+          const cookieStore = await cookies()
+          cookieStore.set('token', data.token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'lax',
+            path: '/',
+          })
+          return { message: 'ok', token: data.token }
+        }
+
+        throw new Error(data?.message || 'Failed to create account')
+      } catch (error) {
+        if (error instanceof Error) {
+          throw new Error(error.message)
+        }
+        throw new Error('Failed to create account')
+      }
     }
   )
 

@@ -22,8 +22,8 @@ const CustomControls = () => {
         description="Set user limits and room duration to match your needs."
       />
       <div className="flex-center relative">
-        <div className="flex-center pointer-events-none absolute inset-x-0 bottom-0 z-40 size-full bg-gradient-to-t from-white via-transparent to-white">
-          <Circle className="size-9 text-black/80">
+        <div className="flex-center pointer-events-none absolute inset-x-0 bottom-0 z-40 size-full bg-gradient-to-t from-[hsl(var(--card))] via-transparent to-[hsl(var(--card))]">
+          <Circle className="size-9 text-[hsl(var(--foreground)/0.8)]">
             <EphemereLoading className="size-5" duration={5} />
           </Circle>
         </div>
@@ -36,9 +36,9 @@ const CustomControls = () => {
               delay={5 * (index + 1)}
               radius={50}
             >
-              <div className="z-[999] rounded-full bg-white p-1">
+              <div className="z-[999] rounded-full bg-[hsl(var(--card))] p-1">
                 <Circle className="size-6 p-1">
-                  <Icon className="size-4 text-gray-600" />
+                  <Icon className="size-4 text-[hsl(var(--muted-foreground))]" />
                 </Circle>
               </div>
             </OrbitingCircles>

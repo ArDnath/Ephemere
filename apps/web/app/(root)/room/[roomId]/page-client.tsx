@@ -4,12 +4,8 @@ import { useEffect, useState, useCallback } from 'react'
 import useWebSocket, { ReadyState } from 'react-use-websocket'
 import { toast } from 'sonner'
 
-import ChatBox from '@/components/ChatRoom/ChatBox'
+import { ChatLayout } from '@/components/ChatRoom/ChatLayout'
 import GetAnonomousity from '@/components/ChatRoom/GetAnonomousity'
-import { NetworkStatusPanel } from '@/components/ChatRoom/NetworkStatusPanel'
-import { ParticipantsSidebar } from '@/components/ChatRoom/ParticipantsSidebar'
-import { RoomHeader } from '@/components/ChatRoom/RoomHeader'
-import { RoomSettings } from '@/components/ChatRoom/RoomSettings'
 import { TimeLeftDisplay } from '@/components/ChatRoom/TimeLeftDisplay'
 import { ErrorState } from '@/components/ui/ErrorState'
 import { LoadingState } from '@/components/ui/LoadingState'
@@ -23,6 +19,12 @@ import { Message, PageClientProps, UserIdentity } from '@/types'
 // Server → Client: room_joined | user_joined | user_left | new_message |
 //                  reaction_updated | error | self_leave
 
+const getSocketUrl = (roomId: string) => {
+  const url = new URL(process.env.NEXT_PUBLIC_WS_URL!)
+  url.searchParams.set('roomId', roomId)
+  return url.toString()
+}
+
 const PageClient = ({ roomId, token }: PageClientProps) => {
   const { setAnonymous, anonymous, setUserId, userId } = useIdentityStore()
   const tempUser = useTempUser()
@@ -33,9 +35,12 @@ const PageClient = ({ roomId, token }: PageClientProps) => {
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState('')
   const [shouldConnect, setShouldConnect] = useState(true)
+  const [activeCluster, setActiveCluster] = useState('core')
+  const [activeChannel, setActiveChannel] = useState('general-mesh')
+  const socketUrl = getSocketUrl(roomId)
 
   const { sendMessage, lastMessage, readyState } = useWebSocket(
-    process.env.NEXT_PUBLIC_WS_URL || 'ws://localhost:8080/',
+    socketUrl,
     {},
     shouldConnect
   )
@@ -173,7 +178,7 @@ const PageClient = ({ roomId, token }: PageClientProps) => {
 
     const handler = handlers[data.type]
     if (handler) handler()
-  }, [lastMessage, anonymous, setUserId, userId])
+  }, [lastMessage, anonymous, setUserId, userId, roomId])
 
   // ── Outgoing helpers ──────────────────────────────────────────────────────
   const sendChatMessage = useCallback(
@@ -264,45 +269,21 @@ const PageClient = ({ roomId, token }: PageClientProps) => {
 
   return (
     <TimeLeftDisplay closeTime={timeLeft} isPublic={roomId == 'public'}>
-      <div className="paper-shell grid h-screen max-h-screen w-screen grid-cols-1 grid-rows-[auto_1fr] justify-center overflow-hidden p-2 md:p-5">
-        <RoomHeader
-          roomName={roomName}
-          handleExit={handleExit}
-          timeLeft={timeLeft}
-        />
-        <div className="min-h-0 w-full">
-          <div className="flex h-full w-full gap-4">
-            <nav className="hidden h-full w-16 shrink-0 flex-col items-center gap-3 py-1 md:flex">
-              {['EP', 'RT', 'WS'].map((item, index) => (
-                <button
-                  key={item}
-                  className={`halftone-shadow relative grid size-12 place-items-center border border-[#3e2c1a] font-mono text-xs font-bold ${
-                    index === 0
-                      ? 'bg-[#ffc247] text-[#281d12]'
-                      : 'bg-[#f8edcf] text-[#4d3a25]'
-                  }`}
-                  type="button"
-                >
-                  {item}
-                </button>
-              ))}
-            </nav>
-            <ParticipantsSidebar participants={users} />
-            <ChatBox
-              messages={messages}
-              sendMessage={sendChatMessage}
-              sendReaction={sendReaction}
-            />
-            <RoomSettings roomId={roomId} timeLeft={timeLeft} />
-            <NetworkStatusPanel
-              readyState={readyState}
-              roomId={roomId}
-              roomName={roomName}
-              participants={users}
-            />
-          </div>
-        </div>
-      </div>
+      <ChatLayout
+        roomName={roomName}
+        roomId={roomId}
+        timeLeft={timeLeft}
+        messages={messages}
+        sendMessage={sendChatMessage}
+        sendReaction={sendReaction}
+        handleExit={handleExit}
+        readyState={readyState}
+        participants={users}
+        activeChannel={activeChannel}
+        onChannelSelect={setActiveChannel}
+        activeCluster={activeCluster}
+        onClusterSelect={setActiveCluster}
+      />
     </TimeLeftDisplay>
   )
 }

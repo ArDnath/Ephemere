@@ -29,14 +29,14 @@ export const AuthLinks = ({ isScrolled }: { isScrolled: boolean }) => {
                 }}
               >
                 <Link href="/login">
-                  <Button className="rounded-lg border border-neutral-200 bg-white p-1.5 px-4 text-black/80 shadow-none transition-all duration-300 ease-in-out hover:bg-neutral-50">
+                  <Button className="rounded-lg border border-[hsl(var(--border))] bg-[hsl(var(--card))] p-1.5 px-4 text-[hsl(var(--foreground))] shadow-none transition-all duration-300 ease-in-out hover:bg-[hsl(var(--secondary))]">
                     Log in
                   </Button>
                 </Link>
               </motion.div>
             )}
             <Link href="/register">
-              <Button className={`duration-600 ease transition-all`}>
+              <Button className="duration-600 bg-[hsl(var(--primary))] text-[hsl(var(--primary-foreground))] ease transition-all hover:bg-[hsl(var(--primary)/0.9)]">
                 Sign up
               </Button>
             </Link>

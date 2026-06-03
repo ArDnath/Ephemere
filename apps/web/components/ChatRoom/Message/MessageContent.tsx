@@ -38,24 +38,24 @@ export const MessageContent = ({
     >
       <div className={`${image ? 'w-60 md:w-80' : 'max-w-[70%]'} relative`}>
         <div
-          className={`irregular-sheet flex w-full min-w-16 flex-col items-center justify-start overflow-hidden text-ellipsis text-wrap text-start md:min-w-20 ${
+          className={`irregular-sheet card-stack noise-overlay flex w-full min-w-16 flex-col items-center justify-start overflow-hidden text-ellipsis text-wrap text-start md:min-w-20 ${
             isPrevMessageSameSender
               ? ''
-              : `${isOwnMessage ? 'rounded-tr-[4px]' : 'rounded-tl-[4px]'}`
-          } p-1.5 px-3 md:p-2 md:px-4 ${
+              : `${isOwnMessage ? 'rounded-tr-[14px]' : 'rounded-tl-[14px]'}`
+          } p-2 md:p-3 ${
             isOwnMessage
-              ? 'border-[1.5px] border-[#2f8159] bg-[#d8eccd]'
-              : 'border-[1.5px] border-[#3e2c1a]/55 bg-[#fff6db]'
+              ? 'border border-amber-300/18 bg-[linear-gradient(135deg,rgba(104,72,26,0.72),rgba(65,43,20,0.88))] text-amber-50'
+              : 'border border-amber-100/10 bg-[linear-gradient(135deg,rgba(43,35,23,0.92),rgba(29,23,16,0.88))] text-amber-50'
           }`}
         >
           {image && (
             <Dialog>
               <DialogTrigger asChild>
-                <div className="mt-1 cursor-pointer md:mt-2">
+                <div className="mt-1 cursor-pointer rounded-[18px_14px_18px_14px] border border-amber-200/10 bg-black/30 p-1 transition duration-300 hover:border-amber-200/25 hover:bg-black/40 md:mt-2">
                   <Image
                     src={image}
                     alt="Message attachment"
-                    className="w-60 rounded-lg bg-white object-contain transition-opacity hover:opacity-90 md:w-80"
+                    className="w-60 rounded-[16px_12px_16px_12px] bg-slate-950 object-contain transition-opacity hover:opacity-90 md:w-80"
                     width={320}
                     height={320}
                   />
@@ -75,11 +75,11 @@ export const MessageContent = ({
             </Dialog>
           )}
           {message && (
-            <p className="max-w-[48ch] break-words text-xs md:text-sm">
+            <p className="body-sans max-w-[48ch] break-words text-sm leading-7 text-amber-50/95 md:text-base">
               {message}
             </p>
           )}
-        </div>{' '}
+        </div>
         <MessageReactions
           reactions={reactions}
           totalReactions={totalReactions}
