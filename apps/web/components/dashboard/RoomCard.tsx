@@ -53,7 +53,7 @@ const RoomHeader = ({
   return (
     <div className="flex items-start justify-between gap-2">
       <div className="flex flex-col gap-1">
-        <h3 className="font-serif text-xl font-black uppercase tracking-tight text-foreground md:text-2xl">{title}</h3>
+        <h3 className="text-sm font-semibold text-foreground md:text-base">{title}</h3>
         <div className="text-muted-foreground flex items-center gap-1 font-mono text-xs md:text-sm">
           <Hash className="size-3" />
           <span>{id}</span>
@@ -202,10 +202,10 @@ export default function ChatRoomCard({
     knownParticipants.length - displayParticipants.length
 
   return (
-    <Card className="grainy relative w-full max-w-96 overflow-hidden rounded-bl-[32px] rounded-br-sm rounded-tl-sm rounded-tr-[32px] border-2 border-foreground bg-card shadow-brutal transition-all duration-300 ease-in-out hover:-translate-y-1 hover:rotate-1 hover:shadow-brutal-lg">
+    <Card className="relative w-full overflow-hidden rounded-xl border border-border bg-card shadow-sm transition-all duration-200 ease-in-out hover:-translate-y-0.5 hover:shadow-md">
       <CardContent className="relative z-10 p-4 md:p-5">
         <RoomHeader title={title} id={id} onJoin={onJoin} />
-        <div className="mt-6 flex flex-col gap-4 md:flex-row md:items-end md:justify-between border-t-2 border-dashed border-foreground/30 pt-4">
+        <div className="mt-4 flex flex-col gap-4 md:flex-row md:items-end md:justify-between border-t border-border pt-4">
           <ParticipantsList
             displayParticipants={displayParticipants}
             remainingParticipants={remainingParticipants}
@@ -220,7 +220,7 @@ export default function ChatRoomCard({
       </CardContent>
       <CardFooter className="relative z-10 p-3 md:p-4">
         <Button
-          className="font-sans h-auto w-full border-2 border-foreground py-2 text-sm md:py-3 md:text-base bg-primary text-primary-foreground hover:bg-primary/90"
+          className="h-9 w-full text-sm font-medium"
           onClick={onJoin}
         >
           Enter Workspace

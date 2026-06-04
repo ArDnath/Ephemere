@@ -15,8 +15,7 @@ interface ChatBoxProps {
 
 const ChatBox = ({ messages, sendMessage, sendReaction }: ChatBoxProps) => {
   return (
-    <div className="paper-shell noise-overlay halftone-shadow relative flex size-full min-h-0 flex-1 flex-col overflow-hidden border border-amber-900/25 p-2 md:p-4">
-      <div className="pointer-events-none absolute inset-0 opacity-45 [background-image:linear-gradient(rgba(255,208,117,.06)_1px,transparent_1px),linear-gradient(90deg,rgba(255,208,117,.04)_1px,transparent_1px)] [background-size:36px_36px]" />
+    <div className="relative flex size-full min-h-0 flex-1 flex-col overflow-hidden bg-background">
       <div className="relative min-h-0 flex-1 overflow-hidden pb-20 md:pb-24">
         <Chats
           sendReaction={sendReaction}

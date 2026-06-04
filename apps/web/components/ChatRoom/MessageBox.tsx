@@ -57,8 +57,8 @@ const MessageBox = ({
 
   return (
     <div
-      className={`flex items-start gap-1.5 px-2 md:gap-3 md:px-6 ${
-        userId == prevMessageSender ? 'pt-0.5 md:pt-1' : 'pt-3 md:pt-6'
+      className={`flex items-start gap-2 px-4 ${
+        userId == prevMessageSender ? 'pt-0.5' : 'pt-4'
       } ${isOwnMessage ? 'flex-row-reverse justify-end' : 'justify-start'} z-40`}
     >
       <MessageAvatar

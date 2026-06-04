@@ -11,7 +11,7 @@ export default function DisplaySwitch() {
   return (
     <div>
       <div
-        className="relative inline-grid h-9 grid-cols-[1fr_1fr] items-center text-sm font-medium border-2 border-foreground shadow-brutal rounded-md"
+        className="relative inline-grid h-9 grid-cols-[1fr_1fr] items-center text-sm font-medium rounded-lg border border-border bg-muted/50"
         role="group"
         aria-label="Display mode toggle"
       >

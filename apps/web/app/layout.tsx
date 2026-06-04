@@ -2,34 +2,21 @@
 import './globals.css'
 import '@ephemere/ui/style.css'
 import { Analytics } from '@vercel/analytics/react'
-import {
-  Space_Grotesk,
-  Playfair_Display,
-  Space_Mono,
-  Caveat,
-} from 'next/font/google'
+import { Inter, JetBrains_Mono } from 'next/font/google'
 import type { Metadata } from 'next'
 import { Toaster } from 'sonner'
 
-const fontSans = Space_Grotesk({
+const fontSans = Inter({
   subsets: ['latin'],
   variable: '--font-sans',
+  display: 'swap',
 })
 
-const fontSerif = Playfair_Display({
+const fontMono = JetBrains_Mono({
   subsets: ['latin'],
-  variable: '--font-serif',
-})
-
-const fontMono = Space_Mono({
-  subsets: ['latin'],
-  weight: ['400', '700'],
+  weight: ['400', '500', '700'],
   variable: '--font-mono',
-})
-
-const fontScript = Caveat({
-  subsets: ['latin'],
-  variable: '--font-script',
+  display: 'swap',
 })
 
 import { ReactQueryProvider } from '@/providers/ReactQueryProvider'
@@ -114,7 +101,7 @@ export default function RootLayout({
         <link rel="image/png" href="/images/echo.png" />
       </head>
       <body
-        className={`${fontSans.variable} ${fontSerif.variable} ${fontMono.variable} ${fontScript.variable} ${fontSans.className} antialiased`}
+        className={`${fontSans.variable} ${fontMono.variable} ${fontSans.className} antialiased`}
       >
         <main>
           <ReactQueryProvider>{children}</ReactQueryProvider>

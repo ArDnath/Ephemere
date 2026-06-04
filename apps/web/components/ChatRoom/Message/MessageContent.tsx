@@ -34,30 +34,32 @@ export const MessageContent = ({
 }: MessageContentProps) => {
   return (
     <div
-      className={`group flex w-full items-center gap-2 md:gap-3 ${isOwnMessage ? 'flex-row-reverse' : 'flex-row'}`}
+      className={`group flex w-full items-center gap-2 ${isOwnMessage ? 'flex-row-reverse' : 'flex-row'}`}
     >
-      <div className={`${image ? 'w-60 md:w-80' : 'max-w-[70%]'} relative`}>
+      <div className={`${image ? 'w-60 md:w-72' : 'max-w-[70%]'} relative`}>
         <div
-          className={`irregular-sheet card-stack noise-overlay flex w-full min-w-16 flex-col items-center justify-start overflow-hidden text-ellipsis text-wrap text-start md:min-w-20 ${
+          className={`flex w-full min-w-12 flex-col items-start overflow-hidden text-ellipsis text-wrap px-3 py-2 text-sm leading-relaxed ${
             isPrevMessageSameSender
               ? ''
-              : `${isOwnMessage ? 'rounded-tr-[14px]' : 'rounded-tl-[14px]'}`
-          } p-2 md:p-3 ${
+              : isOwnMessage
+                ? 'rounded-tl-xl rounded-bl-xl rounded-br-xl rounded-tr-[4px]'
+                : 'rounded-tr-xl rounded-bl-xl rounded-br-xl rounded-tl-[4px]'
+          } ${
             isOwnMessage
-              ? 'border border-amber-300/18 bg-[linear-gradient(135deg,rgba(104,72,26,0.72),rgba(65,43,20,0.88))] text-amber-50'
-              : 'border border-amber-100/10 bg-[linear-gradient(135deg,rgba(43,35,23,0.92),rgba(29,23,16,0.88))] text-amber-50'
-          }`}
+              ? 'rounded-xl bg-foreground text-background'
+              : 'rounded-xl border border-border bg-muted text-foreground'
+          } ${totalReactions > 0 ? 'mb-5' : ''}`}
         >
           {image && (
             <Dialog>
               <DialogTrigger asChild>
-                <div className="mt-1 cursor-pointer rounded-[18px_14px_18px_14px] border border-amber-200/10 bg-black/30 p-1 transition duration-300 hover:border-amber-200/25 hover:bg-black/40 md:mt-2">
+                <div className="cursor-pointer overflow-hidden rounded-lg transition-opacity hover:opacity-90">
                   <Image
                     src={image}
                     alt="Message attachment"
-                    className="w-60 rounded-[16px_12px_16px_12px] bg-slate-950 object-contain transition-opacity hover:opacity-90 md:w-80"
-                    width={320}
-                    height={320}
+                    className="w-60 rounded-lg bg-muted object-contain md:w-72"
+                    width={288}
+                    height={288}
                   />
                 </div>
               </DialogTrigger>
@@ -75,11 +77,12 @@ export const MessageContent = ({
             </Dialog>
           )}
           {message && (
-            <p className="body-sans max-w-[48ch] break-words text-sm leading-7 text-amber-50/95 md:text-base">
+            <p className="max-w-[52ch] break-words">
               {message}
             </p>
           )}
         </div>
+
         <MessageReactions
           reactions={reactions}
           totalReactions={totalReactions}
@@ -87,7 +90,7 @@ export const MessageContent = ({
         />
       </div>
 
-      <div className="relative">
+      <div className="relative opacity-0 transition-opacity group-hover:opacity-100">
         <EmojiPickerPopover
           userEmoji={userEmoji}
           onEmojiSelect={onReaction}

@@ -21,10 +21,10 @@ export const MessageAvatar = ({
   }
 
   return (
-    <Avatar className="size-8 rounded-full border border-amber-300/15 bg-black/25 shadow-[0_12px_26px_rgba(0,0,0,0.3)]">
+    <Avatar className="size-8 rounded-full border border-border bg-muted">
       <AvatarImage src={avatar} alt={`${userName}'s avatar`} />
       <AvatarFallback>
-        <LoadingSpinner className="size-4 md:size-5 text-amber-100/70" />
+        <LoadingSpinner className="size-4 md:size-5 text-muted-foreground" />
       </AvatarFallback>
     </Avatar>
   )

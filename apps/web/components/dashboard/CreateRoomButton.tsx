@@ -202,7 +202,7 @@ export default function CreateRoomButton({
 
   const trigger = (
     <Button2
-      className="font-sans w-full md:w-auto border-2 border-foreground bg-primary text-primary-foreground shadow-brutal transition-transform hover:-translate-y-1 hover:shadow-brutal-lg"
+      className="w-full md:w-auto"
       disabled={
         totalRooms !== undefined && limits?.maxRooms !== undefined ? totalRooms >= limits?.maxRooms : false
       }
