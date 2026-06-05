@@ -92,13 +92,15 @@ const VerifyEmailCard = () => {
   }
 
   return (
-    <div className="flex aspect-square w-full max-w-[400px] flex-col justify-between rounded-2xl border bg-white p-8 shadow-2xl shadow-cyan-500/20">
+    <div className="mx-auto flex w-full max-w-[400px] flex-col justify-between rounded-lg border border-[hsl(var(--border))] bg-[hsl(var(--card)/0.94)] p-6 shadow-[var(--shadow-lg)] backdrop-blur-xl sm:p-8">
       <AuthHeader
         title="Verify Email"
         description="Enter the 6-digit code sent to your email"
       />
       <div className="flex grow flex-col items-center justify-center space-y-6">
-        <p className="text-center text-sm text-gray-600">{email}</p>
+        <p className="text-center text-sm text-[hsl(var(--muted-foreground))]">
+          {email}
+        </p>
         <InputOTP maxLength={6} value={code} onChange={setCode} onComplete={handleComplete}>
           <InputOTPGroup>
             <InputOTPSlot index={0} />
@@ -112,12 +114,16 @@ const VerifyEmailCard = () => {
             <InputOTPSlot index={5} />
           </InputOTPGroup>
         </InputOTP>
-        {isInvalidCode && <p className="text-sm text-red-500">Invalid code. Please try again.</p>}
+        {isInvalidCode && (
+          <p className="text-sm text-[hsl(var(--foreground))]">
+            Invalid code. Please try again.
+          </p>
+        )}
       </div>
       <div className="flex flex-col gap-3">
         <Button
           type="button"
-          className="transition-ease w-full bg-black text-white hover:bg-black/90 hover:ring hover:ring-slate-200 disabled:opacity-50"
+          className="transition-ease w-full rounded-md bg-[hsl(var(--foreground))] text-[hsl(var(--background))] hover:bg-[hsl(var(--foreground)/0.88)] disabled:opacity-50"
           disabled={code.length !== 6 || isExecuting}
           isLoading={isExecuting}
           onClick={() => handleComplete(code)}
@@ -127,7 +133,7 @@ const VerifyEmailCard = () => {
         <button
           onClick={handleResendCode}
           disabled={isResending}
-          className="text-sm text-blue-600 hover:text-blue-800 disabled:opacity-50"
+          className="text-sm text-neutral-700 hover:text-black disabled:opacity-50"
         >
           {isResending ? 'Sending...' : 'Resend Code'}
         </button>

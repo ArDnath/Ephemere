@@ -9,7 +9,7 @@ type MessageProps = {
   content: string
   isSent: boolean
   delay: number
-  avatar?: string
+  avatar: string
   reactions?: string[]
 }
 
@@ -20,80 +20,86 @@ const Message = ({
   avatar,
   reactions,
 }: MessageProps) => {
-  // Correct usage of useRef and useInView
   const ref = useRef<HTMLDivElement>(null)
   const isInView = useInView(ref, { once: true })
 
   return (
-    <div className="mb-4 flex items-end gap-2 px-2 md:px-4" ref={ref}>
+    <div className="mb-3.5 flex items-end gap-2 px-1 md:px-3" ref={ref}>
       {isInView && (
         <>
+          {/* Avatar Left */}
           {!isSent && (
             <motion.div
-              initial={{ opacity: 0, scale: 0.5 }}
+              initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.3, delay }}
-              className="size-6 shrink-0 overflow-hidden rounded-full md:size-8"
+              transition={{ duration: 0.25, delay }}
+              className="size-6 shrink-0 overflow-hidden rounded-full border border-[hsl(var(--border)/0.4)]"
             >
               <Image
-                src="/images/RohitSinghRawat.jpg"
-                alt="Avatar"
-                width={50}
-                height={50}
+                src={avatar}
+                alt="User Avatar"
+                width={24}
+                height={24}
                 className="size-full object-cover"
               />
             </motion.div>
           )}
-          <div className="relative w-full">
+
+          {/* Chat Bubble */}
+          <div className="relative flex flex-col w-full">
             <motion.div
-              initial={{ opacity: 0, y: 20, filter: 'blur(8px)' }}
-              animate={{ opacity: 1, y: -5, filter: 'blur(0px)' }}
-              transition={{ duration: 0.5, delay }}
+              initial={{ opacity: 0, y: 8, filter: 'blur(4px)' }}
+              animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+              transition={{ duration: 0.35, delay }}
               className={cn(
-                'w-fit max-w-[85%] rounded-2xl px-3 py-1.5 text-sm md:max-w-[80%] md:px-4 md:py-2 md:text-base',
+                'w-fit max-w-[80%] rounded-xl px-3 py-1.5 text-[11px] md:text-xs font-medium tracking-tight shadow-2xs',
                 isSent
-                  ? 'ml-auto rounded-br-none bg-[hsl(var(--primary)/0.14)] text-[hsl(var(--foreground))]'
-                  : 'rounded-bl-none border-[1.5px] border-[hsl(var(--border))] bg-[hsl(var(--secondary)/0.5)] text-[hsl(var(--foreground))]'
+                  ? 'ml-auto rounded-br-none bg-[hsl(var(--primary)/0.12)] text-[hsl(var(--foreground))] border border-[hsl(var(--primary)/0.08)]'
+                  : 'rounded-bl-none border border-[hsl(var(--border)/0.5)] bg-[hsl(var(--secondary)/0.25)] text-[hsl(var(--foreground))]'
               )}
             >
               {content}
             </motion.div>
+
+            {/* Micro Reaction Badge */}
             {reactions && (
               <motion.div
-                initial={{ opacity: 0, scale: 0.95, filter: 'blur(2px)' }}
-                animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
+                initial={{ opacity: 0, scale: 0.7 }}
+                animate={{ opacity: 1, scale: 1 }}
                 transition={{
-                  duration: 0.3,
-                  delay: delay + 1.5,
+                  duration: 0.25,
+                  delay: delay + 0.4,
                   type: 'spring',
-                  stiffness: 100,
-                  damping: 20,
+                  stiffness: 160,
+                  damping: 12,
                 }}
-                className="flex-center absolute left-1 top-[40%] mt-2 size-5 rounded-2xl border border-[hsl(var(--border))] bg-[hsl(var(--card))] md:left-2 md:size-6"
+                className={cn(
+                  "absolute -bottom-3 flex items-center justify-center gap-0.5 rounded-full border border-[hsl(var(--border)/0.6)] bg-[hsl(var(--card))] px-1 py-0.5 shadow-2xs select-none",
+                  isSent ? "right-2" : "left-2"
+                )}
               >
                 {reactions.map((reaction, index) => (
-                  <span
-                    key={index}
-                    className="size-3 text-[10px] md:size-4 md:text-xs"
-                  >
+                  <span key={index} className="text-[9px] md:text-[10px]">
                     {reaction}
                   </span>
                 ))}
               </motion.div>
             )}
           </div>
+
+          {/* Avatar Right */}
           {isSent && (
             <motion.div
-              initial={{ opacity: 0, scale: 0.5 }}
+              initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.3, delay }}
-              className="size-6 shrink-0 overflow-hidden rounded-full md:size-8"
+              transition={{ duration: 0.25, delay }}
+              className="size-6 shrink-0 overflow-hidden rounded-full border border-[hsl(var(--border)/0.4)]"
             >
               <Image
-                src="/images/eren.jpg"
-                alt="Avatar"
-                width={50}
-                height={50}
+                src={avatar}
+                alt="Your Avatar"
+                width={24}
+                height={24}
                 className="size-full object-cover"
               />
             </motion.div>
@@ -106,41 +112,49 @@ const Message = ({
 
 const messages = [
   {
-    content: 'Are you a fan of Attack on Titan?',
+    content: "Wait, this whole room just self-destructs at zero?",
     isSent: false,
+    avatar: '/images/RohitSinghRawat.jpg',
   },
   {
-    content: 'Yes! Have you checked out Ephemere?',
+    content: "Yep. Total wipe. Zero logs, zero digital footprint.",
     isSent: true,
+    avatar: '/images/eren.jpg',
   },
   {
-    content: 'No, what is Ephemere?',
+    content: "No tech debt, no receipts. That's heavy.",
     isSent: false,
+    avatar: '/images/RohitSinghRawat.jpg',
+    reactions: ['🔥', '⚡'],
   },
   {
-    content: 'Ephemere is a chat application. We can talk about AOT there.',
+    content: "Right? It forced you to stay in the moment. Ephemere hits different.",
     isSent: true,
+    avatar: '/images/eren.jpg',
   },
   {
-    content: 'That sounds cool!',
+    content: "Clean UI too. Pure ghost mode.",
     isSent: false,
-    reactions: ['👍'],
+    avatar: '/images/RohitSinghRawat.jpg',
+    reactions: ['💯'],
   },
   {
-    content: 'Yes, it is!',
+    content: "Speak fast, we've got 45 minutes before it's dust.",
     isSent: true,
+    avatar: '/images/eren.jpg',
   },
 ]
 
-const ChatMessages = () => {
+const ChatMessages = ({ messageCount = messages.length }: { messageCount?: number }) => {
   return (
-    <div className="relative z-10">
-      {messages.map((message, index) => (
+    <div className="relative z-10 flex flex-col gap-0.5">
+      {messages.slice(0, messageCount).map((message, index) => (
         <Message
           key={index}
           content={message.content}
           isSent={message.isSent}
-          delay={index * 1 + 0.5}
+          avatar={message.avatar}
+          delay={index * 0.9 + 0.3} // Sped up dialogue cadence
           reactions={message.reactions}
         />
       ))}

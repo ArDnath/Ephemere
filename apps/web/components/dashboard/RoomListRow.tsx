@@ -38,7 +38,7 @@ export default function RoomListRow({
   totalParticipants = 16,
   messageCount = 8,
   closedAt = new Date(Date.now() + 45 * 60 * 1000),
-  onJoin = () => console.log('Joined the room'),
+  onJoin = () => undefined,
 }: RoomListRowProps) {
   const timeLeft = useTimeLeft(closedAt)
   const { setAnonymous } = useIdentityStore()
@@ -48,8 +48,8 @@ export default function RoomListRow({
     knownParticipants.length - displayParticipants.length
 
   return (
-    <TableRow className="hover:bg-muted/50">
-      <TableCell className="font-medium">
+    <TableRow className="border-[hsl(var(--border))] hover:bg-[hsl(var(--muted)/0.55)]">
+      <TableCell className="py-4 pl-4 font-medium md:pl-6">
         <div className="flex items-center gap-2">
           <div className="flex flex-col">
             <span>{title}</span>
@@ -77,7 +77,7 @@ export default function RoomListRow({
           timeLeft={timeLeft}
         />
       </TableCell>
-      <TableCell className="text-right">
+      <TableCell className="pr-4 text-right md:pr-6">
         <div className="flex items-center justify-end gap-2">
           <Button onClick={onJoin} size="sm" className="hidden md:inline-flex">
             Join Room

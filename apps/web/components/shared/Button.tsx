@@ -18,9 +18,9 @@ export const Button = ({
     <Button2
       {...props}
       disabled={isLoading || disabled}
-      className={`${className} hover:ring-2 hover:ring-gray-200 disabled:cursor-not-allowed disabled:bg-gray-200 disabled:text-gray-800 ${
+      className={`${className} disabled:cursor-not-allowed disabled:opacity-60 ${
         isLoading
-          ? 'cursor-not-allowed border border-gray-300 text-gray-400 outline-none'
+          ? 'cursor-not-allowed border border-[hsl(var(--border))] bg-[hsl(var(--muted))] text-[hsl(var(--muted-foreground))] outline-none'
           : ''
       }`}
     >

@@ -1,5 +1,5 @@
 import { Button } from '@ephemere/ui/components/ui/button.tsx'
-import { Sparkles } from 'lucide-react'
+import { Crown } from 'lucide-react'
 import Link from 'next/link'
 
 import { AccountCard } from './AccountCard'
@@ -57,7 +57,7 @@ export function SubscriptionSection({
               className="h-8 w-full bg-black px-3 text-xs text-white hover:bg-neutral-800 md:h-9 md:w-auto md:px-4 md:text-sm"
             >
               <Link href="/plans">
-                <Sparkles className="mr-2 size-3 md:size-4" />
+                <Crown className="mr-2 size-3 md:size-4" />
                 Upgrade
               </Link>
             </Button>

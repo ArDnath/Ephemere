@@ -15,14 +15,18 @@ import RoomListRow from './RoomListRow'
 const RoomList = ({ rooms }: { rooms: RoomWithParticipants[] }) => {
   return (
     <Table>
-      <TableHeader className="">
-        <TableRow className="">
-          <TableCell className="py-3 pl-4 md:pl-10">Room</TableCell>
-          <TableCell className="hidden py-3 md:table-cell">
+      <TableHeader>
+        <TableRow className="border-[hsl(var(--border))]">
+          <TableCell className="py-3 pl-4 text-xs font-medium uppercase text-[hsl(var(--muted-foreground))] md:pl-6">
+            Room
+          </TableCell>
+          <TableCell className="hidden py-3 text-xs font-medium uppercase text-[hsl(var(--muted-foreground))] md:table-cell">
             Participants
           </TableCell>
-          <TableCell className="table-cell py-3 pl-12">Stats</TableCell>
-          <TableCell className="py-3 pr-4 text-right md:pr-10">
+          <TableCell className="table-cell py-3 pl-12 text-xs font-medium uppercase text-[hsl(var(--muted-foreground))]">
+            Stats
+          </TableCell>
+          <TableCell className="py-3 pr-4 text-right text-xs font-medium uppercase text-[hsl(var(--muted-foreground))] md:pr-6">
             Actions
           </TableCell>
         </TableRow>

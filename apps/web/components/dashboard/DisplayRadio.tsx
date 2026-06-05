@@ -11,7 +11,7 @@ export default function DisplaySwitch() {
   return (
     <div>
       <div
-        className="relative inline-grid h-9 grid-cols-[1fr_1fr] items-center text-sm font-medium rounded-lg border border-border bg-muted/50"
+        className="relative inline-grid h-9 grid-cols-[1fr_1fr] items-center rounded-md border border-[hsl(var(--border))] bg-[hsl(var(--background))] text-sm font-medium"
         role="group"
         aria-label="Display mode toggle"
       >
@@ -19,7 +19,7 @@ export default function DisplaySwitch() {
           id="display-mode-switch"
           checked={displayLists}
           onCheckedChange={setDisplayLists}
-          className="data-[state=checked]:bg-input/50 data-[state=unchecked]:bg-input/50 peer absolute inset-0 h-[inherit] w-auto rounded-lg [&_span]:h-full [&_span]:w-1/2 [&_span]:rounded-md [&_span]:transition-transform [&_span]:duration-300 [&_span]:[transition-timing-function:cubic-bezier(0.16,1,0.3,1)] data-[state=checked]:[&_span]:translate-x-full rtl:data-[state=checked]:[&_span]:-translate-x-full"
+          className="data-[state=checked]:bg-input/50 data-[state=unchecked]:bg-input/50 peer absolute inset-0 h-[inherit] w-auto rounded-md [&_span]:h-full [&_span]:w-1/2 [&_span]:rounded-[5px] [&_span]:bg-[hsl(var(--foreground))] [&_span]:transition-transform [&_span]:duration-300 [&_span]:[transition-timing-function:cubic-bezier(0.16,1,0.3,1)] data-[state=checked]:[&_span]:translate-x-full rtl:data-[state=checked]:[&_span]:-translate-x-full"
           aria-label={`Switch to ${displayLists ? 'grid' : 'list'} view`}
         />
         <span

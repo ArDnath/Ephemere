@@ -5,12 +5,14 @@ interface IconWrapperProps {
   icon: LucideIcon
   size?: 'sm' | 'md' | 'lg'
   className?: string
+  variant?: 'default' | 'simple'
 }
 
 export function IconWrapper({
   icon: Icon,
   size = 'md',
   className = '',
+  variant = 'default',
 }: IconWrapperProps) {
   const sizeStyles = {
     sm: 'w-5 h-5',
@@ -18,11 +20,19 @@ export function IconWrapper({
     lg: 'w-7 h-7',
   }
 
+  if (variant === 'simple') {
+    return (
+      <div className={`inline-flex items-center justify-center text-[hsl(var(--foreground))] ${className}`}>
+        <Icon className={sizeStyles[size]} />
+      </div>
+    )
+  }
+
   return (
     <div
-      className={`rounded-full border-2 border-gray-300 bg-white/80 p-2 ${className}`}
+      className={`inline-flex items-center justify-center rounded-xl bg-[hsl(var(--muted))] p-3 ${className}`}
     >
-      <Icon className={`${sizeStyles[size]} text-gray-700`} />
+      <Icon className={`${sizeStyles[size]} text-[hsl(var(--foreground))]`} />
     </div>
   )
 }

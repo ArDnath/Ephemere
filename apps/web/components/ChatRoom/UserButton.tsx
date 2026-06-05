@@ -13,7 +13,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@ephemere/ui/components/ui/dropdown-menu.tsx'
-import { Sparkles } from 'lucide-react'
+import { Crown } from 'lucide-react'
 
 import Downitem from '../Downitem'
 import { UserIcon } from '../icons/animated/user'
@@ -77,7 +77,7 @@ export function UserButton({
         <DropdownMenuGroup>
           {user && !user.isPro && (
             <Downitem
-              icon={<Sparkles />}
+              icon={<Crown />}
               title="Upgrade to Pro"
               href="/plans"
             />

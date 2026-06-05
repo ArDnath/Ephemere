@@ -64,7 +64,7 @@ const SignupCard = () => {
   })
 
   return (
-    <div className="flex aspect-square w-full max-w-[400px] flex-col justify-between rounded-2xl border bg-white p-8 shadow-2xl shadow-cyan-500/20">
+    <div className="mx-auto flex w-full max-w-[400px] flex-col justify-between rounded-lg border border-[hsl(var(--border))] bg-[hsl(var(--card)/0.94)] p-6 shadow-[var(--shadow-lg)] backdrop-blur-xl sm:p-8">
       <AuthHeader
         title="Create an account"
         description="Please enter your details to sign up."
@@ -81,7 +81,7 @@ const SignupCard = () => {
 
         <form onSubmit={onSubmit} className="space-y-4">
           <div className="space-y-4">
-            <div className="flex space-x-2">
+            <div className="flex gap-2">
               <Input
                 type="text"
                 placeholder="First name"
@@ -118,7 +118,7 @@ const SignupCard = () => {
 
           <Button
             type="submit"
-            className="w-full"
+            className="w-full rounded-md bg-[hsl(var(--foreground))] text-[hsl(var(--background))] hover:bg-[hsl(var(--foreground)/0.88)]"
             disabled={isAuthenticating}
             isLoading={isExecuting}
           >
@@ -127,11 +127,11 @@ const SignupCard = () => {
         </form>
       </div>
 
-      <p className="mt-6 text-center text-sm text-gray-500">
+      <p className="mt-6 text-center text-sm text-[hsl(var(--muted-foreground))]">
         Already have an account?{' '}
         <Link
           href="/login"
-          className="transition-ease font-medium underline underline-offset-2 hover:text-black"
+          className="transition-ease font-medium text-[hsl(var(--foreground))] underline underline-offset-2"
         >
           Sign in
         </Link>

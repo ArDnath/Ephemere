@@ -29,11 +29,11 @@ export default function DisplayRooms({
   return (
     <>
       {displayLists ? (
-        <div className="my-10 rounded-xl border">
+        <div className="my-8 overflow-hidden rounded-lg border border-[hsl(var(--border))] bg-[hsl(var(--card))]">
           <RoomList rooms={roomsList} />
         </div>
       ) : (
-        <div className="my-10 grid grid-cols-1 gap-6 sm:grid-cols-2 md:gap-10 xl:grid-cols-3">
+        <div className="my-8 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
           {roomsList.map((room) => (
             <ChatRoomCard
               key={room.id}

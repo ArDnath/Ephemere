@@ -83,14 +83,14 @@ const RoomHistoryList = ({ rooms }: RoomHistoryListProps) => {
                       {room.isTemporary ? (
                         <Badge
                           variant="outline"
-                          className="border-blue-200 bg-blue-50 text-blue-700"
+                          className="border-neutral-300 bg-neutral-50 text-neutral-800"
                         >
                           <Clock className="size-3" />
                         </Badge>
                       ) : (
                         <Badge
                           variant="outline"
-                          className="border-emerald-200 bg-emerald-50 text-emerald-700"
+                          className="border-neutral-300 bg-white text-neutral-800"
                         >
                           <BookmarkCheck className="size-3" />
                         </Badge>
@@ -130,14 +130,14 @@ const RoomHistoryList = ({ rooms }: RoomHistoryListProps) => {
                   {room.isTemporary ? (
                     <Badge
                       variant="outline"
-                      className="border-blue-200 bg-blue-50 text-blue-700"
+                      className="border-neutral-300 bg-neutral-50 text-neutral-800"
                     >
                       Temporary
                     </Badge>
                   ) : (
                     <Badge
                       variant="outline"
-                      className="border-emerald-200 bg-emerald-50 text-emerald-700"
+                      className="border-neutral-300 bg-white text-neutral-800"
                     >
                       Saved
                     </Badge>

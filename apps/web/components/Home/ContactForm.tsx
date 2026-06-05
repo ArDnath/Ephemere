@@ -1,6 +1,6 @@
 'use client'
 
-import { Mail } from 'lucide-react'
+import { Github, Mail } from 'lucide-react'
 import Link from 'next/link'
 
 import BlurFadeIn from '../ui/BlurFadeIn'
@@ -40,7 +40,7 @@ const ContactForm = () => {
 
             <div className="flex flex-col gap-2 sm:flex-row sm:gap-4">
               <LinkButton
-                href="mailto:ephemerechat.com@gmail.com"
+                href="mailto:ariyamandebnath.ad@gmail.com"
                 className="inline-flex w-full items-center justify-center rounded-lg bg-[hsl(var(--primary))] px-3 py-2 text-xs font-medium text-[hsl(var(--primary-foreground))] transition-colors hover:bg-[hsl(var(--primary)/0.9)] focus:outline-none focus:ring-2 focus:ring-[hsl(var(--primary)/0.2)] sm:w-auto sm:px-4 sm:text-sm"
                 variant={'primary'}
               >
@@ -49,7 +49,7 @@ const ContactForm = () => {
               </LinkButton>
 
               <LinkButton
-                href="https://x.com/intent/follow?screen_name=Spacing_Whale"
+                href="https://x.com/AriyamanDe12_24"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex w-full items-center justify-center rounded-lg border border-[hsl(var(--border))] bg-[hsl(var(--card))] px-3 py-2 text-xs font-medium text-[hsl(var(--foreground))] transition-colors hover:bg-[hsl(var(--secondary))] focus:outline-none focus:ring-2 focus:ring-[hsl(var(--primary)/0.2)] sm:w-auto sm:px-4 sm:text-sm"
@@ -63,6 +63,16 @@ const ContactForm = () => {
                 </svg>
                 Twitter
               </LinkButton>
+
+              <LinkButton
+                href="https://github.com/ArDnath"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex w-full items-center justify-center rounded-lg border border-[hsl(var(--border))] bg-[hsl(var(--card))] px-3 py-2 text-xs font-medium text-[hsl(var(--foreground))] transition-colors hover:bg-[hsl(var(--secondary))] focus:outline-none focus:ring-2 focus:ring-[hsl(var(--primary)/0.2)] sm:w-auto sm:px-4 sm:text-sm"
+              >
+                <Github className="mr-2 size-3 sm:size-4" />
+                GitHub
+              </LinkButton>
             </div>
           </div>
         </BlurFadeIn>
@@ -71,7 +81,7 @@ const ContactForm = () => {
           <div className="mt-4 text-center text-xs text-[hsl(var(--muted-foreground))] sm:mt-6 sm:text-sm">
             For technical issues, please visit our
             <Link
-              href="https://github.com/Rohit-Singh-Rawat/Ephemere-Chat/issues"
+              href="https://github.com/ArDnath"
               target="_blank"
               rel="noopener noreferrer"
               className="ml-1 text-[hsl(var(--primary))] hover:underline"

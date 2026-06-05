@@ -28,7 +28,7 @@ export default function IdentityToggler({
       <div className="flex flex-col gap-4">
         <Label
           htmlFor="identity-switch"
-          className="text-xs font-medium tracking-wide sm:text-sm md:text-base lg:text-lg"
+          className="text-xs font-medium tracking-wide text-[hsl(var(--foreground))] sm:text-sm md:text-base lg:text-lg"
         >
           Identity
         </Label>
@@ -38,13 +38,13 @@ export default function IdentityToggler({
             id="identity-switch"
             checked={isAnonymous}
             onCheckedChange={handleChange}
-            className="data-[state=unchecked]:bg-input/50 peer absolute inset-0 h-[inherit] w-auto [&_span]:z-10 [&_span]:h-full [&_span]:w-1/2 [&_span]:transition-transform [&_span]:duration-300 [&_span]:[transition-timing-function:cubic-bezier(0.16,1,0.3,1)] data-[state=checked]:[&_span]:translate-x-full rtl:data-[state=checked]:[&_span]:-translate-x-full"
+            className="data-[state=unchecked]:bg-input/50 peer absolute inset-0 h-[inherit] w-auto border border-[hsl(var(--border))] [&_span]:z-10 [&_span]:h-full [&_span]:w-1/2 [&_span]:bg-[hsl(var(--foreground))] [&_span]:transition-transform [&_span]:duration-300 [&_span]:[transition-timing-function:cubic-bezier(0.16,1,0.3,1)] data-[state=checked]:[&_span]:translate-x-full rtl:data-[state=checked]:[&_span]:-translate-x-full"
           />
           <span className="pointer-events-none relative ms-0.5 flex min-w-8 items-center justify-center text-center transition-transform duration-300 [transition-timing-function:cubic-bezier(0.16,1,0.3,1)] peer-data-[state=checked]:invisible peer-data-[state=unchecked]:translate-x-full rtl:peer-data-[state=unchecked]:-translate-x-full">
             <User size={16} strokeWidth={2} aria-hidden="true" />
           </span>
           <span className="peer-data-[state=checked]:text-background pointer-events-none relative me-0.5 flex min-w-8 items-center justify-center text-center transition-transform duration-300 [transition-timing-function:cubic-bezier(0.16,1,0.3,1)] peer-data-[state=unchecked]:invisible peer-data-[state=checked]:-translate-x-full rtl:peer-data-[state=checked]:translate-x-full">
-            <Incognito className="size-4 fill-white" aria-hidden="true" />
+            <Incognito className="size-4 fill-[hsl(var(--background))]" aria-hidden="true" />
           </span>
         </div>
       </div>

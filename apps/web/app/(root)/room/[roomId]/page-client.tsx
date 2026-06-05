@@ -8,7 +8,7 @@ import { ChatLayout } from '@/components/ChatRoom/ChatLayout'
 import GetAnonomousity from '@/components/ChatRoom/GetAnonomousity'
 import { TimeLeftDisplay } from '@/components/ChatRoom/TimeLeftDisplay'
 import { ErrorState } from '@/components/ui/ErrorState'
-import { LoadingState } from '@/components/ui/LoadingState'
+import { LoadingSvgScreen } from '@/components/ui/LoadingSvgScreen'
 import { useTempUser } from '@/hooks/useTempUser'
 import useRoomStore from '@/lib/store/RoomStore'
 import { useIdentityStore } from '@/lib/store/useIdentityStore'
@@ -264,7 +264,7 @@ const PageClient = ({ roomId, token }: PageClientProps) => {
   }
 
   if (isLoading) {
-    return <LoadingState fullScreen />
+    return <LoadingSvgScreen message="Loading room..." />
   }
 
   return (

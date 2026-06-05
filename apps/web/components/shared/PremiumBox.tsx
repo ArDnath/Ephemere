@@ -3,19 +3,23 @@ import Link from 'next/link'
 
 const PremiumBox = () => {
   return (
-    <div className="space-y-2.5 rounded-lg border border-neutral-200 bg-white p-4 shadow transition-all duration-200 ease-in-out hover:border-neutral-300">
-      <div className="flex items-center gap-2">
-        <div className="flex-center size-6 rounded-md bg-neutral-100 text-sm">
-          ✨
-        </div>
-        <h3 className="text-sm font-medium">Upgrade to Pro</h3>
+    <div className="space-y-3 rounded-lg border border-[hsl(var(--border))] bg-[hsl(var(--card))] p-4 shadow-sm transition-colors hover:border-[hsl(var(--foreground)/0.28)]">
+      <div>
+        <p className="text-xs font-medium uppercase text-[hsl(var(--muted-foreground))]">
+          Premium
+        </p>
+        <h3 className="mt-1 text-sm font-semibold text-[hsl(var(--foreground))]">
+          Unlock more room control
+        </h3>
       </div>
-      <div className="text-xs text-neutral-500">
-        Unlock premium features and enhanced capabilities
+      <div className="space-y-1.5 text-xs leading-5 text-[hsl(var(--muted-foreground))]">
+        <p>Longer room sessions</p>
+        <p>Saved room history</p>
+        <p>Priority realtime limits</p>
       </div>
       <Link href="/plans" className="block">
-        <Button className="mt-1 w-full bg-neutral-900 text-xs font-medium transition-all duration-200 ease-in-out hover:bg-neutral-800 active:scale-[0.98]">
-          Get Ephemere Pro
+        <Button className="mt-1 w-full rounded-md border border-[hsl(var(--foreground))] bg-[hsl(var(--foreground))] text-xs font-medium text-[hsl(var(--background))] transition-all duration-200 ease-in-out hover:bg-[hsl(var(--foreground)/0.88)] active:scale-[0.98]">
+          View Pro
         </Button>
       </Link>
     </div>

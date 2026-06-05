@@ -5,13 +5,14 @@ export function useMediaQuery(query: string) {
 
   useEffect(() => {
     const media = window.matchMedia(query)
-    if (media.matches !== matches) {
-      setMatches(media.matches)
-    }
-    const listener = () => setMatches(media.matches)
-    window.addEventListener('resize', listener)
-    return () => window.removeEventListener('resize', listener)
-  }, [matches, query])
+    // Sync initial state without creating a dependency on `matches`
+    setMatches(media.matches)
+
+    // Use the native MediaQueryList change event instead of resize
+    const listener = (e: MediaQueryListEvent) => setMatches(e.matches)
+    media.addEventListener('change', listener)
+    return () => media.removeEventListener('change', listener)
+  }, [query]) // Only re-run when the query string itself changes
 
   return matches
 }

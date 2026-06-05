@@ -57,8 +57,8 @@ export const metadata: Metadata = {
     title: 'Echo - Real-time Chat',
     description:
       'Create instant chat rooms for quick collaboration and easy sharing. No signup needed - just seamless communication on demand.',
-    creator: '@Spacing_Whale',
-    images: ['/images/echo.png'],
+    creator: '@AriyamanDe12_24',
+    images: ['/images/ephemere.png'],
   },
 }
 
@@ -98,7 +98,7 @@ export default function RootLayout({
         />
         <meta name="apple-mobile-web-app-title" content="MyWebSite" />
         <link rel="manifest" href="/site.webmanifest" />
-        <link rel="image/png" href="/images/echo.png" />
+        <link rel="image/png" href="/images/ephemere.png" />
       </head>
       <body
         className={`${fontSans.variable} ${fontMono.variable} ${fontSans.className} antialiased`}

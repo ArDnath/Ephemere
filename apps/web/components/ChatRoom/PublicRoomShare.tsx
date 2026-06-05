@@ -60,14 +60,14 @@ export const PublicRoomShare = ({ roomId }: PublicRoomShareProps) => {
             title="Copy link"
           >
             {copied ? (
-              <Check className="size-3.5 text-green-600" />
+              <Check className="size-3.5 text-foreground" />
             ) : (
               <Copy className="size-3.5" />
             )}
           </button>
         </div>
         {copied && (
-          <p className="text-xs text-green-600 animate-fade-in">
+          <p className="text-xs text-foreground animate-fade-in">
             Copied to clipboard!
           </p>
         )}

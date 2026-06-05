@@ -48,22 +48,22 @@ const Footer = () => {
             <div className="flex flex-col space-y-5">
               <h3 className="font-medium text-[hsl(var(--foreground))]">Socials</h3>
               <Link
-                href="https://github.com/Rohit-Singh-Rawat"
+                href="https://github.com/ArDnath"
                 className="text-sm text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--foreground))]"
               >
                 GitHub
               </Link>
               <Link
-                href="https://x.com/Spacing_Whale"
+                href="https://x.com/AriyamanDe12_24"
                 className="text-sm text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--foreground))]"
               >
                 Twitter
               </Link>
               <Link
-                href="https://www.linkedin.com/in/rohit-singh-rawat-8b4170256/"
+                href="mailto:ariyamandebnath.ad@gmail.com"
                 className="text-sm text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--foreground))]"
               >
-                LinkedIn
+                Email
               </Link>
             </div>
 

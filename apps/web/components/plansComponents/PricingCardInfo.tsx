@@ -11,11 +11,19 @@ export function PricingCardInfo({
 }: PricingCardInfoProps) {
   return (
     <div className="mb-6">
-      <h2 className="text-2xl font-semibold text-gray-800">{name}</h2>
-      <p className="mb-4 text-gray-500">{description}</p>
-      <div className="flex items-baseline">
-        <span className="text-4xl font-bold text-gray-800">${price}</span>
-        <span className="ml-2 text-gray-600">/month</span>
+      <h2 className="text-2xl font-semibold tracking-tight text-[hsl(var(--foreground))]">
+        {name}
+      </h2>
+      <p className="mt-2 text-sm leading-6 text-[hsl(var(--muted-foreground))]">
+        {description}
+      </p>
+      <div className="mt-5 flex items-end gap-2">
+        <span className="text-4xl font-semibold tracking-tight text-[hsl(var(--foreground))]">
+          ${price}
+        </span>
+        <span className="pb-1 text-sm text-[hsl(var(--muted-foreground))]">
+          /month
+        </span>
       </div>
     </div>
   )

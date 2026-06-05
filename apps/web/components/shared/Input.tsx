@@ -20,7 +20,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           <input
             type={isPasswordVisible ? 'text' : type}
             className={cn(
-              'w-full flex-1 rounded-md border border-gray-300 text-gray-900 placeholder-gray-400 focus:border-gray-500 focus:outline-none focus:ring-gray-500 sm:text-sm',
+              'w-full flex-1 rounded-md border border-[hsl(var(--border))] bg-[hsl(var(--background)/0.72)] text-[hsl(var(--foreground))] placeholder:text-[hsl(var(--muted-foreground))] focus:border-[hsl(var(--foreground))] focus:outline-none focus:ring-[hsl(var(--foreground))] sm:text-sm',
               props.error &&
                 'border-red-500 focus:border-red-500 focus:ring-red-500',
               className
@@ -57,12 +57,12 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
               >
                 {isPasswordVisible ? (
                   <EyeClosed
-                    className="size-4 flex-none text-gray-500 transition hover:text-gray-700"
+                    className="size-4 flex-none text-[hsl(var(--muted-foreground))] transition hover:text-[hsl(var(--foreground))]"
                     aria-hidden
                   />
                 ) : (
                   <Eye
-                    className="size-4 flex-none text-gray-500 transition hover:text-gray-700"
+                    className="size-4 flex-none text-[hsl(var(--muted-foreground))] transition hover:text-[hsl(var(--foreground))]"
                     aria-hidden
                   />
                 )}

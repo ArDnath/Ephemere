@@ -279,7 +279,7 @@ const SidebarTrigger = React.forwardRef<
       }}
       {...props}
     >
-      <Columns2 aria-hidden="true" />
+      <Columns2 aria-hidden="true" suppressHydrationWarning />
       <span className="sr-only">Toggle Sidebar</span>
     </Button>
   )

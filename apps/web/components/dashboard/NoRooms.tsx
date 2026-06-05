@@ -1,51 +1,79 @@
 'use client'
 
 import { Button } from '@ephemere/ui/components/ui/button.tsx'
-import { CardStack } from '@ephemere/ui/components/ui/CardStack.tsx'
 import Link from 'next/link'
 
 import { UserStats } from '@/types'
 
 import CreateRoomButton from './CreateRoomButton'
-import DummyCard from './DummyCard'
 
-const dummyRooms = [
-  {
-    id: 1,
-    content: <DummyCard />,
-  },
-  {
-    id: 2,
-    content: <DummyCard />,
-  },
-  {
-    id: 3,
-    content: <DummyCard />,
-  },
-]
+const LinePreview = () => {
+  return (
+    <div className="relative h-32 w-full max-w-md overflow-hidden rounded-lg border border-[hsl(var(--border))] bg-[hsl(var(--card))] sm:h-40">
+      <svg
+        viewBox="0 0 520 160"
+        className="absolute inset-0 size-full text-[hsl(var(--foreground))]"
+        aria-hidden="true"
+      >
+        <g fill="none" stroke="currentColor" strokeLinecap="round">
+          <path
+            d="M40 92H156C184 92 188 54 216 54H480"
+            opacity="0.18"
+            strokeWidth="1"
+          />
+          <path
+            d="M40 110H178C206 110 210 76 238 76H480"
+            opacity="0.12"
+            strokeWidth="1"
+          />
+          <path
+            d="M40 74H138C166 74 174 106 204 106H480"
+            opacity="0.12"
+            strokeWidth="1"
+          />
+          <path
+            d="M40 92H156C184 92 188 54 216 54H480"
+            strokeDasharray="18 260"
+            strokeWidth="1.5"
+          >
+            <animate
+              attributeName="stroke-dashoffset"
+              dur="2.8s"
+              repeatCount="indefinite"
+              values="278;0"
+            />
+          </path>
+        </g>
+        <g fill="currentColor">
+          {[64, 196, 320, 456].map((x, index) => (
+            <circle key={x} cx={x} cy={index === 1 ? 54 : 92} r="3">
+              <animate
+                attributeName="opacity"
+                begin={`${index * 0.18}s`}
+                dur="1.8s"
+                repeatCount="indefinite"
+                values="0.25;1;0.25"
+              />
+            </circle>
+          ))}
+        </g>
+      </svg>
+      <div className="absolute inset-x-0 bottom-0 border-t border-[hsl(var(--border))] bg-[hsl(var(--background)/0.78)] px-4 py-2 text-xs text-[hsl(var(--muted-foreground))] backdrop-blur">
+        Waiting for the first room
+      </div>
+    </div>
+  )
+}
 
 export default function NoRooms({ stats }: { stats: UserStats }) {
   return (
-    <div className="relative flex min-h-[300px] flex-col items-center justify-center gap-6 md:min-h-[400px] md:gap-8">
-      {' '}
-      <div className="relative flex h-40 w-72 translate-y-16 items-center justify-center md:h-60 md:w-96 md:translate-y-20">
-        <div
-          style={{
-            position: 'absolute',
-            inset: 0,
-            left: 0,
-            zIndex: 10,
-            background:
-              'linear-gradient(to bottom, transparent, transparent 60%, white 76%, white)',
-          }}
-        ></div>
-        <CardStack items={dummyRooms} />
-      </div>
-      <div className="z-50 text-center">
-        <h2 className="text-lg font-semibold text-gray-900 md:text-xl">
+    <div className="relative flex min-h-[320px] flex-col items-center justify-center gap-6 rounded-lg border border-dashed border-[hsl(var(--border))] bg-[hsl(var(--card)/0.45)] px-4 py-10 md:min-h-[420px] md:gap-7">
+      <LinePreview />
+      <div className="text-center">
+        <h2 className="text-lg font-semibold text-[hsl(var(--foreground))] md:text-xl">
           No active rooms found
         </h2>
-        <p className="mt-2 text-sm text-gray-500 md:text-base">
+        <p className="mt-2 text-sm text-[hsl(var(--muted-foreground))] md:text-base">
           Start by creating a new room or join an existing one
         </p>
       </div>

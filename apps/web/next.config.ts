@@ -1,12 +1,10 @@
 import type { NextConfig } from 'next'
-import path from 'path'
 
 const nextConfig: NextConfig = {
   transpilePackages: ['@ephemere/lib', '@ephemere/ui'],
   eslint: {
     ignoreDuringBuilds: true,
   },
-  outputFileTracingRoot: path.join(__dirname, '../../'),
   images: {
     remotePatterns: [
       { protocol: 'https', hostname: 'avatar.iran.liara.run' },

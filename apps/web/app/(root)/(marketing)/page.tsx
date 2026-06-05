@@ -1,9 +1,9 @@
 import type { Metadata } from 'next'
 
-import BentoSection from '@/components/Home/BentoSection'
 import ContactUs from '@/components/Home/ContactUs'
-import { FeatureCards } from '@/components/Home/Features/FeatureCards'
+import RealtimeCommunicationSection from '@/components/Home/Features/RealtimeCommunicationSection'
 import { Hero } from '@/components/Home/Hero'
+import { PricingPlans } from '@/components/plansComponents/PricingPlans'
 
 export const metadata: Metadata = {
   title: 'Ephemere - Real-time Chat',
@@ -37,8 +37,7 @@ const Page = () => {
     <div className="bg-transparent text-[hsl(var(--foreground))]">
       <div className="container px-2 md:px-4 lg:px-8 xl:px-12">
         <Hero />
-        <BentoSection />
-        <FeatureCards />
+        <RealtimeCommunicationSection />
         <ContactUs />
       </div>
     </div>

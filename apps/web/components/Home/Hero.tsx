@@ -17,19 +17,21 @@ export const Hero = () => {
   })
 
   // 1. Move the hero text upwards faster than the viewport scroll initially.
-  // This creates the "overlapping" speed while the image remains pinned underneath.
   const heroY = useTransform(scrollYProgress, [0, 0.2], [0, -120])
 
   // 2. Map opacity and scale to smoothly fade out the pinned background image
-  // as the content moves over it.
   const imageOpacity = useTransform(scrollYProgress, [0, 0.25], [1, 0])
   const heroScale = useTransform(scrollYProgress, [0, 0.2], [1, 0.98])
 
-  return (
-    // Set a relative container with a controlled min-height to ensure there is enough
-    // scrollable space to complete the overlapping phase before moving down the page.
-    <div ref={containerRef} className="relative min-h-[140vh]">
+  // 3. 3D Tilt Effect for the Demo Card (FIXED: Changed from -12 to 12 for upward tilt)
+  // Tilts the card upwards between 0% and 30% scroll progress
+  // Top narrows and bottom stays full width
+  const cardRotateX = useTransform(scrollYProgress, [0, 0.3], [0, 12])
+  const cardScale = useTransform(scrollYProgress, [0, 0.3], [1, 0.96])
 
+  return (
+    // Set a relative container with a controlled min-height
+    <div ref={containerRef} className="relative min-h-[140vh]">
       {/* ── Fixed/Sticky Wrapper for the Banner Image ── */}
       <motion.div
         className="sticky top-0 z-0 overflow-hidden"
@@ -40,10 +42,9 @@ export const Hero = () => {
           marginRight: 'calc(50% - 50vw)',
         }}
       >
-        {/* Banner heights matching your original design */}
-        <div className="relative h-[28vh] w-full sm:h-[35vh] md:h-[42vh]">
+        <div className="relative h-[28vh] w-full sm:h-[35vh] md:h-[48vh]">
           <Image
-            src="/anime.jpg"
+            src="/landscape.jpg"
             alt="Feel calm"
             fill
             priority
@@ -53,10 +54,6 @@ export const Hero = () => {
         </div>
 
         {/* ── Cross-Mode Progressive Blur Mask ── */}
-        {/* Switched from a hardcoded `hsl(var(--background))` to a gradient that utilizes
-          semi-transparent tokens. Because it leverages your theme variables directly,
-          it seamlessly blends the image edge with light, dark, or sepia backgrounds.
-        */}
         <div
           className="pointer-events-none absolute inset-x-0 bottom-0 h-full"
           style={{
@@ -65,7 +62,7 @@ export const Hero = () => {
           }}
         />
 
-        {/* Multi-layered progressive backdrops for a rich frosty finish */}
+        {/* Multi-layered progressive backdrops */}
         <div
           className="pointer-events-none absolute inset-x-0 bottom-0 h-4/5"
           style={{
@@ -105,9 +102,6 @@ export const Hero = () => {
       </motion.div>
 
       {/* ── Hero Content Section ── */}
-      {/* By lifting this element via z-10 over the sticky image container, it physically
-        slides on top of the pinned banner. The negative margin pulls it over the initial image gap.
-      */}
       <motion.div
         style={{ y: heroY, scale: heroScale }}
         className="relative z-10"
@@ -130,25 +124,27 @@ export const Hero = () => {
               transition={{ duration: 0.4 }}
               className="mx-auto mb-6 inline-flex items-center gap-2 rounded-full border border-border bg-muted/50 px-4 py-1.5 text-xs font-medium text-muted-foreground backdrop-blur-md"
             >
-              <span className="size-1.5 rounded-full bg-green-500" />
+              <span className="size-1.5 rounded-full bg-[hsl(var(--foreground))]" />
               Ephemere — rooms that disappear
             </motion.div>
 
+            {/* Main Headline */}
             <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
               Real-time chat,{' '}
               <span className="text-foreground/60">no trace left behind.</span>
             </h1>
 
+            {/* Subheadline */}
             <motion.p
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
               className="mx-auto mt-5 max-w-xl text-base text-muted-foreground sm:text-lg"
             >
-              Create temporary chat rooms instantly. Rooms expire automatically —
-              no sign-up required to join.
+              Create temporary chat rooms instantly. Rooms expire automatically.
             </motion.p>
 
+            {/* CTA Buttons */}
             <motion.div
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
@@ -163,7 +159,7 @@ export const Hero = () => {
               <Link href="/room/public" className="w-full sm:w-auto">
                 <Button
                   variant="outline"
-                  className="w-full rounded-lg border-border bg-background/50 px-6 py-2.5 text-sm font-medium text-foreground backdrop-blur-sm hover:bg-muted sm:w-auto"
+                  className="w-full rounded-lg border-2 bg-background/50 px-6 py-2.5 text-sm font-medium text-foreground backdrop-blur-sm hover:bg-muted sm:w-auto"
                 >
                   Join public room
                 </Button>
@@ -171,15 +167,22 @@ export const Hero = () => {
             </motion.div>
           </motion.div>
 
-          {/* Demo Graphic */}
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.5 }}
-            className="mt-14 overflow-hidden rounded-xl border border-border bg-card shadow-sm"
-          >
-            <DemoChatAnimated />
-          </motion.div>
+          {/* ── Demo Graphic with 3D Tilt Illusion ── */}
+          <div style={{ perspective: '1200px' }} className="mt-14">
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.5 }}
+              style={{
+                rotateX: cardRotateX,
+                scale: cardScale,
+                transformOrigin: 'bottom center' // Keeps the bottom anchored as the top tilts away
+              }}
+              className="overflow-hidden rounded-xl border border-border bg-card shadow-sm"
+            >
+              <DemoChatAnimated />
+            </motion.div>
+          </div>
         </section>
       </motion.div>
     </div>

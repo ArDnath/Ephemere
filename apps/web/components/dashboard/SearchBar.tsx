@@ -27,7 +27,7 @@ export default function SearchBar({ search }: { search: string }) {
   return (
     <div className="relative w-full lg:w-96">
       <Input
-        className="peer w-full pe-9 ps-9"
+        className="peer w-full rounded-md border-[hsl(var(--border))] bg-[hsl(var(--background))] pe-9 ps-9 text-[hsl(var(--foreground))]"
         placeholder="Search..."
         type="search"
         value={value}

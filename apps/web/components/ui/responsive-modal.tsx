@@ -27,11 +27,15 @@ export const ResponsiveModal = ({
 }: ResponsiveModalProps) => {
   const isDesktop = useMediaQuery('(min-width: 768px)')
 
+  if (!open) {
+    return null
+  }
+
   if (isDesktop) {
     return (
       <Dialog open={open} onOpenChange={onOpenChange}>
         <DialogContent
-          className={`animate-scale-in max-h-[95vh] max-w-[450px] overflow-y-auto p-10 ${className}`}
+          className={`animate-scale-in max-h-[95vh] max-w-[450px] overflow-y-auto border border-[hsl(var(--border))] bg-[hsl(var(--card))] p-10 text-[hsl(var(--card-foreground))] shadow-[var(--shadow-lg)] ${className}`}
         >
           <VisuallyHidden.Root>
             <DialogTitle>{title}</DialogTitle>
@@ -44,7 +48,7 @@ export const ResponsiveModal = ({
 
   return (
     <Drawer open={open} onOpenChange={onOpenChange}>
-      <DrawerContent className="p-3">
+      <DrawerContent className="border border-[hsl(var(--border))] bg-[hsl(var(--card))] p-3 text-[hsl(var(--card-foreground))]">
         {' '}
         <VisuallyHidden.Root>
           <DialogTitle>{title}</DialogTitle>

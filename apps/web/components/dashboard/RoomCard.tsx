@@ -92,7 +92,7 @@ export const ParticipantAvatar = ({
       src={participant.avatar}
       alt={`${participant.name}'s avatar`}
     />
-    <AvatarFallback className="bg-gradient-to-br from-neutral-50 to-neutral-200 font-medium text-white">
+    <AvatarFallback className="bg-[hsl(var(--muted))] font-medium text-[hsl(var(--foreground))]">
       <FilledUser className="size-5 fill-black/70 stroke-black/80" />
     </AvatarFallback>
   </Avatar>
@@ -194,7 +194,7 @@ export default function ChatRoomCard({
   totalParticipants = 16,
   messageCount = 8,
   closedAt = new Date(Date.now() + 45 * 60 * 1000),
-  onJoin = () => console.log('Joined the room'),
+  onJoin = () => undefined,
 }: ChatRoomCardProps) {
   const timeLeft = useTimeLeft(closedAt)
   const displayParticipants = knownParticipants.slice(0, 3)
@@ -202,10 +202,10 @@ export default function ChatRoomCard({
     knownParticipants.length - displayParticipants.length
 
   return (
-    <Card className="relative w-full overflow-hidden rounded-xl border border-border bg-card shadow-sm transition-all duration-200 ease-in-out hover:-translate-y-0.5 hover:shadow-md">
+    <Card className="relative w-full overflow-hidden rounded-lg border border-[hsl(var(--border))] bg-[hsl(var(--card))] shadow-sm transition-colors hover:border-[hsl(var(--foreground)/0.24)]">
       <CardContent className="relative z-10 p-4 md:p-5">
         <RoomHeader title={title} id={id} onJoin={onJoin} />
-        <div className="mt-4 flex flex-col gap-4 md:flex-row md:items-end md:justify-between border-t border-border pt-4">
+        <div className="mt-4 flex flex-col gap-4 border-t border-[hsl(var(--border))] pt-4 md:flex-row md:items-end md:justify-between">
           <ParticipantsList
             displayParticipants={displayParticipants}
             remainingParticipants={remainingParticipants}
@@ -218,9 +218,9 @@ export default function ChatRoomCard({
           />
         </div>
       </CardContent>
-      <CardFooter className="relative z-10 p-3 md:p-4">
+      <CardFooter className="relative z-10 border-t border-[hsl(var(--border))] p-3 md:p-4">
         <Button
-          className="h-9 w-full text-sm font-medium"
+          className="h-9 w-full rounded-md bg-[hsl(var(--foreground))] text-sm font-medium text-[hsl(var(--background))] hover:bg-[hsl(var(--foreground)/0.88)]"
           onClick={onJoin}
         >
           Enter Workspace

@@ -25,8 +25,8 @@
     --accent: 0 0% 94%;
     --accent-foreground: 0 0% 10%;
 
-    --destructive: 0 72% 51%;
-    --destructive-foreground: 0 0% 100%;
+    --destructive: 0 0% 8%;
+    --destructive-foreground: 0 0% 98%;
 
     --border: 0 0% 90%;
     --input: 0 0% 96%;
@@ -86,8 +86,8 @@
     --accent: 0 0% 14%;
     --accent-foreground: 0 0% 90%;
 
-    --destructive: 0 65% 50%;
-    --destructive-foreground: 0 0% 100%;
+    --destructive: 0 0% 92%;
+    --destructive-foreground: 0 0% 6%;
 
     --border: 0 0% 14%;
     --input: 0 0% 10%;
@@ -247,15 +247,15 @@
   }
 
   .connection-status.connected {
-    background-color: hsl(142 71% 40%);
-    box-shadow: 0 0 6px hsl(142 71% 40% / 0.5);
+    background-color: hsl(var(--foreground));
+    box-shadow: 0 0 6px hsl(var(--foreground) / 0.25);
     animation: pulse-dot 2.5s ease-in-out infinite;
   }
 
-  .connection-status.disconnected { background-color: hsl(0 72% 52%); }
+  .connection-status.disconnected { background-color: hsl(var(--muted-foreground)); }
 
   .connection-status.connecting {
-    background-color: hsl(38 96% 52%);
+    background-color: hsl(var(--muted-foreground));
     animation: pulse-dot 1.2s ease-in-out infinite;
   }
 

@@ -1,7 +1,7 @@
 'use client'
 
-import { LoadingState } from '@/components/ui/LoadingState'
+import { LoadingSvgScreen } from '@/components/ui/LoadingSvgScreen'
 
 export default function Loading() {
-  return <LoadingState fullScreen />
+  return <LoadingSvgScreen message="Loading room..." />
 }

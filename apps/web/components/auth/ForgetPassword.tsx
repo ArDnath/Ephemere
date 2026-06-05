@@ -87,7 +87,7 @@ const ForgetPassword = () => {
   }
 
   return (
-    <div className="flex aspect-square w-full max-w-[400px] flex-col justify-between rounded-2xl border bg-white p-8 shadow-2xl shadow-cyan-500/20">
+    <div className="mx-auto flex w-full max-w-[400px] flex-col justify-between rounded-lg border border-[hsl(var(--border))] bg-[hsl(var(--card)/0.94)] p-6 shadow-[var(--shadow-lg)] backdrop-blur-xl sm:p-8">
       <AuthHeader
         title={
           step === 'email'
@@ -157,7 +157,7 @@ const ForgetPassword = () => {
           )}
 
           <Button
-            className="transition-ease w-full bg-black text-white hover:bg-black/90 hover:ring hover:ring-slate-200"
+            className="transition-ease w-full rounded-md bg-[hsl(var(--foreground))] text-[hsl(var(--background))] hover:bg-[hsl(var(--foreground)/0.88)]"
             onClick={handleSubmit}
             isLoading={
               step === 'email'

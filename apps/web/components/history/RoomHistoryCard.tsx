@@ -193,7 +193,7 @@ export default function RoomHistoryCard({
             {isTemporary ? (
               <Badge
                 variant="outline"
-                className="border-blue-200 bg-blue-50 text-blue-700 transition-colors hover:bg-blue-100"
+                className="border-neutral-300 bg-neutral-50 text-neutral-800 transition-colors hover:bg-neutral-100"
               >
                 Temporary
               </Badge>

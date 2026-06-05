@@ -17,7 +17,7 @@ import {
   SidebarMenuButton,
   useSidebar,
 } from '@ephemere/ui/components/ui/sidebar.tsx'
-import { Sparkles } from 'lucide-react'
+import { Crown } from 'lucide-react'
 
 import { useUser } from '@/hooks/useSession'
 
@@ -85,7 +85,7 @@ export function NavUser() {
         <DropdownMenuGroup>
           {!data?.user?.subscription?.isPro && (
             <Downitem
-              icon={<Sparkles />}
+              icon={<Crown />}
               title="Upgrade to Pro"
               href="/plans"
             />

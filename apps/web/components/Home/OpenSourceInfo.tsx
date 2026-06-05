@@ -65,7 +65,7 @@ const OpenSourceInfo = () => {
 
         <BlurFadeIn delay={0.4} blur={true}>
           <LinkButton
-            href="https://github.com/Rohit-Singh-Rawat/Ephemere-Chat"
+            href="https://github.com/ArDnath"
             className="z-50 text-sm sm:text-base"
           >
             <Github className="mr-2 size-3 sm:size-4" />

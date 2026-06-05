@@ -1,7 +1,9 @@
+
 import type { Metadata } from 'next'
 
 import LoginCard from '@/components/auth/LoginCard'
 import EphemereLogo from '@/components/icons/animated/EphemereLogo'
+import { ThemeToggle } from '@/components/theme/ThemeToggle'
 
 export const metadata: Metadata = {
   title: 'Login',
@@ -28,12 +30,25 @@ export default async function LoginPage({
     : undefined
 
   return (
-    <div className="gridGradient container h-screen w-screen">
-      <div className="py-10">
-        <EphemereLogo />
-      </div>
-      <div className="flex-center w-full py-10">
+    <div
+      className="relative flex min-h-screen w-screen flex-col overflow-hidden bg-[hsl(var(--background))] bg-cover bg-center bg-no-repeat px-4"
+      style={{
+        backgroundImage:
+          'linear-gradient(hsl(var(--background) / 0.76), hsl(var(--background) / 0.86)), url("https://backiee.com/static/wallpapers/1920x1080/428961.jpg")',
+      }}
+    >
+      {/* Centered container tracking both the header items and the login form */}
+      <div className="flex min-h-screen w-full flex-col items-center justify-center gap-6 py-24">
+
+        {/* Header elements: Anchored directly on top of the card */}
+        <div className="flex w-full max-w-md items-center justify-center gap-4 px-2">
+          <EphemereLogo />
+          <ThemeToggle />
+        </div>
+
+        {/* The Login Card */}
         <LoginCard error={errorMessage} />
+
       </div>
     </div>
   )

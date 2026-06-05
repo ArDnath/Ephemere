@@ -19,7 +19,7 @@ const SideBarItem = ({ icon, title, url }: Props) => {
       className={`flex items-end justify-start gap-2.5 rounded-lg p-2 text-sm leading-none text-neutral-600 outline-none transition-all duration-500 ease-in-out focus-visible:ring-2 focus-visible:ring-black/50 ${
         isActive
           ? 'text-sidebar-accent-foreground border border-neutral-200 shadow md:bg-white'
-          : 'border border-transparent hover:bg-blue-100/50 active:bg-blue-200/80 md:hover:bg-neutral-200/50 md:active:bg-neutral-200/80'
+          : 'border border-transparent hover:bg-neutral-100 active:bg-neutral-200 md:hover:bg-neutral-200/50 md:active:bg-neutral-200/80'
       }`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -28,10 +28,10 @@ const SideBarItem = ({ icon, title, url }: Props) => {
         // Pass undefined (not false) so the animate attribute is never written to the DOM
         // for plain SVG / lucide icons that don't declare this prop.
         animate: isHovered || undefined,
-        className: `size-4 ${isActive ? 'stroke-blue-600 ' : 'stroke-[#525252]'}`,
+        className: `size-4 ${isActive ? 'stroke-black ' : 'stroke-[#525252]'}`,
       })}
       <span
-        className={` ${isActive ? 'font-medium text-blue-600' : 'font-medium'}`}
+        className={` ${isActive ? 'font-medium text-black' : 'font-medium'}`}
       >
         {title}
       </span>

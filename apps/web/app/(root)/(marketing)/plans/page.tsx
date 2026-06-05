@@ -1,5 +1,3 @@
-import GridPattern from '@ephemere/ui/components/ui/GridPattern.tsx'
-import { cn } from '@ephemere/ui/utils'
 import { Metadata } from 'next'
 
 import { PricingPlans } from '@/components/plansComponents/PricingPlans'
@@ -12,37 +10,17 @@ export const metadata: Metadata = {
 
 const page = () => {
   return (
-    <div className="my-20 overflow-x-hidden">
-      {' '}
-      <GridPattern
-        width={30}
-        height={30}
-        x={-1}
-        y={-1}
-        squares={Array.from(
-          { length: Math.floor(Math.random() * 41) + 20 },
-          (_) => [
-            Math.floor(Math.random() * 41) + 0,
-            Math.floor(Math.random() * 41) + 0,
-          ]
-        )}
-        strokeDasharray={'4 2'}
-        className={cn(
-          '[mask-image:radial-gradient(700px_circle_at_center,white,transparent)]'
-        )}
-      />
-      <div className="z-50 flex w-full flex-col items-center gap-10 py-8">
-        <div className="my-5">
-          <h1 className="mb-2 text-4xl font-semibold text-[hsl(var(--foreground))]">
+    <div className="bg-[hsl(var(--background))]">
+      <div className="mx-auto flex w-full max-w-6xl flex-col items-center gap-10 px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
+        <div className="max-w-2xl text-center">
+          <h1 className="text-4xl font-semibold tracking-tight text-[hsl(var(--foreground))] sm:text-5xl">
             Choose your plan
           </h1>
-          <p className="text-center text-[hsl(var(--muted-foreground))]">
+          <p className="mt-3 text-sm text-[hsl(var(--muted-foreground))] sm:text-base">
             Find a plan that fits your needs
           </p>
         </div>
-        <div>
-          <PricingPlans />
-        </div>
+        <PricingPlans />
       </div>
     </div>
   )

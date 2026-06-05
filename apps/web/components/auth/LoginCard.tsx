@@ -10,6 +10,7 @@ import { toast } from 'sonner'
 
 import { AuthHeader } from '@/components/auth/auth-header'
 import Input from '@/components/shared/Input'
+import { LoadingSvgScreen } from '@/components/ui/LoadingSvgScreen'
 import { LoginAction } from '@/lib/actions/authActions'
 import { useAuthStore } from '@/lib/store/auth-store'
 
@@ -37,7 +38,6 @@ const LoginCard = ({ error }: LoginCardProps) => {
   const { executeAsync, isExecuting } = useAction(LoginAction, {
     onSuccess: () => {
       toast.success('Logged in successfully')
-      setIsAuthenticating(false)
       // Use setTimeout to ensure cookie is set before navigation
       setTimeout(() => {
         router.push('/dashboard')
@@ -57,13 +57,26 @@ const LoginCard = ({ error }: LoginCardProps) => {
     }
   }, [error])
 
+  useEffect(() => {
+    return () => setIsAuthenticating(false)
+  }, [setIsAuthenticating])
+
   const onSubmit = form.handleSubmit((data) => {
     setIsAuthenticating(true)
     executeAsync(data)
   })
 
+  if (isAuthenticating) {
+    return (
+      <LoadingSvgScreen
+        className="fixed inset-0 z-50"
+        message="Preparing your dashboard..."
+      />
+    )
+  }
+
   return (
-    <div className="flex aspect-square w-full max-w-[400px] flex-col justify-between rounded-2xl border bg-white p-8 shadow-2xl shadow-cyan-500/20">
+    <div className="mx-auto flex w-full max-w-[400px] flex-col justify-between rounded-lg border border-[hsl(var(--border))] bg-[hsl(var(--card)/0.94)] p-6 shadow-[var(--shadow-lg)] backdrop-blur-xl sm:p-8">
       <AuthHeader
         title="Welcome back"
         description="Please enter your details to sign in."
@@ -100,7 +113,7 @@ const LoginCard = ({ error }: LoginCardProps) => {
           <div className="flex items-center justify-end">
             <Link
               href="/forgot-password"
-              className="transition-ease text-sm text-black/60 underline-offset-2 hover:text-black hover:underline"
+              className="transition-ease text-sm text-[hsl(var(--muted-foreground))] underline-offset-2 hover:text-[hsl(var(--foreground))] hover:underline"
             >
               Forgot password?
             </Link>
@@ -108,7 +121,7 @@ const LoginCard = ({ error }: LoginCardProps) => {
 
           <Button
             type="submit"
-            className="transition-ease w-full bg-black text-white hover:bg-black/90 hover:ring hover:ring-slate-200"
+            className="transition-ease w-full rounded-md bg-[hsl(var(--foreground))] text-[hsl(var(--background))] hover:bg-[hsl(var(--foreground)/0.88)]"
             disabled={isAuthenticating}
             isLoading={isExecuting}
           >
@@ -117,11 +130,11 @@ const LoginCard = ({ error }: LoginCardProps) => {
         </form>
       </div>
 
-      <p className="mt-6 text-center text-sm text-gray-500">
+      <p className="mt-6 text-center text-sm text-[hsl(var(--muted-foreground))]">
         Don&apos;t have an account yet?{' '}
         <Link
           href="/register"
-          className="transition-ease font-medium underline underline-offset-2 hover:text-black"
+          className="transition-ease font-medium text-[hsl(var(--foreground))] underline underline-offset-2"
         >
           Sign Up
         </Link>

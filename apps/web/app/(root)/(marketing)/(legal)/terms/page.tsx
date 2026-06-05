@@ -99,7 +99,7 @@ const TermsOfService = () => {
             contact us at:
           </p>
           <a
-            href="mailto:ephemerechat.com@gmail.com"
+            href="mailto:ariyamandebnath.ad@gmail.com"
             className="ml-0 inline-flex items-center rounded-md bg-[hsl(var(--primary))] px-3 py-1.5 text-xs font-medium text-[hsl(var(--primary-foreground))] hover:bg-[hsl(var(--primary)/0.9)] focus:outline-none focus:ring-2 focus:ring-[hsl(var(--primary))] focus:ring-offset-2 sm:ml-5 sm:px-4 sm:py-2 sm:text-sm"
           >
             Contact Us

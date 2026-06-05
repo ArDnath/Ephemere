@@ -10,7 +10,7 @@ interface PricingCardHeaderProps {
 
 export function PricingCardHeader({ icon, badge }: PricingCardHeaderProps) {
   return (
-    <div className="mb-5 flex items-center justify-between">
+    <div className="mb-5 flex items-start justify-between gap-3">
       <IconWrapper icon={icon} size="md" />
       {badge && <Badge>{badge}</Badge>}
     </div>

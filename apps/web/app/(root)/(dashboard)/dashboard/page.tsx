@@ -29,19 +29,18 @@ export default async function Page(props: {
   ])
 
   return (
-    <div className="min-h-screen w-full bg-background px-4 py-8 md:px-8 lg:px-12">
-      {/* Page header */}
-      <div className="mb-10">
-        <h1 className="text-3xl font-bold tracking-tight text-foreground">
+    <div className="min-h-screen w-full bg-[hsl(var(--background))] px-4 py-6 md:px-8 lg:px-12">
+      <div className="mx-auto max-w-7xl">
+      <div className="mb-8 border-b border-[hsl(var(--border))] pb-6">
+        <h1 className="text-2xl font-semibold tracking-tight text-[hsl(var(--foreground))] md:text-3xl">
           Rooms
         </h1>
-        <p className="mt-1 text-sm text-muted-foreground">
+        <p className="mt-2 text-sm text-[hsl(var(--muted-foreground))]">
           Create or join temporary chat rooms. Rooms expire automatically.
         </p>
       </div>
 
-      {/* Toolbar */}
-      <div className="mb-8 flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-center">
+      <div className="mb-6 flex flex-col items-start justify-between gap-3 rounded-lg border border-[hsl(var(--border))] bg-[hsl(var(--card))] p-3 sm:flex-row sm:items-center">
         <div className="flex w-full flex-col gap-3 sm:flex-row sm:items-center">
           <SearchBar search={search} />
           <DisplaySwitch />
@@ -61,8 +60,8 @@ export default async function Page(props: {
         </div>
       </div>
 
-      {/* Room grid */}
       <DisplayRooms rooms={rooms} stats={stats} />
+      </div>
     </div>
   )
 }

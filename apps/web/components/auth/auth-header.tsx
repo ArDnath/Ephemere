@@ -1,5 +1,3 @@
-import EphemereWave from '../icons/animated/EphemereWave'
-
 interface AuthHeaderProps {
   title: string
   description: string
@@ -7,12 +5,12 @@ interface AuthHeaderProps {
 
 export function AuthHeader({ title, description }: AuthHeaderProps) {
   return (
-    <div className="flex flex-col items-center space-y-2">
-      <div className="py-3">
-        <EphemereWave />
-      </div>
-      <h1 className="text-2xl font-medium">{title}</h1>
-      <p className="text-center text-sm font-normal text-gray-500">
+    <div className="flex flex-col items-center space-y-2 text-center">
+      <div className="mb-2 h-px w-12 bg-[hsl(var(--foreground))]" />
+      <h1 className="text-2xl font-medium text-[hsl(var(--foreground))]">
+        {title}
+      </h1>
+      <p className="text-sm font-normal text-[hsl(var(--muted-foreground))]">
         {description}
       </p>
     </div>

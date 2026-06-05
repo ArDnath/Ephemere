@@ -33,11 +33,13 @@ export const JoinRoomForm = ({
       onSubmit={submitForm}
       className="flex flex-col items-center max-md:my-3"
     >
-      <div className="rounded-full border border-gray-200 bg-white p-2 shadow-sm">
+      <div className="rounded-md border border-[hsl(var(--border))] bg-[hsl(var(--background))] p-2 shadow-sm">
         <EphemereRoom className="size-5" />
       </div>
       <div className="mb-8 mt-4">
-        <h1 className="text-2xl font-semibold">Join a room</h1>
+        <h1 className="text-2xl font-semibold text-[hsl(var(--foreground))]">
+          Join a room
+        </h1>
       </div>
 
       <div className="mb-6 w-full max-w-sm space-y-2">
@@ -48,7 +50,7 @@ export const JoinRoomForm = ({
             onChange={(e) =>
               setFormData((data) => ({ ...data, roomId: e.target.value }))
             }
-            className="peer ps-9"
+            className="peer border-[hsl(var(--border))] bg-[hsl(var(--background))] ps-9 text-[hsl(var(--foreground))]"
             value={formData.roomId ?? ''}
             placeholder="Enter room ID"
             type="text"

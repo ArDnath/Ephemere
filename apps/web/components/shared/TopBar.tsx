@@ -5,6 +5,7 @@ import { SidebarTrigger } from '@ephemere/ui/components/ui/sidebar.tsx'
 import { usePathname } from 'next/navigation'
 
 import { NavUser } from '../Root-user'
+import { ThemeToggle } from '../theme/ThemeToggle'
 
 export function TopBar() {
   const pathname = usePathname()
@@ -15,16 +16,17 @@ export function TopBar() {
     : 'Dashboard'
 
   return (
-    <div className="mx-auto w-full max-w-screen-xl bg-neutral-100 px-3 md:hidden lg:px-10">
+    <div className="mx-auto w-full max-w-screen-xl bg-[hsl(var(--muted))] px-3 md:hidden lg:px-10">
       <header className="flex h-12 shrink-0 items-center gap-2">
         <div className="flex items-center gap-2 px-4">
           <SidebarTrigger className="-ml-1" />
           <Separator orientation="vertical" className="mr-2 h-4" />
-          <h1 className="text-xl font-semibold leading-7 text-neutral-900 md:text-2xl">
+          <h1 className="text-xl font-semibold leading-7 text-[hsl(var(--foreground))] md:text-2xl">
             {title}
           </h1>
         </div>
-        <div className="ml-auto flex items-center gap-4">
+        <div className="ml-auto flex items-center gap-2">
+          <ThemeToggle />
           <NavUser />
         </div>
       </header>

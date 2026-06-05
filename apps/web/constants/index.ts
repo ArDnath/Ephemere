@@ -203,7 +203,7 @@ export const nouns = [
 ]
 export const navLinks = [
   { href: '/#features', label: 'Features' },
-  { href: '/plans', label: 'Pricing' },
+  { href: '#pricing', label: 'Pricing' },
   { href: '/#contact', label: 'Contact' },
 ]
 

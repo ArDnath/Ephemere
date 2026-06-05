@@ -75,7 +75,7 @@ export const ErrorState = ({
             {message}
           </p>
           {details && (
-            <p className="mt-1 max-w-[280px] rounded-lg bg-blue-50 px-3 py-2 text-xs font-medium text-neutral-500 shadow-sm sm:mt-2 sm:max-w-sm sm:px-4 sm:py-3 sm:text-sm md:max-w-md">
+            <p className="mt-1 max-w-[280px] rounded-lg bg-neutral-50 px-3 py-2 text-xs font-medium text-neutral-500 shadow-sm sm:mt-2 sm:max-w-sm sm:px-4 sm:py-3 sm:text-sm md:max-w-md">
               {details}
             </p>
           )}
