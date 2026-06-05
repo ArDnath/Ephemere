@@ -23,7 +23,7 @@ export const activateFreePlanAction = actionClient.action(async () => {
     }
   )
   if (res.ok) {
-    revalidateTag('user')
+    revalidateTag('user', 'default')
     return { success: true }
   } else {
     return { success: false }
@@ -47,7 +47,7 @@ export const activateProPlanAction = actionClient.action(async () => {
     }
   )
   if (res.ok) {
-    revalidateTag('user')
+    revalidateTag('user', 'default')
     return { success: true }
   } else {
     return { success: false }

@@ -22,6 +22,7 @@ const fontMono = JetBrains_Mono({
 import { ReactQueryProvider } from '@/providers/ReactQueryProvider'
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://ephemere.ariyaman.in'),
   title: {
     default: 'ephemere - Real-time Chat',
     template: '%s | ephemere',

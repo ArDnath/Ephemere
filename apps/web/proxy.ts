@@ -6,7 +6,7 @@ import { apiUrl } from './lib/config/urls'
 const protectedPaths = ['/dashboard', '/history']
 const authPaths = ['/login', '/register']
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const token = request.cookies.get('token')?.value
 
   const isProtectedPath = protectedPaths.some((path) =>

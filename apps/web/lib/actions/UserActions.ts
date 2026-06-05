@@ -70,7 +70,7 @@ export const updateProfile = actionClient
         const error = await response.json()
         throw new Error(error.message || 'Failed to update profile')
       }
-      revalidateTag('user')
+      revalidateTag('user', 'default')
       return response.json()
     } catch (error) {
       console.error('Error updating profile:', error)

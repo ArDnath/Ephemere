@@ -1,10 +1,19 @@
+
 import type { NextConfig } from 'next'
+import path from 'path'
+
+const monorepoRoot = path.join(__dirname, '../../')
 
 const nextConfig: NextConfig = {
-  transpilePackages: ['@ephemere/lib', '@ephemere/ui'],
-  eslint: {
-    ignoreDuringBuilds: true,
+  outputFileTracingRoot: monorepoRoot,
+  turbopack: {
+    root: monorepoRoot,
   },
+  transpilePackages: [
+    '@ephemere/lib',
+    '@ephemere/ui',
+    '@ephemere/tailwind-config',
+  ],
   images: {
     remotePatterns: [
       { protocol: 'https', hostname: 'avatar.iran.liara.run' },

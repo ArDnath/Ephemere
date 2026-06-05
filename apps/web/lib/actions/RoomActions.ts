@@ -84,8 +84,8 @@ export const createRooms = actionClient
           throw new Error('Failed to create room')
         }
 
-        revalidateTag('rooms')
-        revalidateTag('user-stats')
+        revalidateTag('rooms', 'default')
+        revalidateTag('user-stats', 'default')
         const room = await response.json()
         return { room: room }
       } catch (error) {
@@ -188,7 +188,7 @@ export const deleteRoom = actionClient
         throw new Error('Failed to delete room')
       }
 
-      revalidateTag('rooms-history')
+      revalidateTag('rooms-history', 'default')
       return { success: true }
     } catch (error) {
       console.error('Error deleting room:', error)
