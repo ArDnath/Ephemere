@@ -1,9 +1,9 @@
 import type { Metadata } from 'next'
 
 import ContactUs from '@/components/Home/ContactUs'
+import BentoSection from '@/components/Home/BentoSection'
 import RealtimeCommunicationSection from '@/components/Home/Features/RealtimeCommunicationSection'
 import { Hero } from '@/components/Home/Hero'
-import { PricingPlans } from '@/components/plansComponents/PricingPlans'
 
 export const metadata: Metadata = {
   title: 'Ephemere - Real-time Chat',
@@ -21,14 +21,14 @@ export const metadata: Metadata = {
     title: 'Ephemere - Real-time Chat',
     description:
       'Create instant chat rooms for quick collaboration and easy sharing. No signup needed - just seamless communication on demand.',
-    images: ['/images/ephemere.png'],
+    images: ['/opengraph-image.jpg'],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Ephemere - Real-time Chat',
     description:
       'Create instant chat rooms for quick collaboration and easy sharing. No signup needed - just seamless communication on demand.',
-    images: ['/images/ephemere.png'],
+    images: ['/opengraph-image.jpg'],
   },
 }
 
@@ -38,6 +38,7 @@ const Page = () => {
       <div className="container px-2 md:px-4 lg:px-8 xl:px-12">
         <Hero />
         <RealtimeCommunicationSection />
+        <BentoSection />
         <ContactUs />
       </div>
     </div>
