@@ -1,9 +1,4 @@
 'use client'
-import {
-  Avatar,
-  AvatarImage,
-  AvatarFallback,
-} from '@ephemere/ui/components/ui/avatar.tsx'
 import { Button } from '@ephemere/ui/components/ui/button.tsx'
 import { Card, CardContent, CardFooter } from '@ephemere/ui/components/ui/card.tsx'
 import {
@@ -25,8 +20,7 @@ import { useIdentityStore } from '@/lib/store/useIdentityStore'
 import { ClockIcon } from '../icons/animated/clock'
 import { MessageCircleMoreIcon } from '../icons/animated/message-circle-more'
 import { UsersIcon } from '../icons/animated/users'
-import FilledUser from '../icons/FilledUser'
-
+import { ParticipantAvatar } from './ParticipantAvatar'
 import { UserLabel } from './UserLabel'
 
 interface ChatRoomCardProps {
@@ -48,7 +42,7 @@ const RoomHeader = ({
   id: string
   onJoin: () => void
 }) => {
-  const { setAnonymous } = useIdentityStore()
+  const setAnonymous = useIdentityStore((state) => state.setAnonymous)
 
   return (
     <div className="flex items-start justify-between gap-2">
@@ -82,21 +76,6 @@ const RoomHeader = ({
   )
 }
 
-export const ParticipantAvatar = ({
-  participant,
-}: {
-  participant: { name: string; avatar: string }
-}) => (
-  <Avatar className="border-background size-6 border-2 md:size-8">
-    <AvatarImage
-      src={participant.avatar}
-      alt={`${participant.name}'s avatar`}
-    />
-    <AvatarFallback className="bg-[hsl(var(--muted))] font-medium text-[hsl(var(--foreground))]">
-      <FilledUser className="size-5 fill-black/70 stroke-black/80" />
-    </AvatarFallback>
-  </Avatar>
-)
 export const ParticipantsList = ({
   displayParticipants,
   remainingParticipants,

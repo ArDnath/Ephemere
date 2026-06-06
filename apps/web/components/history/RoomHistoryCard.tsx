@@ -6,23 +6,15 @@ import {
   AvatarFallback,
 } from '@ephemere/ui/components/ui/avatar.tsx'
 import { Badge } from '@ephemere/ui/components/ui/badge.tsx'
-import { Button } from '@ephemere/ui/components/ui/button.tsx'
-import { Card, CardContent, CardFooter } from '@ephemere/ui/components/ui/card.tsx'
+import { Card, CardContent } from '@ephemere/ui/components/ui/card.tsx'
 import {
   HoverCard,
   HoverCardTrigger,
   HoverCardContent,
 } from '@ephemere/ui/components/ui/hover-card.tsx'
 import { Separator } from '@ephemere/ui/components/ui/separator.tsx'
-import {
-  CalendarIcon,
-  Hash,
-  TimerIcon,
-  MessageCircle,
-  Trash2,
-} from 'lucide-react'
+import { CalendarIcon, Hash, TimerIcon } from 'lucide-react'
 
-import { ClockIcon } from '@/components/icons/animated/clock'
 import { UsersIcon } from '@/components/icons/animated/users'
 import { Message2Icon } from '@/components/icons/message-2'
 

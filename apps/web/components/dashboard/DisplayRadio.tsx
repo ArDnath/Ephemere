@@ -6,7 +6,8 @@ import { LayoutGrid, Rows3 } from 'lucide-react'
 import { useDisplayStore } from '@/lib/store/DisplayStore'
 
 export default function DisplaySwitch() {
-  const { displayLists, ChangeDisplay: setDisplayLists } = useDisplayStore()
+  const displayLists = useDisplayStore((state) => state.displayLists)
+  const setDisplayLists = useDisplayStore((state) => state.ChangeDisplay)
 
   return (
     <div>

@@ -12,17 +12,20 @@ const DemoChatAnimated = () => {
   const [isActive, setIsActive] = useState(true)
   const [messageCount, setMessageCount] = useState(12)
 
-  // Live countdown timer mechanism
+  // Live countdown timer mechanism — runs once, uses functional updater to avoid dep
   useEffect(() => {
-    if (secondsLeft <= 0) {
-      setIsActive(false)
-      return
-    }
     const intervalId = setInterval(() => {
-      setSecondsLeft((prev) => prev - 1)
+      setSecondsLeft((prev) => {
+        if (prev <= 1) {
+          clearInterval(intervalId)
+          setIsActive(false)
+          return 0
+        }
+        return prev - 1
+      })
     }, 1000)
     return () => clearInterval(intervalId)
-  }, [secondsLeft])
+  }, [])
 
   // Simulate new messages appearing
   useEffect(() => {

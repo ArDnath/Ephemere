@@ -41,7 +41,7 @@ export default function RoomListRow({
   onJoin = () => undefined,
 }: RoomListRowProps) {
   const timeLeft = useTimeLeft(closedAt)
-  const { setAnonymous } = useIdentityStore()
+  const setAnonymous = useIdentityStore((state) => state.setAnonymous)
 
   const displayParticipants = knownParticipants.slice(0, 3)
   const remainingParticipants =

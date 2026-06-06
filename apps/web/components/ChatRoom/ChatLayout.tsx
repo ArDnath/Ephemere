@@ -26,6 +26,7 @@ interface ChatLayoutProps {
   onChannelSelect?: (channelId: string) => void
   activeCluster: string
   onClusterSelect: (clusterId: string) => void
+  isNewRoom?: boolean
 }
 
 const connectionLabel: Record<ReadyState, string> = {
@@ -54,9 +55,9 @@ export const ChatLayout = ({
   handleExit,
   readyState,
   participants,
+  isNewRoom = false,
 }: ChatLayoutProps) => {
   const { userId } = useIdentityStore()
-  const isPublic = roomId === 'public'
 
   return (
     <div className="flex h-screen w-screen overflow-hidden bg-background text-foreground">
@@ -117,6 +118,20 @@ export const ChatLayout = ({
           </span>
         </div>
 
+        {isNewRoom && roomId !== 'public' && (
+          <div className="border-b border-border bg-[hsl(var(--primary)/0.06)] px-4 py-3">
+            <p className="text-sm font-medium text-foreground">
+              Room created. Share the invite panel below to add others.
+            </p>
+          </div>
+        )}
+
+        {roomId !== 'public' && (
+          <div className="border-b border-border bg-muted/20 px-4 py-4 xl:hidden">
+            <PublicRoomShare roomId={roomId} />
+          </div>
+        )}
+
         {/* Chat area */}
         <div className="relative min-h-0 flex-1">
           <ChatBox
@@ -173,15 +188,13 @@ export const ChatLayout = ({
           </div>
         </div>
 
-        {/* Share section — public rooms only */}
-        {isPublic && (
-          <div className="px-4 py-4">
-            <p className="mb-3 text-xs font-medium uppercase tracking-wider text-muted-foreground">
-              Share room
-            </p>
-            <PublicRoomShare roomId={roomId} />
-          </div>
-        )}
+        {/* Share section */}
+        <div className="px-4 py-4">
+          <p className="mb-3 text-xs font-medium uppercase tracking-wider text-muted-foreground">
+            Share room
+          </p>
+          <PublicRoomShare roomId={roomId} />
+        </div>
       </aside>
     </div>
   )

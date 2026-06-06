@@ -1,4 +1,4 @@
-import { ParticipantAvatar } from './RoomCard'
+import { ParticipantAvatar } from './ParticipantAvatar'
 
 interface UserLabelProps {
   participant: {

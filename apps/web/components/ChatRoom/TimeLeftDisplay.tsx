@@ -14,7 +14,7 @@ export const TimeLeftDisplay = ({
   children,
   isPublic = false,
 }: TimeLeftDisplayProps) => {
-  const timeLeft = useTimeLeft(closeTime ?? new Date())
+  const timeLeft = useTimeLeft(closeTime, !isPublic)
 
   if (isPublic) {
     return <>{children}</>
@@ -27,10 +27,11 @@ export const TimeLeftDisplay = ({
     if (isClosed) {
       return (
         <ErrorState
-          title="Room Closed"
+          title="Room Finished"
           message="This room has expired and is no longer accessible."
           details="Please return to the dashboard to join or create another room."
           fullScreen
+          variant="expired"
         />
       )
     }

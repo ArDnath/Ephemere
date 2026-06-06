@@ -213,7 +213,7 @@ const RealtimeDiagram = () => {
 
 const RealtimeCommunicationSection = () => {
   return (
-    <section id="features" className="py-24">
+    <section id="realtime" className="py-24">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         transition={{ duration: 0.5 }}

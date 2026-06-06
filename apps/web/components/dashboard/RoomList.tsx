@@ -7,12 +7,15 @@ import {
   TableRow,
   TableCell,
 } from '@ephemere/ui/components/ui/table.tsx'
+import { useRouter } from 'next/navigation'
 
 import { RoomWithParticipants } from '@/types'
 
 import RoomListRow from './RoomListRow'
 
 const RoomList = ({ rooms }: { rooms: RoomWithParticipants[] }) => {
+  const router = useRouter()
+
   return (
     <Table>
       <TableHeader>
@@ -46,7 +49,7 @@ const RoomList = ({ rooms }: { rooms: RoomWithParticipants[] }) => {
             totalParticipants={room.participants.length}
             messageCount={room._count.messages}
             closedAt={new Date(room.closedAt)}
-            onJoin={() => (window.location.href = `/room/${room.id}`)}
+            onJoin={() => router.push(`/room/${room.id}`)}
           />
         ))}
       </TableBody>

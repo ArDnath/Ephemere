@@ -20,7 +20,7 @@ interface TempUserState {
 }
 
 export function useTempUser(): TempUserState {
-  const [tempUser, setTempUser] = useState<TempUserState>(() => {
+  const [tempUser] = useState<TempUserState>(() => {
     if (typeof window !== 'undefined') {
       const stored = localStorage.getItem('temp-user-storage')
       if (stored) return JSON.parse(stored)

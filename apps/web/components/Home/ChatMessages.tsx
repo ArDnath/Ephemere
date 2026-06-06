@@ -114,34 +114,34 @@ const messages = [
   {
     content: "Wait, this whole room just self-destructs at zero?",
     isSent: false,
-    avatar: '/images/RohitSinghRawat.jpg',
+    avatar: '/gojo.jpg',
   },
   {
     content: "Yep. Total wipe. Zero logs, zero digital footprint.",
     isSent: true,
-    avatar: '/images/eren.jpg',
+    avatar: '/sukuna.jpg',
   },
   {
     content: "No tech debt, no receipts. That's heavy.",
     isSent: false,
-    avatar: '/images/RohitSinghRawat.jpg',
+    avatar: '/gojo.jpg',
     reactions: ['🔥', '⚡'],
   },
   {
     content: "Right? It forced you to stay in the moment. Ephemere hits different.",
     isSent: true,
-    avatar: '/images/eren.jpg',
+    avatar: '/sukuna.jpg',
   },
   {
     content: "Clean UI too. Pure ghost mode.",
     isSent: false,
-    avatar: '/images/RohitSinghRawat.jpg',
+    avatar: '/gojo.jpg',
     reactions: ['💯'],
   },
   {
     content: "Speak fast, we've got 45 minutes before it's dust.",
     isSent: true,
-    avatar: '/images/eren.jpg',
+    avatar: '/sukuna.jpg',
   },
 ]
 

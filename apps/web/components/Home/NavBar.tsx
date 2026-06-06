@@ -89,10 +89,10 @@ const MobileNav = ({ isScrolled }: { isScrolled: boolean }) => {
             <Link
               key={href}
               href={href}
-              className="relative text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--foreground))]"
+              className="relative rounded-full border border-[hsl(var(--border))] bg-[hsl(var(--background)/0.6)] px-3.5 py-2 text-xs font-medium uppercase tracking-[0.18em] text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--foreground))]"
               onClick={() => setIsOpen(false)}
             >
-              <span className="block">{label} </span>
+              <span className="block">{label}</span>
             </Link>
           ))}
           <div className="grid w-full flex-col gap-2">

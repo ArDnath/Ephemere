@@ -92,6 +92,7 @@ export interface UserIdentity {
 export interface PageClientProps {
   roomId: string
   token?: string
+  isNewRoom?: boolean
 }
 export type Reaction = {
   emoji: string
@@ -111,7 +112,6 @@ export interface PricingFeature {
 
 export interface PricingPlan {
   name: string
-  icon: LucideIcon
   description: string
   price: string
   badge: string | null

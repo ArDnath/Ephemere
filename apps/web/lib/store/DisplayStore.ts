@@ -3,17 +3,17 @@ import { persist, createJSONStorage } from 'zustand/middleware'
 
 type DisplayStore = {
   displayLists: boolean
-  ChangeDisplay: () => void
+  ChangeDisplay: (displayLists: boolean) => void
 }
 
 export const useDisplayStore = create<DisplayStore>()(
   persist(
     (set) => ({
       displayLists: false,
-      ChangeDisplay: () => {
-        set((state) => ({
-          displayLists: !state.displayLists,
-        }))
+      ChangeDisplay: (displayLists) => {
+        set((state) =>
+          state.displayLists === displayLists ? state : { displayLists }
+        )
       },
     }),
     {

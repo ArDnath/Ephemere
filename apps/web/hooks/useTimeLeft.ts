@@ -1,32 +1,64 @@
 import { useEffect, useState } from 'react'
 
-export const useTimeLeft = (closedAt: Date) => {
+const emptyTimeLeft = {
+  hours: 0,
+  minutes: 0,
+  seconds: 0,
+}
+
+type TimeLeft = typeof emptyTimeLeft
+
+const sameTimeLeft = (left: TimeLeft, right: TimeLeft) =>
+  left.hours === right.hours &&
+  left.minutes === right.minutes &&
+  left.seconds === right.seconds
+
+export const useTimeLeft = (closedAt: Date | null, enabled = true) => {
   const [timeLeft, setTimeLeft] = useState({
     hours: 0,
     minutes: 0,
     seconds: 0,
   })
 
+  const closedAtMs = closedAt?.getTime() ?? null
+
   useEffect(() => {
+    if (!enabled || closedAtMs === null) {
+      setTimeLeft(emptyTimeLeft)
+      return
+    }
+
     const calculateTimeLeft = () => {
-      const diff = closedAt.getTime() - Date.now()
+      const diff = closedAtMs - Date.now()
       if (diff <= 0) {
-        setTimeLeft({ hours: 0, minutes: 0, seconds: 0 })
-        return
+        setTimeLeft((previous) =>
+          sameTimeLeft(previous, emptyTimeLeft) ? previous : emptyTimeLeft
+        )
+        return true
       }
 
-      setTimeLeft({
+      const nextTimeLeft = {
         hours: Math.floor(diff / (1000 * 60 * 60)),
         minutes: Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)),
         seconds: Math.floor((diff % (1000 * 60)) / 1000),
-      })
+      }
+
+      setTimeLeft((previous) =>
+        sameTimeLeft(previous, nextTimeLeft) ? previous : nextTimeLeft
+      )
+      return false
     }
 
-    calculateTimeLeft()
-    const timer = setInterval(calculateTimeLeft, 1000)
+    if (calculateTimeLeft()) return
 
-    return () => clearInterval(timer)
-  }, [closedAt])
+    const timer = setInterval(() => {
+      if (calculateTimeLeft()) clearInterval(timer)
+    }, 1000)
+
+    return () => {
+      clearInterval(timer)
+    }
+  }, [closedAtMs, enabled])
 
   return timeLeft
 }

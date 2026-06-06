@@ -1,10 +1,10 @@
 'use client'
 
 import { Github, Mail } from 'lucide-react'
+import Image from 'next/image'
 import Link from 'next/link'
 
 import BlurFadeIn from '../ui/BlurFadeIn'
-import { EphemereLoading } from '../ui/EphemereLoading'
 import LinkButton from '../ui/LinkButton'
 
 import StripesBox from './StripesBox'
@@ -14,8 +14,14 @@ const ContactForm = () => {
     <StripesBox>
       <div className="flex flex-col items-center space-y-4 p-4 sm:space-y-5 sm:p-6 md:p-8 lg:p-10 xl:px-20">
         <BlurFadeIn delay={0.1} blur={true}>
-          <div className="z-10 rounded-xl border-2 border-[hsl(var(--border))] bg-[hsl(var(--card))] p-2 shadow-md">
-            <EphemereLoading className="size-4 sm:size-5" />
+          <div className="z-10 rounded-xl border border-[hsl(var(--border))] bg-[hsl(var(--card))] p-3 shadow-sm">
+            <Image
+              src="/ephemere-e.png"
+              alt="Ephemere"
+              width={36}
+              height={36}
+              className="w-8 h-auto object-contain sm:w-9 sm:h-auto"
+            />
           </div>
         </BlurFadeIn>
 

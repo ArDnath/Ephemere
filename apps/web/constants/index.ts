@@ -1,4 +1,4 @@
-import { Users, Clock, Layout, Save, Zap, Gem, Snowflake } from 'lucide-react'
+import { Users, Clock, Layout, Save, Zap } from 'lucide-react'
 export const adjectives = [
   'Happy',
   'Clever',
@@ -202,15 +202,14 @@ export const nouns = [
   'Zenitsu',
 ]
 export const navLinks = [
-  { href: '/#features', label: 'Features' },
-  { href: '#pricing', label: 'Pricing' },
+  { href: '/#realtime', label: 'Working' },
+  { href: '/#bento', label: 'Features' },
   { href: '/#contact', label: 'Contact' },
 ]
 
 export const plans = [
   {
     name: 'Free',
-    icon: Snowflake,
     description: 'Perfect for individuals and small teams getting started',
     price: '0',
     badge: null,
@@ -239,7 +238,6 @@ export const plans = [
   },
   {
     name: 'Pro',
-    icon: Gem,
     description: 'Perfect for growing teams and organizations',
     price: '10',
     badge: 'Most popular',

@@ -1,5 +1,7 @@
 'use client'
 
+import { useRouter } from 'next/navigation'
+
 import ChatRoomCard from '@/components/dashboard/RoomCard'
 import RoomList from '@/components/dashboard/RoomList'
 import { useDisplayStore } from '@/lib/store/DisplayStore'
@@ -14,7 +16,8 @@ export default function DisplayRooms({
   rooms: Rooms
   stats: UserStats
 }) {
-  const { displayLists } = useDisplayStore()
+  const router = useRouter()
+  const displayLists = useDisplayStore((state) => state.displayLists)
   const roomsList = Object.entries(rooms).map(([_id, room]) => ({
     ...room,
   }))
@@ -48,7 +51,7 @@ export default function DisplayRooms({
               totalParticipants={room.participants.length}
               messageCount={room._count.messages}
               closedAt={new Date(room.closedAt)}
-              onJoin={() => (window.location.href = `/room/${room.id}`)}
+              onJoin={() => router.push(`/room/${room.id}`)}
             />
           ))}
         </div>

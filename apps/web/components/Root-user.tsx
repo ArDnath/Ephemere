@@ -15,7 +15,6 @@ import {
 } from '@ephemere/ui/components/ui/dropdown-menu.tsx'
 import {
   SidebarMenuButton,
-  useSidebar,
 } from '@ephemere/ui/components/ui/sidebar.tsx'
 import { Crown } from 'lucide-react'
 

@@ -32,7 +32,7 @@ const Footer = () => {
                 Pricing
               </Link>
               <Link
-                href="/#features"
+                href="/#bento"
                 className="text-sm text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--foreground))]"
               >
                 features

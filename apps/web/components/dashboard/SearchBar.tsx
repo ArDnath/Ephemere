@@ -10,19 +10,27 @@ import { useDebounce } from '@/hooks/useDebounce'
 export default function SearchBar({ search }: { search: string }) {
   const router = useRouter()
   const searchParams = useSearchParams()
+  const searchParamsString = searchParams.toString()
   const [value, setValue] = useState(search)
   const debouncedValue = useDebounce(value, 500)
   const isLoading = value !== debouncedValue
 
   useEffect(() => {
-    const params = new URLSearchParams(searchParams)
+    const currentParams = new URLSearchParams(searchParamsString)
+    const currentValue = currentParams.get('search') ?? ''
+    if (currentValue === debouncedValue) return
+
+    const params = new URLSearchParams(searchParamsString)
     if (debouncedValue) {
       params.set('search', debouncedValue)
     } else {
       params.delete('search')
     }
-    router.push(`/dashboard?${params.toString()}`)
-  }, [debouncedValue, router, searchParams])
+    const query = params.toString()
+    router.replace(query ? `/dashboard?${query}` : '/dashboard', {
+      scroll: false,
+    })
+  }, [debouncedValue, router, searchParamsString])
 
   return (
     <div className="relative w-full lg:w-96">

@@ -302,7 +302,7 @@ export default function CreateRoomButton({
     onSuccess: (result) => {
       if (result.data?.room) {
         toast.success('Room created successfully')
-        router.push(`/room/${result.data.room.id}`)
+        router.push(`/room/${result.data.room.id}?created=1`)
         setOpen(false)
       }
     },

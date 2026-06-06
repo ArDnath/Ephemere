@@ -9,10 +9,10 @@ export function Feature({ icon, title, description }: PricingFeature) {
     <div className="flex items-start gap-3 py-2">
       <IconWrapper icon={icon} size="sm" variant="simple" className="mt-0.5" />
       <div className="min-w-0">
-        <h3 className="text-sm font-medium text-white">
+        <h3 className="text-sm font-medium text-[hsl(var(--foreground))]">
           {title}
         </h3>
-        <p className="mt-1 text-sm text-white/60 leading-snug">
+        <p className="mt-1 text-sm leading-snug text-[hsl(var(--muted-foreground))]">
           {description}
         </p>
       </div>
