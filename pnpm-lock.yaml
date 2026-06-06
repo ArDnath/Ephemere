@@ -161,6 +161,9 @@ importers:
       '@react-oauth/google':
         specifier: ^0.12.1
         version: 0.12.2(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+      '@swc/helpers':
+        specifier: ^0.5.15
+        version: 0.5.15
       '@tanstack/react-query':
         specifier: ^5.62.11
         version: 5.100.14(react@19.2.7)
