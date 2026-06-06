@@ -1,6 +1,7 @@
 'use client'
 
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback, useMemo, useRef } from 'react'
+import { useRouter } from 'next/navigation'
 import useWebSocket, { ReadyState } from 'react-use-websocket'
 import { toast } from 'sonner'
 
@@ -25,19 +26,24 @@ const getSocketUrl = (roomId: string) => {
   return url.toString()
 }
 
-const PageClient = ({ roomId, token }: PageClientProps) => {
+const PageClient = ({ roomId, token, isNewRoom = false }: PageClientProps) => {
+  const router = useRouter()
   const { setAnonymous, anonymous, setUserId, userId } = useIdentityStore()
   const tempUser = useTempUser()
   const [roomName, SetRoomName] = useState('')
   const [messages, setMessages] = useState<Message[]>([])
   const [users, setUsers] = useState<UserIdentity[]>([])
-  const [timeLeft, setTimeLeft] = useState<Date>(new Date())
+  // Store as timestamp to avoid new Date() object identity churn on every render
+  const [closeTimestamp, setCloseTimestamp] = useState<number>(0)
+  const timeLeft = useMemo(() => new Date(closeTimestamp), [closeTimestamp])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState('')
   const [shouldConnect, setShouldConnect] = useState(true)
   const [activeCluster, setActiveCluster] = useState('core')
   const [activeChannel, setActiveChannel] = useState('general-mesh')
-  const socketUrl = getSocketUrl(roomId)
+
+  // Memoize the socket URL so it never changes identity between renders
+  const socketUrl = useMemo(() => getSocketUrl(roomId), [roomId])
 
   const { sendMessage, lastMessage, readyState } = useWebSocket(
     socketUrl,
@@ -57,7 +63,11 @@ const PageClient = ({ roomId, token }: PageClientProps) => {
     }
   }, [readyState, error])
 
-  const effectiveTempUser = token && !anonymous ? null : tempUser
+  // Memoize so a new object reference isn't created on every render
+  const effectiveTempUser = useMemo(
+    () => (token && !anonymous ? null : tempUser),
+    [token, anonymous, tempUser]
+  )
 
   // ── join ──────────────────────────────────────────────────────────────────
   const handleJoinRoom = useCallback(() => {
@@ -84,6 +94,10 @@ const PageClient = ({ roomId, token }: PageClientProps) => {
     handleJoinRoom()
   }, [handleJoinRoom])
 
+  // Use a ref for userId so the message handler never needs it as a dep
+  const userIdRef = useRef(userId)
+  useEffect(() => { userIdRef.current = userId }, [userId])
+
   // ── Incoming message handler ──────────────────────────────────────────────
   useEffect(() => {
     if (anonymous === null || !lastMessage) return
@@ -101,7 +115,8 @@ const PageClient = ({ roomId, token }: PageClientProps) => {
         SetRoomName(data.payload.roomName)
         setUsers(data.payload.users)
         setMessages(data.payload.lastMessages)
-        setTimeLeft(new Date(data.payload.closeTime))
+        // Store as numeric timestamp to keep Date identity stable
+        setCloseTimestamp(new Date(data.payload.closeTime).getTime())
 
         useRoomStore.getState().setRoom({
           id: roomId,
@@ -157,13 +172,13 @@ const PageClient = ({ roomId, token }: PageClientProps) => {
           // Replace the entire reaction map with what the server returns
           newMessages[idx]!.reactions = data.payload.reactions
 
-          // Update userEmoji for the current user
+          // Update userEmoji for the current user using the ref (avoids dep)
           const myEmoji = Object.entries(
             data.payload.reactions as Record<
               string,
               { id: string; name: string; avatar: string }[]
             >
-          ).find(([, users]) => users.some((u) => u.id === userId))?.[0]
+          ).find(([, users]) => users.some((u) => u.id === userIdRef.current))?.[0]
           newMessages[idx]!.userEmoji = myEmoji ?? ''
 
           return newMessages
@@ -178,7 +193,7 @@ const PageClient = ({ roomId, token }: PageClientProps) => {
 
     const handler = handlers[data.type]
     if (handler) handler()
-  }, [lastMessage, anonymous, setUserId, userId, roomId])
+  }, [lastMessage, anonymous, setUserId, roomId])
 
   // ── Outgoing helpers ──────────────────────────────────────────────────────
   const sendChatMessage = useCallback(
@@ -234,8 +249,8 @@ const PageClient = ({ roomId, token }: PageClientProps) => {
       setShouldConnect(false)
     }
     toast.info('Redirecting to dashboard...')
-    window.location.href = '/dashboard'
-  }, [readyState, sendMessage])
+    router.replace('/dashboard')
+  }, [readyState, router, sendMessage])
 
   // ── Render guards ─────────────────────────────────────────────────────────
   if (token && anonymous === null) {
@@ -248,6 +263,7 @@ const PageClient = ({ roomId, token }: PageClientProps) => {
         title="Authentication Error"
         message="No authentication credentials provided. Please log in or continue as guest."
         fullScreen
+        variant="connection"
       />
     )
   }
@@ -259,6 +275,7 @@ const PageClient = ({ roomId, token }: PageClientProps) => {
         message="Unable to connect to the chat room. Please try again later."
         title={error}
         fullScreen
+        variant="connection"
       />
     )
   }
@@ -283,6 +300,7 @@ const PageClient = ({ roomId, token }: PageClientProps) => {
         onChannelSelect={setActiveChannel}
         activeCluster={activeCluster}
         onClusterSelect={setActiveCluster}
+        isNewRoom={isNewRoom}
       />
     </TimeLeftDisplay>
   )

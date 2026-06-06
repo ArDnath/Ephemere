@@ -21,8 +21,6 @@ export default async function Page(props: {
   const searchParams = await props.searchParams
   const search = searchParams?.search ?? ''
 
-  await new Promise((resolve) => setTimeout(resolve, 0))
-
   const [rooms, stats] = await Promise.all([
     getRooms({ search }),
     getUserStats(),
