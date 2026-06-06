@@ -33,7 +33,7 @@ export async function GET() {
     } else {
       return new NextResponse(null, { status: 404 })
     }
-  } catch (error) {
+  } catch {
     return new NextResponse(null, { status: 404 })
   }
 }

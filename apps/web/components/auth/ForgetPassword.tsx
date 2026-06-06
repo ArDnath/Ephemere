@@ -11,7 +11,6 @@ import { useAction } from 'next-safe-action/hooks'
 import { useState } from 'react'
 import { toast } from 'sonner'
 
-import { AuthHeader } from '@/components/auth/auth-header'
 import Input from '@/components/shared/Input'
 import {
   ForgotPasswordAction,
@@ -19,6 +18,7 @@ import {
 } from '@/lib/actions/authActions'
 
 import { Button } from '../shared/Button'
+import { AuthCardShell } from './auth-card-shell'
 
 const ForgetPassword = () => {
   const router = useRouter()
@@ -87,23 +87,33 @@ const ForgetPassword = () => {
   }
 
   return (
-    <div className="mx-auto flex w-full max-w-[400px] flex-col justify-between rounded-lg border border-[hsl(var(--border))] bg-[hsl(var(--card)/0.94)] p-6 shadow-[var(--shadow-lg)] backdrop-blur-xl sm:p-8">
-      <AuthHeader
-        title={
-          step === 'email'
-            ? 'Forgot Password?'
-            : step === 'otp'
-              ? 'Enter OTP'
-              : 'Reset Password'
-        }
-        description={
-          step === 'email'
-            ? "Enter your email and we'll send you a reset link."
-            : step === 'otp'
-              ? 'Enter the OTP sent to your email.'
-              : 'Enter your new password.'
-        }
-      />
+    <AuthCardShell
+      title={
+        step === 'email'
+          ? 'Forgot Password?'
+          : step === 'otp'
+            ? 'Enter OTP'
+            : 'Reset Password'
+      }
+      description={
+        step === 'email'
+          ? "Enter your email and we'll send you a reset link."
+          : step === 'otp'
+            ? 'Enter the OTP sent to your email.'
+            : 'Enter your new password.'
+      }
+      showProviders={false}
+      footer={
+        <div className="flex items-center justify-center">
+          <Link
+            href="/login"
+            className="transition-ease text-sm text-black/60 underline-offset-2 hover:text-black hover:underline"
+          >
+            Back to login
+          </Link>
+        </div>
+      }
+    >
       <form onSubmit={handleSubmit} className="mt-10 flex-1">
         <div className="mt-5 flex grow flex-col justify-center space-y-4">
           {step === 'email' && (
@@ -180,18 +190,9 @@ const ForgetPassword = () => {
                 ? 'Verify OTP'
                 : 'Reset Password'}
           </Button>
-
-          <div className="flex items-center justify-center">
-            <Link
-              href="/login"
-              className="transition-ease text-sm text-black/60 underline-offset-2 hover:text-black hover:underline"
-            >
-              Back to login
-            </Link>
-          </div>
         </div>
       </form>
-    </div>
+    </AuthCardShell>
   )
 }
 

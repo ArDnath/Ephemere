@@ -40,14 +40,10 @@ export async function proxy(request: NextRequest) {
         response.cookies.delete('token')
         return response
       }
-      if (user && !user.subscription && request.nextUrl.pathname !== '/plans') {
-        return NextResponse.redirect(new URL('/plans', request.url))
-      }
-
       if (authPaths.some((path) => request.nextUrl.pathname.startsWith(path))) {
         return NextResponse.redirect(new URL('/dashboard', request.url))
       }
-    } catch (error) {
+    } catch {
       const response = NextResponse.redirect(
         new URL('/error?code=something_went_wrong', request.url)
       )

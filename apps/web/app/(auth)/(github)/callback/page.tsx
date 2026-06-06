@@ -2,7 +2,7 @@
 
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useAction } from 'next-safe-action/hooks'
-import { Suspense, useEffect } from 'react'
+import { Suspense, useEffect, useRef } from 'react'
 import { toast } from 'sonner'
 
 import { LoadingSvgScreen } from '@/components/ui/LoadingSvgScreen'
@@ -13,6 +13,7 @@ function GitHubCallbackContent() {
   const searchParams = useSearchParams()
   const error = searchParams.get('error')
   const code = searchParams.get('code')
+  const hasStartedRef = useRef(false)
 
   const { execute } = useAction(GithubAuthAction, {
     onSuccess: (result) => {
@@ -42,6 +43,9 @@ function GitHubCallbackContent() {
   })
 
   useEffect(() => {
+    if (hasStartedRef.current) return
+    hasStartedRef.current = true
+
     if (error) {
       toast.error('GitHub authentication failed')
       setTimeout(() => {
