@@ -2,6 +2,8 @@
 
 Ephemere is a high-performance, edge-first ephemeral chat platform built on a modern serverless architecture. Designed for instant collaboration, users can create temporary rooms that automatically self-destruct after a set duration, leaving zero trace on the web. 
 
+<img width="1800" height="885" alt="https___ephemere ariyaman in_(1)" src="https://github.com/user-attachments/assets/547f369a-93d7-4a53-9916-5e13080f2493" />
+
 This repository is organized as a unified monorepo powered by **Turborepo** and **pnpm Workspaces**, sharing configuration, types, and UI packages across applications.
 
 ---
