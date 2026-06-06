@@ -68,34 +68,57 @@ sequenceDiagram
 
 ---
 
-## 📦 Monorepo Structure
+## 📦 Monorepo Structure & Workspaces
 
-This project uses a monorepo setup to cleanly separate frontend, backend, and shared libraries:
+This repository uses a structured monorepo design managed via **pnpm Workspaces** and **Turborepo** to isolate execution logic while maximizing module reusability across platforms:
 
 ```yaml
 ephemere/
 ├── apps/
-│   ├── web/        # Next.js 16 Frontend Web Application
-│   ├── api/        # Hono REST API deployed on Cloudflare Workers
-│   └── socket/     # WebSocket Coordinator deployed on Cloudflare Workers (using Durable Objects)
+│   ├── web/                     # Next.js 16 Frontend Web Client (Turbopack, Zustand, React Query)
+│   │   ├── app/                 # App Router (root dashboard, auth, rooms, layout definitions)
+│   │   ├── components/          # Minimalist interface systems (ChatRoom, Home, UI widgets)
+│   │   ├── hooks/               # Custom hooks (session, lifecycle, scroll, and countdown handlers)
+│   │   └── lib/store/           # Client-side stores (IdentityStore, RoomStore)
+│   │
+│   ├── api/                     # Cloudflare Workers API Gateway (built with Hono)
+│   │   ├── src/controllers/     # Handles guest auth handshakes, upload signature requests, and rooms
+│   │   └── wrangler.jsonc       # API Worker deployment configuration
+│   │
+│   └── socket/                  # Real-Time WebSocket Server (Cloudflare Workers + Durable Objects)
+│       ├── src/                 # Durable Object class handling message broadcasts & client pools
+│       └── wrangler.jsonc       # WebSocket DO deployment configuration
+│
 ├── packages/
-│   ├── ui/         # Shared Design System, base Tailwind components, and icons
-│   └── eslint/     # Shared ESLint configuration templates
-├── package.json    # Monorepo workspaces and script orchestration
-└── turbo.json      # Turborepo caching pipelines
+│   ├── db/                      # Shared Database Layer (Drizzle ORM & Postgres Schema migrations)
+│   │   ├── src/schema.ts        # Common database schemas shared across web client and API workers
+│   │   └── drizzle.config.ts    # Database synchronization configurations
+│   │
+│   ├── lib/                     # Common utilities, schema types, and helper classes
+│   │
+│   ├── ui/                      # Unified design system, Tailwind components, and core SVG assets
+│   │
+│   ├── tailwind-config/         # Shared base Tailwind styles, animations, and typography rules
+│   │
+│   ├── typescript-config/       # Base configurations for TypeScript compiler settings
+│   │
+│   └── eslint-config/           # Custom linting configurations extending basic specifications
+│
+├── package.json                 # Monorepo task script orchestrations (dev, build, lint, typecheck)
+└── turbo.json                   # Cache inputs/outputs configuration for build optimization
 ```
 
 ---
 
-## 🛡️ Recruiter Takeaways & Core Concepts Demonstration
+## 🛡️ Key Engineering Decisions & Implementations
 
-Developing this project allowed me to solve several complex distributed systems and performance problems:
+To ensure high performance, stability, and zero-egress asset overhead at scale, the following system design decisions were made:
 
-1.  **State Synchronization at the Edge:** Realized chat state coordination using Cloudflare Durable Objects, keeping socket pools and room memberships alive near the client without requiring a heavy centralised database for hot paths.
-2.  **Zero-Egress Asset Pipeline:** Configured image uploads using presigned PUT links direct to Cloudflare R2, bypassing API servers entirely during payload delivery to prevent network bottlenecks and minimize execution costs.
-3.  **Turborepo Task Caching:** Set up efficient CI/CD caching pipelines using Turborepo so linting, type-checking, formatting, and building are only executed for packages containing changes.
-4.  **Edge Hydration Flash Resolution:** Authored a dedicated theme injection script running in the `<head>` of the root Next.js layout to read settings from `localStorage` and toggle DOM classnames before the first browser paint. This completely eliminates light/dark layout flashes (FOUC).
-5.  **Infinite Re-Render Elimination:** Optimized React state dependency matrices across React Query hooks, WebSocket subscriptions, and setInterval counters to prevent infinite render cycles and connection thrashing.
+1.  **State Synchronization at the Edge:** Chat room synchronization is managed via Cloudflare Durable Objects. This isolates websocket management and room states (including user metadata) to single-tenant edge instances, keeping database hits minimal during chat sessions.
+2.  **Zero-Egress Asset Pipeline:** Image uploads bypass the API worker's memory limits entirely. The client requests a presigned PUT URL from the Hono API, uploading assets directly to Cloudflare R2, which are then served using edge-caching via Cloudflare CDN.
+3.  **Turborepo Build Pipeline:** CI/CD tasks are optimized using Turborepo. Building, linting, formatting, and type-checking checks are isolated per workspace, relying on remote caching outputs to save CPU cycles and speed up deployment runs.
+4.  **Zero FOUC (Flash of Unstyled Content):** Pre-hydrated theme selection is resolved via a lightweight, blocking script execution in Next.js's `<head>`. Theme parameters are verified from local storage or media preferences prior to the primary render cycle to eliminate screen flashes.
+5.  **Re-Render Optimization:** Solved infinite WebSocket reconnection cycles and timer hook drift by shifting volatile dependencies (like Date references and runtime socket properties) into memoized bindings and Refs, preventing redundant component mounts.
 
 ---
 
